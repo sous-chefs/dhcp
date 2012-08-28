@@ -1,0 +1,74 @@
+# File managed by Chef
+
+# set this to store vendor strings.
+set vendor-string = option vendor-class-identifier;
+
+<% @allows.each do |allow| -%>
+allow <%= allow %>;
+<% end -%>
+
+<% @parameters.each do |parameter| -%>
+<%= parameter %>;
+<% end -%>
+
+<% @options.each do |option| -%>
+option <%= option %>;
+<% end -%>
+
+<% unless @ddns.empty? -%>
+key "dhcp-key" {
+  algorithm hmac-md5;
+  secret "L+Jl4+4onU4Wstfi4pdmnQ==";
+};
+
+  <% @ddns.each do |zone, data| -%>
+zone <%= zone %>. {
+  primary <%= data["master"] %>;
+  key "dhcp-key";
+}
+  <% end -%>
+<% end -%>
+
+<% if @failover %>
+failover peer "<%= node[:domain] %>" { 
+  <%= @role %>; 
+  address <%= @my_ip %>;     
+  port 647;
+  peer address <%= @peer_ip %>;
+  peer port 647;
+  max-response-delay 60;
+  max-unacked-updates 10;
+  mclt 3600;
+  <% if @role =~ /primary/i -%>
+  split 128;
+  load balance max seconds 3;
+  <% end -%>
+}
+<% end %>
+
+<% if node[:dhcp][:ib] %>
+# 
+# this is hardcode for now 192.168.11.0/24 IB network
+# 
+# I _think_ the IB interfaces will have a vendor id
+
+subnet 192.168.11.0 netmask 255.255.255.0 {
+  pool {
+    range 192.168.11.5 192.168.11.254;
+    filename "ib/pxelinux.0";
+    next-server 192.168.11.1;
+    ddns-updates off;
+
+    option dhcp-client-identifier = option dhcp-client-identifier;
+    option routers 192.168.11.1;
+    option subnet-mask 255.255.255.0;
+    option broadcast-address 192.168.11.255;
+  }
+}
+
+<% end %>
+
+include "/etc/dhcp3/groups.d/group_list.conf";
+include "/etc/dhcp3/subnets.d/subnet_list.conf";
+include "/etc/dhcp3/hosts.d/host_list.conf";
+

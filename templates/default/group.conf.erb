@@ -1,0 +1,18 @@
+# File managed by Chef
+
+#<%= @name %>
+group  {
+<% @parameters.each do |parameter, value| -%>
+  <%= parameter %> <%= value %>;
+<% end -%>
+
+<% @hosts.each do |host,data| -%>
+  host <%= host %> {
+    option host-name "<%= host %>"; 
+    hardware ethernet <%= data["mac"] %>; 
+    <% if data.has_key?("adress") -%>  
+    fixed-address <%= data["address"] %>;
+    <% end -%>
+  }
+<% end -%>
+}

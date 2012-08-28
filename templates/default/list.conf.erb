@@ -1,0 +1,5 @@
+# File managed by Chef
+
+<% @items.each do |item| -%>
+include "/etc/dhcp3/<%= @item %>.d/<%= item %>.conf";
+<% end -%>

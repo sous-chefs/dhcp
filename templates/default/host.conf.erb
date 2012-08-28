@@ -1,0 +1,14 @@
+# File managed by Chef
+
+host <%= @hostname %> {
+<% if not @parameters.empty? -%>
+  <% @parameters.each do |parameter| -%>
+  <%= parameter %>;
+  <% end -%>
+<% end -%>
+<% if not @options.empty? -%>
+  <% @options.each do |option| -%>
+  option <%= option %>;
+  <% end -%>
+<% end -%>
+}
