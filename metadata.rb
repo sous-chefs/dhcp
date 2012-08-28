@@ -11,4 +11,3 @@ version          "0.4.1"
 end
 
 depends "helpers"
-depends "network"
