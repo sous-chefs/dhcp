@@ -6,6 +6,6 @@
 # On what interfaces should the DHCP server (dhcpd) serve DHCP requests?
 #	Separate multiple interfaces with spaces, e.g. "eth0 eth1".
 <% unless @interfaces.empty? -%>
-<%= @var.upcase %>="<%= @interfaces.collect! {|i| "#{i}" }.join(" ") %>"
+<%= @var.upcase %>="<%= @interfaces.collect! {|i| i }.join(" ") %>"
 <% end -%>
 
