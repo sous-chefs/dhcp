@@ -22,7 +22,7 @@ Passes through to the server.
 
 server
 ------
-The node will install and configure the `dhcp3-server` application. Configuration is through the `dhcp` data bag.
+The node will install and configure the `dhcp-server` application. Configuration is through the `dhcp` data bag.
 
 Data Bag
 ========

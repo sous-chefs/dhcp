@@ -23,8 +23,9 @@ include_recipe "helpers"
 
 
 # assumes dns is working and this is a dhcp server for its dns domain.
-
 dhcp_service = node[:dhcp][:service_name]
+dhcp_dir = node[:dhcp][:dir]
+
 package node[:dhcp][:package_name]
 
 dhcp_failover = node[:dhcp][:failover]
@@ -66,6 +67,13 @@ end
 service dhcp_service do
   supports :restart => true, :status => true, :reload => true
   action [ :enable ]
+  # use upstart on ubuntu > 9.10
+  case node[:platform]
+  when "ubuntu"
+    if node[:platform_version].to_f >= 9.10
+      provider Chef::Provider::Service::Upstart
+    end
+  end
 end
 
 template node[:dhcp][:init_config] do
@@ -146,14 +154,8 @@ template node[:dhcp][:config_file] do
   notifies :restart, resources(:service => dhcp_service), :delayed
 end
 
-
-# for redhat we will just convert this over and make the dir etc and push
-# groups to the dcp3 dir.
-#groups
-
-
-directory "/etc/dhcp3/"
-directory "/etc/dhcp3/groups.d"
+directory dhcp_dir
+directory "#{dhcp_dir}/groups.d"
 
 # pull and setup groups
 groups = []
@@ -170,7 +172,7 @@ unless dc_data["groups"].nil? or  dc_data["groups"].empty?
   end 
 end
 
-template "/etc/dhcp3/groups.d/group_list.conf" do
+template "#{dhcp_dir}/groups.d/group_list.conf" do
   owner "root"
   group "root"
   mode 0644
@@ -184,7 +186,7 @@ template "/etc/dhcp3/groups.d/group_list.conf" do
 end
 
 
-directory "/etc/dhcp3/subnets.d"
+directory "#{dhcp_dir}/subnets.d"
 
 subnets = []
 dc_data["subnets"].each do |net|
@@ -207,8 +209,8 @@ end
 
 
 # generate the config that links it all 
-directory "/etc/dhcp3/subnets.d"
-template "/etc/dhcp3/subnets.d/subnet_list.conf" do
+directory "#{dhcp_dir}/subnets.d"
+template "#{dhcp_dir}/subnets.d/subnet_list.conf" do
   owner "root"
   group "root"
   mode 0644
@@ -223,8 +225,8 @@ end
 
 #hosts
 hosts = []
-directory "/etc/dhcp3/hosts.d"
-template "/etc/dhcp3/hosts.d/host_list.conf" do
+directory "#{dhcp_dir}/hosts.d"
+template "#{dhcp_dir}/hosts.d/host_list.conf" do
   owner "root"
   group "root"
   mode 0644

@@ -1,6 +1,6 @@
 
 action :add do
-  filename = "/etc/dhcp3/groups.d/#{new_resource.name}.conf"
+  filename = "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf"
   Chef::Log.info "Generating group #{new_resource.name}: #{filename} "
   template filename do 
     cookbook "dhcp"
@@ -18,9 +18,9 @@ action :add do
 end
 
 action :remove do
-  filename = "/etc/dhcp3/groups.d/#{new_resource.name}.conf"
+  filename = "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf"
   if ::File.exists?(filename)
-    Chef::Log.info "Removing #{new_resource.name} group from /etc/dhcp3/groups.d/"
+    Chef::Log.info "Removing #{new_resource.name} group from #{new_resource.conf_dir}/groups.d/"
     file filename do
       action :delete
       notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed

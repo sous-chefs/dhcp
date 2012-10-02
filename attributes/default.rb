@@ -13,8 +13,9 @@ default[:dhcp][:options] = {
   "domain-name" => "\"#{domain}\""
 }
 
-case node[:platform]
-when "centos", "redhat", "suse", "fedora", "xenserver", "amazon"
+default[:dhcp][:dir] = "/etc/dhcp"
+case node[:platform_family]
+when "redhat"
   default[:dhcp][:package_name] = "dhcp"
   default[:dhcp][:service_name] = "dhcpd"
 
@@ -25,9 +26,9 @@ when "centos", "redhat", "suse", "fedora", "xenserver", "amazon"
   end
 
   default[:dhcp][:init_config]  = "/etc/sysconfig/dhcpd"
-when "debian", "ubuntu"
-  default[:dhcp][:package_name] = "dhcp3-server"
-  default[:dhcp][:service_name] = "dhcp3-server"
-  default[:dhcp][:config_file]  = "/etc/dhcp3/dhcpd.conf"
-  default[:dhcp][:init_config]  = "/etc/default/dhcp3-server"
+when "debian"
+  default[:dhcp][:package_name] = "isc-dhcp-server"
+  default[:dhcp][:service_name] = "isc-dhcp-server"
+  default[:dhcp][:config_file]  = "/etc/dhcp/dhcpd.conf"
+  default[:dhcp][:init_config]  = "/etc/default/isc-dhcp-server"
 end

@@ -68,7 +68,7 @@ subnet 192.168.11.0 netmask 255.255.255.0 {
 
 <% end %>
 
-include "/etc/dhcp3/groups.d/group_list.conf";
-include "/etc/dhcp3/subnets.d/subnet_list.conf";
-include "/etc/dhcp3/hosts.d/host_list.conf";
+include "<%= node[:dhcp][:dir] %>/groups.d/group_list.conf";
+include "<%= node[:dhcp][:dir] %>/subnets.d/subnet_list.conf";
+include "<%= node[:dhcp][:dir] %>/hosts.d/host_list.conf";
 

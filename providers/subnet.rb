@@ -1,6 +1,6 @@
 
 action :add do
-  filename = "/etc/dhcp3/subnets.d/#{new_resource.subnet}.conf"
+  filename = "#{new_resource.conf_dir}/subnets.d/#{new_resource.subnet}.conf"
   template filename do 
     cookbook "dhcp"
     source "subnet.conf.erb"
@@ -21,9 +21,9 @@ action :add do
 end
 
 action :remove do
-  filename = "/etc/dhcp3/subnets.d/#{new_resource.name}.conf"
+  filename = "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf"
   if ::File.exists?(filename)
-    Chef::Log.info "Removing #{new_resource.name} subnet from /etc/dhcp3/subnets.d/"
+    Chef::Log.info "Removing #{new_resource.name} subnet from #{new_resource.conf_dir}/subnets.d/"
     file filename do
       action :delete
       notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
