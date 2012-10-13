@@ -30,6 +30,8 @@ package node[:dhcp][:package_name]
 
 dhcp_failover = node[:dhcp][:failover]
 
+directory dhcp_dir
+
 # find masters and slave
 if dhcp_failover 
   # are we master
@@ -154,7 +156,6 @@ template node[:dhcp][:config_file] do
   notifies :restart, resources(:service => dhcp_service), :delayed
 end
 
-directory dhcp_dir
 directory "#{dhcp_dir}/groups.d"
 
 # pull and setup groups
@@ -168,6 +169,7 @@ unless dc_data["groups"].nil? or  dc_data["groups"].empty?
     dhcp_group group do 
       parameters  group_data["parameters"]  || []
       hosts       group_data["hosts"] || [] 
+      conf_dir  dhcp_dir
     end
   end 
 end
@@ -203,6 +205,7 @@ dc_data["subnets"].each do |net|
     routers   net_bag["routers"] || []
     options   net_bag["options"] || []
     range     net_bag["range"] || ""
+    conf_dir  dhcp_dir
     peer  node[:domain] if dhcp_failover 
   end
 end

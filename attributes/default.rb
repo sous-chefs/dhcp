@@ -14,14 +14,16 @@ default[:dhcp][:options] = {
 }
 
 default[:dhcp][:dir] = "/etc/dhcp"
+
 case node[:platform_family]
 when "rhel"
   default[:dhcp][:package_name] = "dhcp"
   default[:dhcp][:service_name] = "dhcpd"
 
   if node['platform_version'].to_i >= 6
-    default[:dhcp][:config_file]  = "/etc/dhcpd/dhcpd.conf" 
+    default[:dhcp][:config_file]  = "/etc/dhcp/dhcpd.conf" 
   else 
+    default[:dhcp][:dir] = "/etc/dhcpd"
     default[:dhcp][:config_file]  = "/etc/dhcpd.conf"
   end
 
