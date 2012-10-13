@@ -15,7 +15,7 @@ default[:dhcp][:options] = {
 
 default[:dhcp][:dir] = "/etc/dhcp"
 case node[:platform_family]
-when "redhat"
+when "rhel"
   default[:dhcp][:package_name] = "dhcp"
   default[:dhcp][:service_name] = "dhcpd"
 
