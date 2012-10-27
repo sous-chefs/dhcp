@@ -13,17 +13,17 @@ default[:dhcp][:parameters] = {
   "ddns-update-style" => "interim",
   "max-lease-time" => "86400",
   "update-static-leases" => "true",
-  "one-lease-per-client":  "true",
-  "authoritative": "",
-  "ping-check": "true",a
+  "one-lease-per-client" =>  "true",
+  "authoritative" => "",
+  "ping-check" => "true",
   # use localhost (since its a dhcp server)
-  "next-server": "#{ipaddress}"
-  "filename": "\"pxelinux.0\""
+  "next-server" => "#{ipaddress}",
+  "filename" => '"pxelinux.0"'
 }
 
 default[:dhcp][:options] = { 
-  "domain-name" => "\"#{domain}\""
-  "domain-name-servers": "8.8.8.8"
+  "domain-name" => "\"#{domain}\"",
+  "domain-name-servers" => "8.8.8.8"
 }
 
 default[:dhcp][:dir] = "/etc/dhcp"

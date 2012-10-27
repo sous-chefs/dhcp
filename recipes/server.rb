@@ -117,7 +117,7 @@ node[:dns][:zones].each do |zone|
   # this way we can host for zones that don't exist here.
   # do the same for key
   #
-  ddns[name]["master" = node[:dns][:master] if node[:dns].has_key? :master
+  ddns[name]["master"] = node[:dns][:master] if node[:dns].has_key? :master
   if zone_data.has_key? "master_address"
     ddns[name]["master"] = zone_data["master_address"] 
   end
