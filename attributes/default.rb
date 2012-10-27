@@ -1,16 +1,29 @@
-default[:dhcp][:interfaces] = []
+
 default[:dhcp][:failover] = nil
-default[:dhcp][:allows] = [ "booting", "bootp" ]
+default[:dhcp][:allows] = [ "booting", "bootp", "unknown-clients" ]
+default[:dhcp][:hosts] = []
+default[:dhcp][:groups] = []
+default[:dhcp][:networks] = []
+default[:dhcp][:interfaces] = []
+
 
 default[:dhcp][:parameters] = {
   "default-lease-time" => "6400",
   "ddns-domainname" => "\"#{domain}\"",
   "ddns-update-style" => "interim",
-  "max-lease-time" => "60480"
+  "max-lease-time" => "86400",
+  "update-static-leases" => "true",
+  "one-lease-per-client":  "true",
+  "authoritative": "",
+  "ping-check": "true",a
+  # use localhost (since its a dhcp server)
+  "next-server": "#{ipaddress}"
+  "filename": "\"pxelinux.0\""
 }
 
 default[:dhcp][:options] = { 
   "domain-name" => "\"#{domain}\""
+  "domain-name-servers": "8.8.8.8"
 }
 
 default[:dhcp][:dir] = "/etc/dhcp"

@@ -89,52 +89,40 @@ template node[:dhcp][:init_config] do
   )
 end
 
-# setup global options for this dc/server 
-# we have to have a DC bag cause it calls out the subnets that we should manage.
-# as well as global dc_data["dhcpd"]s for said DC
-Chef::Log.debug "Loading datacenters #{node[:domain]}"
-dc_data = data_bag_item('datacenters', data_bag_fqdn(node[:domain]))
-Chef::Log.debug "DCDATA: #{dc_data.inspect}"
-
-
 
 # merge allows from bag  into node data, and sort
 allows = node['dhcp']['allows'] || []
-allows.push(dc_data['dhcpd']['allows']).flatten!
-allows.uniq!
-allows.sort!
 Chef::Log.debug "allows: #{allows}"
 
-# merge this out to Helpers lib 
-# TODO: add something like this to Chef::Attribute
-def merge_and_flatten(attribs, data)
-  parameters = []
-  parametersh = {}
-  attribs.each {|k, v| parametersh[k] = v}
-  parametersh.merge!(data)
-  parametersh.each {|k, v| parameters.push("#{k} #{v}")}
-  parameters.sort!
-end
-
-parameters = merge_and_flatten(node['dhcp']['parameters'], dc_data['dhcpd']['parameters'] )
-# merge and collapse bag params into node params
+parameters = node['dhcp']['parameters'] || []
 Chef::Log.debug "parameters: #{parameters}"
 
-options = merge_and_flatten(node[:dhcp][:options], dc_data['dhcpd']['options'] )
+options = node[:dhcp][:options] || []
 Chef::Log.debug "options: #{options}"
 
-# for all the zones this dc has pull in the rndc_keys and push them out to dhcp config
+# for all the zones this env has pull in the rndc_keys and push them out to dhcp config
 # as well as the zone master ip for ddns to work
 ddns = {}
 rndc_keys = {}
-dc_data["zones"].each do |zone|
+node[:dns][:zones].each do |zone|
   # load the zone 
   zone_data = data_bag_item('dns_zones', escape_bagname(zone) )
   name = zone_data["zone_name"]
   ddns[name] ||= {}
-  
-  # pull the master ip out 
-  ddns[name]["master"] = zone_data["master_address"] 
+
+  #
+  # use global/environment master by default, but let zones specify if they wish
+  # this way we can host for zones that don't exist here.
+  # do the same for keys
+  ddns[name]["master" = node[:dns_master] if node.has_key? :dns_master
+  if zone_data.has_key? "master_address"
+    ddns[name]["master"] = zone_data["master_address"] 
+  end
+
+  ddns[name]["keys"] = node[:rndc_keys] if node.has_key? :rndc_keys 
+  if zone_data.has_key? "rndc_keys"
+    ddns[name]["keys"] =   zone_data["rndc_keys"]
+  end
 end
 
 template node[:dhcp][:config_file] do
@@ -160,8 +148,8 @@ directory "#{dhcp_dir}/groups.d"
 
 # pull and setup groups
 groups = []
-unless dc_data["groups"].nil? or  dc_data["groups"].empty?
-  dc_data["groups"].each do  |group|
+unless node[:dhcp][:groups].empty?
+  node[:dhcp]["groups"].each do  |group|
     groups << group
     group_data = data_bag_item('dhcp_groups', group)
     
@@ -191,7 +179,11 @@ end
 directory "#{dhcp_dir}/subnets.d"
 
 subnets = []
-dc_data["subnets"].each do |net|
+if node[:dhcp][:networks].empty?
+  raise AttributeError, "node[:dhcp][:networks] must contain entries for dhcpd to operate" 
+end
+
+node[:dhcp][:networks].each do |net|
   net_bag = data_bag_item('dhcp_networks', escape_bagname(net) )
  
   # push this net onto the subnets 
@@ -227,15 +219,14 @@ template "#{dhcp_dir}/subnets.d/subnet_list.conf" do
 end
 
 # Hosts
-# Grab called out hosts for datacenter and itterate/build each one
+# Grab called out hosts and itterate/build each one
 #
 hosts = []
-unless dc_data["hosts"].nil? or  dc_data["hosts"].empty?
-
+unless node[:dhcp][:hosts].empty?
   # special key to just use all hosts in dhcp_hosts databag
   # figure which hosts to load
-  host_list = dc_data["hosts"]
-  if dc_data["hosts"].downcase == "all" 
+  host_list = node[:dhcp][:hosts]
+  if host_list.class? String &&  host_list.downcase == "all"  
     host_list = data_bag('dhcp_hosts')
   end
 
