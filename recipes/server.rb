@@ -226,8 +226,34 @@ template "#{dhcp_dir}/subnets.d/subnet_list.conf" do
   notifies :restart, resources(:service => dhcp_service), :delayed
 end
 
-#hosts
+# Hosts
+# Grab called out hosts for datacenter and itterate/build each one
+#
 hosts = []
+unless dc_data["hosts"].nil? or  dc_data["hosts"].empty?
+
+  # special key to just use all hosts in dhcp_hosts databag
+  # figure which hosts to load
+  host_list = dc_data["hosts"]
+  if dc_data["hosts"].downcase == "all" 
+    host_list = data_bag('dhcp_hosts')
+  end
+
+  host_list.each do  |host|
+    hosts << host
+    host_data = data_bag_item('dhcp_hosts', host)
+
+    Chef::Log.debug "Setting up Host: #{host_data.inspect}"
+    dhcp_host host do
+      hostname   host_data["hostname"] 
+      macaddress host_data["macaddress"] 
+      ipaddress  host_data["ipaddress"] 
+      options    host_data["options"] || []
+      conf_dir  dhcp_dir 
+    end
+  end
+end
+
 directory "#{dhcp_dir}/hosts.d"
 template "#{dhcp_dir}/hosts.d/host_list.conf" do
   owner "root"

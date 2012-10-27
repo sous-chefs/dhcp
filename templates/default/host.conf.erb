@@ -1,12 +1,16 @@
 # File managed by Chef
 
 host <%= @hostname %> {
-<% if not @parameters.empty? -%>
+<% if @macaddress -%>  hardware ethernet <%= @macaddress %>; <% end -%>
+<% if @servername -%>  server-name "<%= @servername %>"; <% end -%>
+<% if @ipaddress -%>  fixed-address <%= @ipaddress %>; <% end -%>
+<% if @filename -%>  file-name "<%= @filename %>"; <% end -%>
+<% unless @parameters.empty? -%>
   <% @parameters.each do |parameter| -%>
   <%= parameter %>;
   <% end -%>
 <% end -%>
-<% if not @options.empty? -%>
+<% unless @options.empty? -%>
   <% @options.each do |option| -%>
   option <%= option %>;
   <% end -%>
