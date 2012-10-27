@@ -110,11 +110,14 @@ node[:dns][:zones].each do |zone|
   name = zone_data["zone_name"]
   ddns[name] ||= {}
 
-  #
+  # NOTE: should env/role etc override zone bags ? (makes some sense for envs to 
+  # specify the master and not the zone)
+  # ----
   # use global/environment master by default, but let zones specify if they wish
   # this way we can host for zones that don't exist here.
-  # do the same for keys
-  ddns[name]["master" = node[:dns_master] if node.has_key? :dns_master
+  # do the same for key
+  #
+  ddns[name]["master" = node[:dns][:master] if node[:dns].has_key? :master
   if zone_data.has_key? "master_address"
     ddns[name]["master"] = zone_data["master_address"] 
   end
