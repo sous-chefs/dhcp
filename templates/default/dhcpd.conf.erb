@@ -7,12 +7,12 @@ set vendor-string = option vendor-class-identifier;
 allow <%= allow %>;
 <% end -%>
 
-<% @parameters.each do |parameter| -%>
-<%= parameter %>;
+<% @parameters.sort.each do |key, value| -%>
+  <%= key %> <%= value %>;
 <% end -%>
 
-<% @options.each do |option| -%>
-option <%= option %>;
+<% @options.sort.each do |key, value| -%>
+  option <%= key %> <%= value %>;
 <% end -%>
 
 <% unless @ddns.empty? -%>
@@ -44,28 +44,6 @@ failover peer "<%= node[:domain] %>" {
   load balance max seconds 3;
   <% end -%>
 }
-<% end %>
-
-<% if node[:dhcp][:ib] %>
-# 
-# this is hardcode for now 192.168.11.0/24 IB network
-# 
-# I _think_ the IB interfaces will have a vendor id
-
-subnet 192.168.11.0 netmask 255.255.255.0 {
-  pool {
-    range 192.168.11.5 192.168.11.254;
-    filename "ib/pxelinux.0";
-    next-server 192.168.11.1;
-    ddns-updates off;
-
-    option dhcp-client-identifier = option dhcp-client-identifier;
-    option routers 192.168.11.1;
-    option subnet-mask 255.255.255.0;
-    option broadcast-address 192.168.11.255;
-  }
-}
-
 <% end %>
 
 include "<%= node[:dhcp][:dir] %>/groups.d/group_list.conf";
