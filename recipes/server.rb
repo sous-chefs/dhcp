@@ -160,7 +160,7 @@ end
 #
 unless node[:dhcp][:groups].empty?
   node[:dhcp]["groups"].each do  |group|
-    group_data = data_bag_item('dhcp_groups', group)
+    group_data = data_bag_item( node[:dhcp][:groups_bag], group)
    
     next unless group_data
     dhcp_group group do 
@@ -180,7 +180,7 @@ if node[:dhcp][:networks].empty?
 end
 
 node[:dhcp][:networks].each do |net|
-  net_bag = data_bag_item('dhcp_networks', escape_bagname(net) )
+  net_bag = data_bag_item( node[:dhcp][:networks_bag], escape_bagname(net) )
  
   next unless net_bag
   # run the lwrp with the bag data
@@ -203,14 +203,12 @@ unless node[:dhcp][:hosts].empty?
   # figure which hosts to load
   host_list = node[:dhcp][:hosts]
   if host_list.class == String && host_list.downcase == "all"  
-    host_list = data_bag('dhcp_hosts')
+    host_list = data_bag( node[:dhcp][:hosts_bag] )
   end
 
   host_list.each do  |host|
-    host_data = data_bag_item('dhcp_hosts', escape_bagname( host) )
+    host_data = data_bag_item( node[:dhcp][:hosts_bag], escape_bagname( host) )
 
-
-    Chef::Log.info "\nHOST: #{host_data.inspect}\n"
     next unless host_data
     dhcp_host host do
       hostname   host_data["hostname"] 
