@@ -46,7 +46,7 @@ failover peer "<%= node[:domain] %>" {
 }
 <% end %>
 
-include "<%= node[:dhcp][:dir] %>/groups.d/group_list.conf";
-include "<%= node[:dhcp][:dir] %>/subnets.d/subnet_list.conf";
-include "<%= node[:dhcp][:dir] %>/hosts.d/host_list.conf";
+include "<%= node[:dhcp][:dir] %>/groups.d/list.conf";
+include "<%= node[:dhcp][:dir] %>/subnets.d/list.conf";
+include "<%= node[:dhcp][:dir] %>/hosts.d/list.conf";
 

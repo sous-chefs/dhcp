@@ -1,5 +1,5 @@
 
-actions :add, :remove
+actions :add, :remove, :send_notification
 default_action :add
 
 attribute :name, :kind_of => String, :name_attribute => true

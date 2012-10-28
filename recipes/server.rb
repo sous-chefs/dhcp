@@ -89,16 +89,13 @@ template node[:dhcp][:init_config] do
   )
 end
 
-
-# merge allows from bag  into node data, and sort
+#
+# Global DHCP config settings
+#
 allows = node['dhcp']['allows'] || []
-Chef::Log.debug "allows: #{allows}"
-
 parameters = node['dhcp']['parameters'] || []
-Chef::Log.debug "parameters: #{parameters}"
-
 options = node[:dhcp][:options] || []
-Chef::Log.debug "options: #{options}"
+
 
 # for all the zones this env has pull in the rndc_keys and push them out to dhcp config
 # as well as the zone master ip for ddns to work
@@ -147,16 +144,25 @@ template node[:dhcp][:config_file] do
   notifies :restart, resources(:service => dhcp_service), :delayed
 end
 
-directory "#{dhcp_dir}/groups.d"
+#
+# Create the dirs and stub files for each resource type
+# 
+%w{groups.d hosts.d subnets.d}.each do |dir| 
+  directory "#{dhcp_dir}/#{dir}" 
+  file "#{dhcp_dir}/#{dir}/list.conf" do
+    action :create_if_missing
+    content ""
+  end
+end
 
-# pull and setup groups
-groups = []
+#
+# Setup Groups
+#
 unless node[:dhcp][:groups].empty?
   node[:dhcp]["groups"].each do  |group|
-    groups << group
     group_data = data_bag_item('dhcp_groups', group)
-    
-    Chef::Log.debug "Setting up Group: #{group_data.inspect}" 
+   
+    next unless group_data
     dhcp_group group do 
       parameters  group_data["parameters"]  || []
       hosts       group_data["hosts"] || [] 
@@ -165,23 +171,10 @@ unless node[:dhcp][:groups].empty?
   end 
 end
 
-template "#{dhcp_dir}/groups.d/group_list.conf" do
-  owner "root"
-  group "root"
-  mode 0644
-  source "list.conf.erb"
-  variables(
-    :item => "groups",
-    :items => groups
-    )
-  action :create
-  notifies :restart, resources(:service => dhcp_service), :delayed
-end
 
-
-directory "#{dhcp_dir}/subnets.d"
-
-subnets = []
+#
+# Setup subnets 
+#
 if node[:dhcp][:networks].empty?
   raise AttributeError, "node[:dhcp][:networks] must contain entries for dhcpd to operate" 
 end
@@ -189,10 +182,7 @@ end
 node[:dhcp][:networks].each do |net|
   net_bag = data_bag_item('dhcp_networks', escape_bagname(net) )
  
-  # push this net onto the subnets 
-  subnets << net_bag["address"]  
-  
-  Chef::Log.debug "Setting up Subnet: #{net_bag.inspect}" 
+  next unless net_bag
   # run the lwrp with the bag data
   dhcp_subnet net_bag["address"] do 
     broadcast net_bag["broadcast"]  
@@ -205,59 +195,31 @@ node[:dhcp][:networks].each do |net|
   end
 end
 
-
-# generate the config that links it all 
-directory "#{dhcp_dir}/subnets.d"
-template "#{dhcp_dir}/subnets.d/subnet_list.conf" do
-  owner "root"
-  group "root"
-  mode 0644
-  source "list.conf.erb"
-  variables(
-    :item => "subnets",
-    :items => subnets.sort
-    )
-  action :create
-  notifies :restart, resources(:service => dhcp_service), :delayed
-end
-
-# Hosts
-# Grab called out hosts and itterate/build each one
 #
-hosts = []
+# Hosts
+#
 unless node[:dhcp][:hosts].empty?
   # special key to just use all hosts in dhcp_hosts databag
   # figure which hosts to load
   host_list = node[:dhcp][:hosts]
-  if host_list.class? String &&  host_list.downcase == "all"  
+  if host_list.class == String && host_list.downcase == "all"  
     host_list = data_bag('dhcp_hosts')
   end
 
   host_list.each do  |host|
-    hosts << host
-    host_data = data_bag_item('dhcp_hosts', host)
+    host_data = data_bag_item('dhcp_hosts', escape_bagname( host) )
 
-    Chef::Log.debug "Setting up Host: #{host_data.inspect}"
+
+    Chef::Log.info "\nHOST: #{host_data.inspect}\n"
+    next unless host_data
     dhcp_host host do
       hostname   host_data["hostname"] 
       macaddress host_data["macaddress"] 
       ipaddress  host_data["ipaddress"] 
+      parameters host_data["parameters"] || []
       options    host_data["options"] || []
       conf_dir  dhcp_dir 
     end
   end
 end
 
-directory "#{dhcp_dir}/hosts.d"
-template "#{dhcp_dir}/hosts.d/host_list.conf" do
-  owner "root"
-  group "root"
-  mode 0644
-  source "list.conf.erb"
-  variables(
-    :item => "hosts",
-    :items => hosts
-    )
-  action :create
-  notifies :restart, resources(:service => dhcp_service), :delayed
-end

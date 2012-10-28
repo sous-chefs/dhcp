@@ -1,7 +1,29 @@
+def write_include 
+  file_includes = []
+  run_context.resource_collection.each do |resource|
+    if resource.is_a? Chef::Resource::DhcpSubnet and resource.action == :add
+      file_includes << "#{resource.conf_dir}/subnets.d/#{resource.name}.conf"
+    end
+  end
+
+  template "#{new_resource.conf_dir}/subnets.d/list.conf" do
+    cookbook "dhcp"
+    source "list.conf.erb"
+    owner "root"
+    group "root"
+    mode 0644
+    variables( :files => file_includes )
+    notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
+    notifies :send_notification, new_resource, :immediately
+  end
+end
+
 
 action :add do
-  filename = "#{new_resource.conf_dir}/subnets.d/#{new_resource.subnet}.conf"
-  template filename do 
+
+  directory "#{new_resource.conf_dir}/subnets.d/"
+
+  template "#{new_resource.conf_dir}/subnets.d/#{new_resource.subnet}.conf" do
     cookbook "dhcp"
     source "subnet.conf.erb"
     variables(
@@ -17,18 +39,22 @@ action :add do
     group "root"
     mode 0644
     notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
+    notifies :send_notification, new_resource, :immediately
   end
+
+  write_include
 end
 
 action :remove do
-  filename = "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf"
-  if ::File.exists?(filename)
-    Chef::Log.info "Removing #{new_resource.name} subnet from #{new_resource.conf_dir}/subnets.d/"
-    file filename do
-      action :delete
-      notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
-    end
-    new_resource.updated_by_last_action(true)
+  file "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
+    action :delete
+    notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
+    notifies :send_notification, new_resource, :immediately
   end
+
+  write_include
 end
 
+action :send_notification do
+    new_resource.updated_by_last_action(true)
+end

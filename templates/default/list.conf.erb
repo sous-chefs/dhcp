@@ -1,5 +1,7 @@
-# File managed by Chef
-
-<% @items.each do |item| -%>
-include "<%= node[:dhcp][:dir] %>/<%= @item %>.d/<%= item %>.conf";
+#
+# file managed by chef
+# Host entry includes
+# 
+<% @files.each do |file| -%>
+include "<%= file %>";
 <% end -%>
