@@ -2,17 +2,24 @@
 
 #<%= @name %>
 group  {
-<% @parameters.each do |parameter, value| -%>
-  <%= parameter %> <%= value %>;
+<% @parameters.each do |parameter| -%>
+    <%= parameter %>;
 <% end -%>
 
 <% @hosts.each do |host,data| -%>
   host <%= host %> {
     option host-name "<%= host %>"; 
+<% if data.has_key?("parameters") -%>
+  <% data['parameters'].each do |param| -%>
+    <%= param %>;
+  <% end -%>
+<% end -%> 
     hardware ethernet <%= data["mac"] %>; 
-    <% if data.has_key?("adress") -%>  
-    fixed-address <%= data["address"] %>;
+    <% if data.has_key?("ip") -%>  
+    fixed-address <%= data["ip"] %>;
     <% end -%>
+
+
   }
 <% end -%>
 }

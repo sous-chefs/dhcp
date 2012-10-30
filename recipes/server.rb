@@ -202,9 +202,17 @@ unless node[:dhcp][:hosts].empty?
   # special key to just use all hosts in dhcp_hosts databag
   # figure which hosts to load
   host_list = node[:dhcp][:hosts]
-  if host_list.class == String && host_list.downcase == "all"  
-    host_list = data_bag( node[:dhcp][:hosts_bag] )
+  if host_list.class == String 
+    if host_list.downcase == "all"  
+      host_list = data_bag( node[:dhcp][:hosts_bag] )
+    else 
+      search( node[:dhcp][:hosts_bag], "id:#{node[:dhcp][:hosts_bag]}" ).each do |host|
+        host_lst << host['id']
+      end 
+    end
   end
+
+ Chef::Log.info "HOST LIST: #{host_list}" 
 
   host_list.each do  |host|
     host_data = data_bag_item( node[:dhcp][:hosts_bag], escape_bagname( host) )
@@ -212,8 +220,8 @@ unless node[:dhcp][:hosts].empty?
     next unless host_data
     dhcp_host host do
       hostname   host_data["hostname"] 
-      macaddress host_data["macaddress"] 
-      ipaddress  host_data["ipaddress"] 
+      macaddress host_data["mac"] 
+      ipaddress  host_data["ip"] 
       parameters host_data["parameters"] || []
       options    host_data["options"] || []
       conf_dir  dhcp_dir 
