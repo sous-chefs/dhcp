@@ -31,6 +31,7 @@ default[:dhcp][:options] = {
 }
 
 default[:dhcp][:dir] = "/etc/dhcp"
+default[:dhcp][:init_config]  = "/etc/sysconfig/dhcpd"
 
 case node[:platform_family]
 when "rhel"
