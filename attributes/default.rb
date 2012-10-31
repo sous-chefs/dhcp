@@ -10,25 +10,19 @@ default[:dhcp][:hosts_bag] = "dhcp_hosts"
 default[:dhcp][:networks_bag] = "dhcp_networks"
 default[:dhcp][:groups_bag] = "dhcp_groups"
 
+default[:dhcp][:parameters]["default-lease-time"] = "6400",
+default[:dhcp][:parameters]["ddns-domainname" = "\"#{domain}\""
+default[:dhcp][:parameters]["ddns-update-style" = "interim"
+default[:dhcp][:parameters]["max-lease-time" = "86400"
+default[:dhcp][:parameters]["update-static-leases" = "true"
+default[:dhcp][:parameters]["one-lease-per-client" =  "true"
+default[:dhcp][:parameters]["authoritative" = ""
+default[:dhcp][:parameters]["ping-check" = "true"
+default[:dhcp][:parameters]["next-server" = "#{ipaddress}"
+default[:dhcp][:parameters]["filename" = '"pxelinux.0"'
 
-default[:dhcp][:parameters] = {
-  "default-lease-time" => "6400",
-  "ddns-domainname" => "\"#{domain}\"",
-  "ddns-update-style" => "interim",
-  "max-lease-time" => "86400",
-  "update-static-leases" => "true",
-  "one-lease-per-client" =>  "true",
-  "authoritative" => "",
-  "ping-check" => "true",
-  # use localhost (since its a dhcp server)
-  "next-server" => "#{ipaddress}",
-  "filename" => '"pxelinux.0"'
-}
-
-default[:dhcp][:options] = { 
-  "domain-name" => "\"#{domain}\"",
-  "domain-name-servers" => "8.8.8.8"
-}
+default[:dhcp][:options]['domain-name'] = "\"#{domain}\"" 
+default[:dhcp][:options]['domain-name-servers'] => "8.8.8.8"
 
 default[:dhcp][:dir] = "/etc/dhcp"
 default[:dhcp][:init_config]  = "/etc/sysconfig/dhcpd"
