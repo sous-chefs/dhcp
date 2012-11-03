@@ -125,6 +125,7 @@ node[:dns][:zones].each do |zone|
   end
 end
 
+
 template node[:dhcp][:config_file] do
   owner "root"
   group "root"
@@ -211,8 +212,6 @@ unless node[:dhcp][:hosts].empty?
       end 
     end
   end
-
- Chef::Log.info "HOST LIST: #{host_list}" 
 
   host_list.each do  |host|
     host_data = data_bag_item( node[:dhcp][:hosts_bag], escape_bagname( host) )
