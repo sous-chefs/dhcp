@@ -10,7 +10,7 @@ default[:dhcp][:hosts_bag] = "dhcp_hosts"
 default[:dhcp][:networks_bag] = "dhcp_networks"
 default[:dhcp][:groups_bag] = "dhcp_groups"
 
-default[:dhcp][:parameters]["default-lease-time"] = "6400",
+default[:dhcp][:parameters]["default-lease-time"] = "6400"
 default[:dhcp][:parameters]["ddns-domainname"] = "\"#{domain}\""
 default[:dhcp][:parameters]["ddns-update-style"] = "interim"
 default[:dhcp][:parameters]["max-lease-time"] = "86400"
