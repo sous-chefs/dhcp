@@ -26,6 +26,7 @@ action :add do
     cookbook "dhcp"
     source "host.conf.erb"
     variables(
+      :name => new_resource.name,
       :hostname => new_resource.hostname,
       :macaddress => new_resource.macaddress,
       :ipaddress => new_resource.ipaddress,
