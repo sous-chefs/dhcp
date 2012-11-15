@@ -24,6 +24,8 @@ default[:dhcp][:parameters]["filename"] = '"pxelinux.0"'
 default[:dhcp][:options]['domain-name'] = "\"#{domain}\"" 
 default[:dhcp][:options]['domain-name-servers'] = "8.8.8.8"
 
+default[:dhcp][:options]['host-name'] = " = binary-to-ascii (16, 8, \"-\", substring (hardware, 1, 6))"
+
 default[:dhcp][:dir] = "/etc/dhcp"
 default[:dhcp][:init_config]  = "/etc/sysconfig/dhcpd"
 
