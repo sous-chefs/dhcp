@@ -11,8 +11,6 @@ version          "1.1.0"
 end
 
 depends "git"
-depends "nodejs"
-depends "npm"
 depends "ruby-helper"
 depends "helpers-search"
 depends "helpers-databags"
