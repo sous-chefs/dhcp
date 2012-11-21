@@ -30,8 +30,8 @@ include_recipe "ruby-helper"
 include_recipe "dhcp::_package"
 include_recipe "dhcp::_service"
 
-DHCP::Failover.load(run_context)
-DHCP::DynaDns.load(run_context)
+DHCP::Failover.load(node)
+DHCP::DynaDns.load(node)
 
 #
 # Global DHCP config settings

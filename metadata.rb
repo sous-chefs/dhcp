@@ -12,5 +12,4 @@ end
 
 depends "git"
 depends "ruby-helper"
-depends "helpers-search"
 depends "helpers-databags"

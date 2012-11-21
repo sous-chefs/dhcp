@@ -1,15 +1,20 @@
-require "chef/dsl/data_query"
 
 module DHCP
   module DynaDns 
     class  << self  
-      include Chef::DSL::DataQuery
-
+      if  Chef::Version.new(Chef::VERSION) <= Chef::Version.new( "10.16.2" )
+        include Chef::Mixin::Language
+      else
+        include Chef::DSL::DataQuery
+      end
+ 
       attr :node
       def load(node)
         @node = node
       end
 
+
+      
       # need to refactor 
       # for all the zones this env has pull in the rndc_keys and push them out to dhcp config
       # as well as the zone master ip for ddns to work

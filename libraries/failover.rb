@@ -1,9 +1,12 @@
-require "chef/dsl/data_query"
 
 module DHCP
   module Failover
     class << self
-      include Chef::DSL::DataQuery 
+      if  Chef::Version.new(Chef::VERSION) <= Chef::Version.new( "10.16.2" )
+        include Chef::Mixin::Language
+      else
+        include Chef::DSL::DataQuery
+      end
 
       attr :node
       def load(node)
@@ -39,7 +42,7 @@ module DHCP
       end
 
       def slaves
-       search(:node, "domain:#{node[:domain]} AND dhcp_slave:true")
+        search(:node, "domain:#{node[:domain]} AND dhcp_slave:true")
       end
 
       def masters
