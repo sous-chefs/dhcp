@@ -10,6 +10,5 @@ version          "2.0.0"
   supports os
 end
 
-depends "git"
 depends "ruby-helper"
 depends "helpers-databags"
