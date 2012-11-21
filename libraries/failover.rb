@@ -14,7 +14,6 @@ module DHCP
       end
 
       def enabled?
-        puts "Role: #{role}"
         if role == "primary"
           return slaves.blank? ? false : true
         end
@@ -38,7 +37,7 @@ module DHCP
         slave  =  slaves.first
         Chef::Log.info "Dhcp Slave: #{slave}"
         return nil if slave.blank?
-        slave.ipaddress
+        slave[:ipaddress]
       end
 
       def slaves
