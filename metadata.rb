@@ -10,4 +10,4 @@ version          "1.0.1"
   supports os
 end
 
-depends "helpers"
+depends "helpers", "= 0.2.3"
