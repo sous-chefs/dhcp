@@ -1,6 +1,9 @@
+require "chef/dsl/data_query"
+
 module DHCP
   module Failover
     class << self
+      include Chef::DSL::DataQuery 
 
       attr :node
       def load(node)
@@ -36,11 +39,11 @@ module DHCP
       end
 
       def slaves
-        Helpers::Search.scoped({:domain => node[:domain]}, :node, "dhcp_slave:true")
+       search(:node, "domain:#{node[:domain]} AND dhcp_slave:true")
       end
 
       def masters
-        Heplers::Search.scoped({:domain => node[:domain]}, :node, "dhcp_master:true")
+        search(:node, "domain:#{node[:domain]} AND dhcp_master:true")
       end
 
     end

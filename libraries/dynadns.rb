@@ -1,18 +1,13 @@
+require "chef/dsl/data_query"
+
 module DHCP
   module DynaDns 
     class  << self  
-      include Chef::Mixin::Language
+      include Chef::DSL::DataQuery
 
-      include Helpers::Search
-
-      attr_accessor :run_context
-
-      def load(run_context)
-        @run_context =  run_context
-      end
-
-      def node
-        run_context.node
+      attr :node
+      def load(node)
+        @node = node
       end
 
       # need to refactor 
