@@ -2,12 +2,20 @@
 # Hosts
 #
 unless node[:dhcp][:hosts].empty?
+
+  
+
   # special key to just use all hosts in dhcp_hosts databag
   # figure which hosts to load
   host_list = node[:dhcp][:hosts]
   if host_list.class == String
     if host_list.downcase == "all"
-      host_list = data_bag( node[:dhcp][:hosts_bag] )
+      begin 
+        host_list = data_bag( node[:dhcp][:hosts_bag] )
+        # TODO: Make this more specific to the non existing bag
+      rescue 
+        return 
+      end
     else
       search( node[:dhcp][:hosts_bag], "id:#{node[:dhcp][:hosts_bag]}" ).each do |host|
         host_lst << host['id']
