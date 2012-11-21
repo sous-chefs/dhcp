@@ -13,9 +13,8 @@ module DHCP
         @node = node
       end
 
-
       
-      # need to refactor 
+      # TODO: refactor 
       # for all the zones this env has pull in the rndc_keys and push them out to dhcp config
       # as well as the zone master ip for ddns to work
       def rndc_keys
