@@ -17,10 +17,9 @@ module DHCP
         if role == "primary"
           return slaves.blank? ? false : true
         end
-        if role == "scondary"
+        if role == "secondary"
           return masters.blank? ? false : true
         end
-        # if no match disable
         false
       end
 
