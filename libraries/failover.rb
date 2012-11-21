@@ -1,7 +1,7 @@
 module DHCP
   module Failover
-    class << self 
-     include Chef::Mixin::Language
+    class << self
+      include Chef::Mixin::Language
 
       attr_accessor :run_context
       attr_reader :slaves, :masters, :role, :peer
@@ -29,11 +29,10 @@ module DHCP
         end
 
         # call the original search method
-        search(*args, &block)
-      end 
+        Chef::Search::Query.new.search((*args, &block)
+      end
 
-
-      def enabled? 
+      def enabled?
         puts "Role: #{role}"
         if role == "primary"
           return slaves.blank? ? false : true
@@ -57,8 +56,8 @@ module DHCP
       def peer
         slave  =  slaves.sort.first
         Chef::Log.info "Slave: #{slave} "
-        return nil if slave.blank? 
-        slave.ipaddress 
+        return nil if slave.blank?
+        slave.ipaddress
       end
 
       def slaves
