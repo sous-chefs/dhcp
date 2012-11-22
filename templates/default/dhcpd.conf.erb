@@ -16,10 +16,10 @@ allow <%= allow %>;
 <% end -%>
 
 <% unless @keys.empty? -%>
-  <% @keys.each do |key| -%>
+  <% @keys.each do |key, data| -%>
 key "<%= key %>" {
-  algorithm <%= key['algorithm'] %>;
-  secret "<%= key['secret'] %>";
+  algorithm <%= data['algorithm'] %>;
+  secret "<%= data['secret'] %>";
 };
   <%end -%>
 <%end -%>
