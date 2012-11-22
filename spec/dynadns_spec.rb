@@ -5,15 +5,11 @@ require_relative '../libraries/dynadns'
 describe "DHCP::DyanDns disabled" do
   before(:each) do 
     Fauxhai.mock(platform:'ubuntu', version:'12.04') do |n|
-      n[:dns] ||= Hash.new
     end
     @chef_run = ChefSpec::ChefRunner.new
   end
 
   it 'should take no action if we have no zone info' do
-    Fauxhai.mock(platform:'ubuntu', version:'12.04') do |n|
-      n[:dns] = nil
-    end
     DHCP::DynaDns.load(@chef_run.converge.node)
     DHCP::DynaDns.zones.should == nil
   end
