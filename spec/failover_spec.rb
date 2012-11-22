@@ -1,5 +1,3 @@
-require 'chefspec'
-require 'fauxhai'
 require_relative 'helpers/default'
 require_relative '../libraries/failover'
 
@@ -45,7 +43,7 @@ describe 'DHCP::Failover Master' do
   end
 
   it 'should enable when secondary found' do
-    failover_search([@master.to_hash])
+    failover_search([@slave.to_hash])
     DHCP::Failover.enabled?.should be_true
   end
 

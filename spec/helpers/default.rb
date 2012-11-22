@@ -1,6 +1,7 @@
 require 'chefspec'
 require 'fauxhai'
 
+
 # add blank?
 class Object
   def blank?
@@ -11,6 +12,7 @@ end
 def stub_search(result)
   Chef::Node.any_instance.stub(:search).and_return(result)
 end
+
 
 def dummy_nodes
   @slave = Fauxhai::mock do |node| 

@@ -7,47 +7,76 @@ module DHCP
       else
         include Chef::DSL::DataQuery
       end
- 
-      attr :node
+
+      attr :node, :zones, :keys
+
       def load(node)
         @node = node
+        load_zones
       end
 
-      
-      # TODO: refactor 
-      # for all the zones this env has pull in the rndc_keys and push them out to dhcp config
-      # as well as the zone master ip for ddns to work
-      def rndc_keys
-        # this only should fire if we actually have work to do 
+      #
+      # Returns a hash of zone_name => master_addr
+      #
+      def masters
+        @zones ||= load_zones
+        masters ||= Hash.new
+        @zones.each do |zone|
+          name = zone["zone_name"]
+          masters[name] ||= Hash.new
+          # set to global master by default
+          if node[:dns].has_key? :master
+            masters[name] = node[:dns][:master] 
+          end
+
+          if node[:dns].has_key? :rndc_key
+            masters[name]["key"] = node[:dns][:rndc_key]
+          end
+
+          # use zone bag override if it exists
+          if zone.has_key? "master_address"
+            masters[name] = zone["master_address"]
+          end
+        end
+        masters
+      end
+
+      #
+      # Fetch all keys this node requests
+      # Returns a hash of key-names containing bag data for each key
+      #
+      def keys
+        k ||= Hash.new
+        @zones ||= load_zones
+
+        # global default keys if they exist
+        if node[:dns].has_key? :rndc_key
+          k[key] = data_bag_item("rndc_keys", node[:dns][:rndc_key])
+        end
+
+        @zones.each do |zone|
+          name = zone["zone_name"]
+          if zone.has_key? "rndc_key" 
+            k[zone['rndc_key']] = data_bag_item("rndc_keys", zone["rndc_key"]).to_hash
+          end
+        end
+        k
+      end
+
+      # 
+      # Load all zone bags this node calls out
+      # 
+      def load_zones
         unless node.has_key? :dns and node[:dns].has_key? :zones and node[:dns][:zones].blank? != true 
           return nil
         end
-        zones = {}
-        rndc_keys = {}
-        
+
+        @zones =  Array.new
         node[:dns][:zones].each do |zone|
-          # load the zone
-         
           bag_name = node[:dns][:bag_name] || "dns_zones" 
-          zone_data = data_bag_item(bag_name, Helpers::DataBags.escape_bagname(zone) )
-          name = zone_data["zone_name"]
-          zones[name] ||= {}
-
-          # use global/environment master by default, but let zones specify if they wish
-          # this way we can host for zones that don't exist here.
-          # do the same for key
-          zones[name]["master"] = node[:dns][:master] if node[:dns].has_key? :master
-          if zone_data.has_key? "master_address"
-            zones[name]["master"] = zone_data["master_address"]
-          end
-
-          zones[name]["keys"] = node[:rndc_keys] if node.has_key? :rndc_keys
-          if zone_data.has_key? "rndc_keys"
-            zones[name]["keys"] =   zone_data["rndc_keys"]
-          end
+          zones << data_bag_item(bag_name, Helpers::DataBags.escape_bagname(zone) ).to_hash
         end
-
-        zones
+        @zones
       end
 
     end

@@ -8,7 +8,6 @@
   "allow_update": "127.0.0.1",
   "allow_query": "any;",
   "name_servers": { "dns01.vm": "192.168.1.9" },
-  "master_address": "192.168.1.9",
   "resource_records": {
         "9":  { "PTR": "dns01.vm." },
        "10":  { "PTR": "server.vm." },
