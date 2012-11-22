@@ -16,8 +16,7 @@ Limitations
 ===========
 * only setup to handle ipv4
 * no generic classification support
-* ddns is tied to my intnernal bind cookbook right now, working on releasing that and getting the tie-ins for ddns to be less implementation specific. 
- 
+* ddns is tied to dns_zones databags 
 
 
 Recipes
@@ -312,19 +311,16 @@ This LWRP
 
 ```
 
-Usage
-=====
-
 
 
 License and Author
 ==================
+Author:: Jesse Nelson (<spheromak@gmail.com>)
 Author:: Matt Ray (<matt@opscode.com>)
 
+Copyright:: 2012 Jesse Nelson
 Copyright:: 2011 Atalanta Systems
-
 Copyright:: 2011 Dell, Inc.
-
 Copyright:: 2011 Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
