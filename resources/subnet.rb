@@ -1,5 +1,5 @@
 
-actions :add, :remove, :send_notification
+actions :add, :remove
 default_action :add
 
 attribute :subnet, :kind_of => String, :name_attribute => true

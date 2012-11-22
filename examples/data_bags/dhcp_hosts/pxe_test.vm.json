@@ -1,8 +1,8 @@
 {
   "id": "pxe_test-vm",
   "hostname": "pxe_test.vm",
-  "macaddress": "08:00:27:8f:7b:db",
-  "ipaddress": "192.168.1.31",
+  "mac": "08:00:27:8f:7b:db",
+  "ip": "192.168.1.31",
   "parameters": [ ],
   "options": [ ],
   "pxe": "ubuntu-precise"

@@ -9,6 +9,7 @@
   "allow_query": "any;",
   "name_servers": { "dns01.vm": "192.168.1.9" },
   "master_address": "192.168.1.9",
+  "rndc_key": "dhcp-key",
   "resource_records": {
     "server":  { "A": "192.168.1.10" },
     "chef-server":  { "CNAME": "server.vm." },

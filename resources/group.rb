@@ -1,9 +1,9 @@
 
-actions :add, :remove, :send_notification
+actions :add, :remove 
 default_action :add
 
 attribute :name, :kind_of => String, :name_attribute => true
-attribute :parameters, :kind_of => Hash, :default => []
-attribute :hosts, :kind_of => Hash, :default => []
+attribute :parameters, :kind_of => Array, :default => []
+attribute :hosts, :kind_of => Hash, :default => {}
 attribute :conf_dir, :kind_of => String, :default => "/etc/dhcp"
 
