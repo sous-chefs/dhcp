@@ -1,2 +1,7 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+#
+site :opscode
 metadata
-cookbook "helpers", git: 'git@git.lab.ktc:helpers-cookbook.git'
+cookbook "yum", github: "opscode-cookbooks/yum"
