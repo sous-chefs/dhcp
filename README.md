@@ -210,9 +210,7 @@ mac address of this host
 ip address of this host
 ### `"parameters":` 
 an array of isc-dhcpd parameters as-per the global parameter setting. 
-
-
-## `"pxe":` 
+### `"pxe":` 
 This key is used by my pxe cookbook to figure out what pxe item  you want this group to boot too. That Pxe cookbook should be released soon (hopefully).
 
 
@@ -235,7 +233,7 @@ Example Complex host:
       "id": "pxe_test-vm",
       "hostname": "pxe_test.vm",
       "mac": "08:00:27:8f:7b:db",
-      "ipaddress": "192.168.1.31",
+      "ip": "192.168.1.31",
       "parameters": [ ],
       "options": [ ],
       "pxe": "ubuntu-precise"
@@ -245,73 +243,94 @@ Example Complex host:
 
 Resources/Providers
 ===================
-host
-----
-This LWRP 
+## dhcp_host
 
-# Actions
-- :add: 
-- :remove: 
+Manipulate host entries in dhcpd 
 
-# Attribute Parameters
+### Actions
+* `add` -  _default_ 
+* `remove` 
 
-- key: 
-- url: 
+### Paramaters
+* `hostname` - _String_ 
+* `macaddress` -  _String_
+* `ipaddress` - _String_
+* `options` - _Array_ - [] 
+* `parameters` - _Array_ - [] 
+* `conf_dir` - _String_ - "/etc/dhcp"
 
-# Example
+### Example
 
-``` ruby
-# add
-    
-# remove
+Add a Node
 
-```
+    dhcp_host "myhost" do
+      hostname   "somebox.foobar.com"
+      macaddress "08:00:27:f1:1f:b6"
+      ipaddress  "192.168.1.22"
+      options   [ "domain-name-servers 8.8.8.8" ] 
+    end
 
-group
------
-This LWRP 
+Remove a node
 
-# Actions
-- :add: 
-- :remove: 
+    dhcp_host "myhost" do 
+      action :remove
+      hostname "somebox.foobar.com"
+    end
 
-# Attribute Parameters
-
-- key: 
-- url: 
-
-# Example
-
-``` ruby
-# add
-    
-# remove
-
-```
-
-subnet
-------
-This LWRP 
-
-# Actions
-- :add: 
-- :remove: 
-
-# Attribute Parameters
-
-- key: 
-- url: 
-
-# Example
-
-``` ruby
-# add
-    
-# remove
-
-```
+If you undefine an entry it will also get removed.
 
 
+## dhcp_group
+
+### Actions
+* `add` - _default_
+* `remove` 
+
+### Paramaters
+* `name` - _String_ - :name_attribute
+* `hosts`- _Hash_ - {} - This is a hash of host entries that follow the host-databag format. See the example entry in examples directory
+* `parameters` - _Array_ -  []
+* `conf_dir` - _String_ - "/etc/dhcp" - The directory where the config files are stored
+
+### Example
+
+
+    hosts_data = { 
+      "some-vm"=> {"parameters"=>[], "mac"=>"11:22:33:44:55:66", "ip"=>"192.168.1.111"},
+      "another-host"=>{"mac"=>"22:33:44:55:66:77"}}
+    }
+
+    group "some_group" do
+      parameters [ "default-lease-time 120", "next-server \"someplace\""]
+      hosts hosts_data
+    end
+
+
+
+## dhcp_subnet
+### Actions
+* `:add` - _default_
+* `:remove` - _default_
+
+### Paramaters
+* `subnet` - _String_ -  :name_attribute  - The network subnet 
+* `broadcast` - _String_ 
+* `netmask` - _String_ - 
+* `routers` - _Array_ - []  
+* `options` - _Array_ - []
+* `range` - _String_ 
+* `peer` - _String_ - nil - Peer server for this segment
+* `conf_dir` - _String_ - "/etc/dhcp" 
+
+### Example
+
+    dhcp_subnet "192.168.1.0" do 
+      range "192.168.1.100 192.168.1.200"
+      netmask "255.255.255.0"
+      broadcast "192.168.1.255"
+      options [ "next-server 192.168.1.11" ]
+      routers "192.168.1.1"
+    end
 
 License and Author
 ==================
