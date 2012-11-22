@@ -18,7 +18,7 @@ default[:dhcp][:parameters][:"update-static-leases"] = "true"
 default[:dhcp][:parameters][:"one-lease-per-client"] =  "true"
 default[:dhcp][:parameters][:"authoritative"] = ""
 default[:dhcp][:parameters][:"ping-check"] = "true"
-default[:dhcp][:parameters][:"next-server"] = "#{ipaddress}"
+default[:dhcp][:parameters][:"next-server"] = ipaddress
 default[:dhcp][:parameters][:"filename"] = '"pxelinux.0"'
 
 default[:dhcp][:options][:'domain-name'] = "\"#{domain}\"" 
