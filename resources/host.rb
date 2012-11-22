@@ -1,5 +1,5 @@
 
-actions :add, :remove, :send_notification
+actions :add, :remove
 default_action :add
 
 attribute :hostname, :kind_of => String
