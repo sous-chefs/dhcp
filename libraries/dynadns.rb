@@ -21,23 +21,35 @@ module DHCP
       def masters
         @zones ||= load_zones
         masters ||= Hash.new
+        return unless @zones
         @zones.each do |zone|
           name = zone["zone_name"]
           masters[name] ||= Hash.new
+
           # set to global master by default
-          if node[:dns].has_key? :master
+          if node[:dns].has_key? :master and node[:dns][:master].blank? != true
             masters[name]["master"] = node[:dns][:master] 
           end
 
-          if node[:dns].has_key? :rndc_key
+          if node[:dns].has_key? :rndc_key and node[:dns][:rndc_key].blank? != true
             masters[name]["key"] = node[:dns][:rndc_key]
           end
 
           # use zone bag override if it exists
-          if zone.has_key? "master_address"
+          if zone.has_key? "master_address" and  zone["master_address"].blank? != true
             masters[name]["master"] = zone["master_address"]
           end
+
+          if zone.has_key? "rndc_key" and zone["rndc_key"].blank? != true
+             masters[name]["key"] = zone["rndc_key"]
+          end
+
+          # validate
+          unless masters[name].has_key? "key" and masters[name].has_key? "master" 
+            masters.delete(name)
+          end
         end
+
         masters
       end
 
@@ -51,7 +63,7 @@ module DHCP
 
         # global default keys if they exist
         if node[:dns].has_key? :rndc_key
-          k[key] = data_bag_item("rndc_keys", node[:dns][:rndc_key])
+          k[node[:dns][:rndc_key]] = data_bag_item("rndc_keys", node[:dns][:rndc_key])
         end
 
         @zones.each do |zone|
