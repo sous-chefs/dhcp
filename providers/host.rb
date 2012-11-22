@@ -7,7 +7,7 @@ def write_include
     end
   end
 
-  template "#{new_resource.conf_dir}/hosts.d/list.conf" do
+  t = template "#{new_resource.conf_dir}/hosts.d/list.conf" do
     cookbook "dhcp"
     source "list.conf.erb"
     owner "root"
@@ -15,14 +15,14 @@ def write_include
     mode 0644
     variables( :files => file_includes )
     notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
-    notifies :send_notification, new_resource, :immediately
   end
+  new_resource.updated_by_last_action(t.updated?)
 end
 
 action :add do
   directory "#{new_resource.conf_dir}/hosts.d/"
 
-  template  "#{new_resource.conf_dir}/hosts.d/#{new_resource.hostname}.conf" do
+  t = template  "#{new_resource.conf_dir}/hosts.d/#{new_resource.hostname}.conf" do
     cookbook "dhcp"
     source "host.conf.erb"
     variables(
@@ -37,23 +37,19 @@ action :add do
     group "root"
     mode 0644
     notifies :restart, resources(:service => node[:dhcp][:service_name] ), :delayed
-    notifies :send_notification, new_resource, :immediately
   end
-
+  new_resource.updated_by_last_action(t.updated?)
   write_include
 end
 
 action :remove do
-  file "#{new_resource.conf_dir}/hosts.d/#{new_resource.name}.conf" do
+  f = file "#{new_resource.conf_dir}/hosts.d/#{new_resource.name}.conf" do
     action :delete
     notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
-    notifies :send_notification, new_resource, :immediately
   end
+  new_resource.updated_by_last_action(f.updated?)
 
   write_include
 end
 
-action :send_notification do
-  new_resource.updated_by_last_action(true)
-end
 

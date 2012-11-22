@@ -13,6 +13,21 @@ def stub_search(result)
   Chef::Node.any_instance.stub(:search).and_return(result)
 end
 
+# Redirects stderr and stdout to /dev/null.
+def silence_output
+  @orig_stderr = $stderr.dup
+  @orig_stdout = $stdout.dup
+  $stderr = File.new('/dev/null', 'w')
+  $stdout = File.new('/dev/null', 'w')
+end
+
+# Replace stdout and stderr so anything else is output correctly.
+def enable_output
+  $stderr = @orig_stderr
+  $stdout = @orig_stdout
+  @orig_stderr = nil
+  @orig_stdout = nil
+end
 
 def dummy_nodes
   @slave = Fauxhai::mock do |node| 

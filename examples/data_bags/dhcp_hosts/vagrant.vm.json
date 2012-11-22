@@ -1,6 +1,6 @@
 {
   "id": "vagrant-vm",
   "hostname": "vagrant.vm",
-  "macaddress": "08:00:27:f1:1f:b6",
+  "mac": "08:00:27:f1:1f:b6",
   "pxe": "ubuntu-precise"
 }
