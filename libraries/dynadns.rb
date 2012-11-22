@@ -60,6 +60,7 @@ module DHCP
       def keys
         k ||= Hash.new
         @zones ||= load_zones
+        return unless @zones 
 
         # global default keys if they exist
         if node.has_key? :dns  and node[:dns].has_key? :rndc_key
