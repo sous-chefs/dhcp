@@ -15,16 +15,20 @@ allow <%= allow %>;
   option <%= key %> <%= value %>;
 <% end -%>
 
-<% unless @ddns.empty? -%>
-key "dhcp-key" {
-  algorithm hmac-md5;
-  secret "L+Jl4+4onU4Wstfi4pdmnQ==";
+<% unless @keys.empty? -%>
+  <% @keys.each do |key| -%>
+key "<%= key %>" {
+  algorithm <%= key['algorithm'] %>;
+  secret "<%= key['secret'] %>";
 };
+  <%end -%>
+<%end -%>
 
-  <% @ddns.each do |zone, data| -%>
+<% unless @masters.empty? -%>
+<% @masters.each do |zone, data| -%>
 zone <%= zone %>. {
   primary <%= data["master"] %>;
-  key "dhcp-key";
+  key "<%= data["key"] %>";
 }
   <% end -%>
 <% end -%>

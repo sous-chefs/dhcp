@@ -26,7 +26,7 @@ module DHCP
           masters[name] ||= Hash.new
           # set to global master by default
           if node[:dns].has_key? :master
-            masters[name] = node[:dns][:master] 
+            masters[name]["master"] = node[:dns][:master] 
           end
 
           if node[:dns].has_key? :rndc_key
@@ -35,7 +35,7 @@ module DHCP
 
           # use zone bag override if it exists
           if zone.has_key? "master_address"
-            masters[name] = zone["master_address"]
+            masters[name]["master"] = zone["master_address"]
           end
         end
         masters
