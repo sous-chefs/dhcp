@@ -11,8 +11,8 @@ template node[:dhcp][:config_file] do
   mode 0644
   source "dhcpd.conf.erb"
   variables(
-    :allows => node['dhcp']['allows'] || [], 
-    :parameters =>  node['dhcp']['parameters'] || [],
+    :allows => node[:dhcp][:allows] || [], 
+    :parameters =>  node[:dhcp][:parameters] || [],
     :options =>  node[:dhcp][:options] || [],
     :masters => DHCP::DynaDns.masters,
     :keys => DHCP::DynaDns.keys, 
