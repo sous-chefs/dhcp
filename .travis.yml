@@ -1,6 +1,6 @@
 language: ruby
 gemfile:
-  - test/support/Gemfile
+  - Gemfile
 rvm:
   - 1.9.2
   - 1.9.3
