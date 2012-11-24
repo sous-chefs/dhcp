@@ -6,3 +6,4 @@ tags
 .berkshelf
 .berksfile
 Berksfile.lock
+tmp
