@@ -3,5 +3,9 @@
 #
 #
 site :opscode
+
 metadata
-cookbook "yum", github: "opscode-cookbooks/yum"
+
+
+group "dev" do
+  cookbook "chef_solo_search", github: "edelight/chef-solo-search"
