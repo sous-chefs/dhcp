@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/spheromak/dhcp-cook.png)](http://travis-ci.org/spheromak/dhcp-cook)
+
 Description
 ===========
 Data bag and environment drivent DHCP server. 
