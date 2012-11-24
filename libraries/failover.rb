@@ -24,7 +24,7 @@ module DHCP
       end
 
       def role
-        if node[:dhcp].has_key? :slave and node[:dhcp][:slave] == true
+        if node.has_key? :dhcp and  node[:dhcp].has_key? :slave and node[:dhcp][:slave] == true
           return "secondary"
         elsif node[:dhcp].has_key? :master and node[:dhcp][:master] == true
           return "primary"
