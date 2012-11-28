@@ -9,3 +9,4 @@ metadata
 
 group "dev" do
   cookbook "chef_solo_search", github: "edelight/chef-solo-search"
+end
