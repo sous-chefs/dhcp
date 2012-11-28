@@ -22,7 +22,7 @@ end
 desc "Runs template syntax checks" 
 task :erubis do
   Rake::Task[:prepare_sandbox].execute
-  sh "find  #{sandbox_path}/../ -name \"*.rb\" | erubis -x "
+  sh "find  #{sandbox_path}/../ -name \"*.erb\" | erubis -x "
 end
 
 
