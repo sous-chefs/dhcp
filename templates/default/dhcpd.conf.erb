@@ -15,7 +15,7 @@ allow <%= allow %>;
   option <%= key %> <%= value %>;
 <% end -%>
 
-<% unless @keys.empty? -%>
+<% unless @keys.nil? || @keys.empty? -%>
   <% @keys.each do |key, data| -%>
 key "<%= key %>" {
   algorithm <%= data['algorithm'] %>;
@@ -24,7 +24,7 @@ key "<%= key %>" {
   <%end -%>
 <%end -%>
 
-<% unless @masters.empty? -%>
+<% unless @masters.nil? || @masters.empty? -%>
 <% @masters.each do |zone, data| -%>
 zone <%= zone %>. {
   primary <%= data["master"] %>;
