@@ -24,7 +24,7 @@ module DHCP
       end
 
       def role
-        if node.has_key? :dhcp and  node[:dhcp].has_key? :slave and node[:dhcp][:slave] == true
+        if node[:dhcp].has_key? :slave and node[:dhcp][:slave] == true
           return "secondary"
         elsif node[:dhcp].has_key? :master and node[:dhcp][:master] == true
           return "primary"
@@ -33,7 +33,11 @@ module DHCP
       end
 
       def peer
-        slave  =  slaves.first
+        if node[:dhcp].has_key? :slave and node[:dhcp][:slave] == true
+          slave = masters.first
+        elsif node[:dhcp].has_key? :master and node[:dhcp][:master] == true
+          slave  =  slaves.first
+        end
         Chef::Log.info "Dhcp Slave: #{slave}"
         return nil if slave.blank?
         slave[:ipaddress]
