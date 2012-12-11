@@ -2,6 +2,6 @@
 # file managed by chef
 # Host entry includes
 # 
-<% @files.each do |file| -%>
+<% @files.sort.each do |file| -%>
 include "<%= file %>";
 <% end -%>

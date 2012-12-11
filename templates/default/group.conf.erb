@@ -2,15 +2,15 @@
 
 #<%= @name %>
 group  {
-<% @parameters.each do |parameter| -%>
+<% @parameters.sort.each do |parameter| -%>
     <%= parameter %>;
 <% end -%>
 
-<% @hosts.each do |host,data| -%>
+<% @hosts.sort.each do |host,data| -%>
   host <%= host %> {
     option host-name "<%= host %>"; 
 <% if data.has_key?("parameters") -%>
-  <% data['parameters'].each do |param| -%>
+  <% data['parameters'].sort.each do |param| -%>
     <%= param %>;
   <% end -%>
 <% end -%> 
