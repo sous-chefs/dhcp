@@ -37,7 +37,7 @@ action :add do
   end
   new_resource.updated_by_last_action(t.updated?)
 
-  write_config
+  write_include
 end
 
 action :remove do
@@ -48,6 +48,6 @@ action :remove do
   end
   new_resource.updated_by_last_action(f.updated?)
 
-  write_config
+  write_include
 end
 
