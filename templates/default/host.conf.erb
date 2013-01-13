@@ -19,12 +19,12 @@ host <%= @name %> {
   file-name "<%= @filename %>"; 
 <% end -%>
 <% unless @parameters.empty? -%>
-  <% @parameters.each do |parameter| -%>
+  <% @parameters.sort.each do |parameter| -%>
   <%= parameter -%>;
   <% end -%>
 <% end -%>
 <% unless @options.empty? -%>
-  <% @options.each do |option| -%>
+  <% @options.sort.each do |option| -%>
   option <%= option -%>;
   <% end -%>
 <% end -%>
