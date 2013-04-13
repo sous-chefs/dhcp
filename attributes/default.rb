@@ -18,7 +18,7 @@ default[:dhcp][:parameters][:"update-static-leases"] = "true"
 default[:dhcp][:parameters][:"one-lease-per-client"] =  "true"
 default[:dhcp][:parameters][:"authoritative"] = ""
 default[:dhcp][:parameters][:"ping-check"] = "true"
-default[:dhcp][:parameters][:"next-server"] = ipaddress
+default[:dhcp][:parameters][:"next-server"] = node[:ipaddress]
 default[:dhcp][:parameters][:"filename"] = '"pxelinux.0"'
 
 default[:dhcp][:options][:'domain-name'] = "\"#{domain}\"" 
@@ -33,7 +33,7 @@ when "rhel"
   default[:dhcp][:service_name] = "dhcpd"
   default[:dhcp][:init_config]  = "/etc/sysconfig/dhcpd"
 
-  if node['platform_version'].to_i >= 6
+  if node[:platform_version].to_i >= 6
     default[:dhcp][:config_file]  = "/etc/dhcp/dhcpd.conf" 
   else 
     default[:dhcp][:dir] = "/etc/dhcpd"
