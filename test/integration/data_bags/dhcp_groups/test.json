@@ -1,0 +1,20 @@
+{
+  "id": "test",
+  "pxe":  "ubuntu-precise",
+  "parameters": [
+    "use-host-decl-names on",
+    "max-lease-time 300",
+    "default-lease-time 120",
+    "next-server \"someplace\""
+  ],
+  "hosts": { 
+    "some-vm": { 
+      "parameters": [  ],
+      "mac": "11:22:33:44:55:66", 
+      "ip": "192.168.1.111"
+    },
+    "another-host": {
+      "mac": "22:33:44:55:66:77"
+    }
+  }
+}

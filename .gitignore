@@ -7,3 +7,6 @@ tags
 .berksfile
 Berksfile.lock
 tmp
+.kitchen/
+.kitchen.local.yml
+vendor

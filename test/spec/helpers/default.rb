@@ -1,5 +1,4 @@
 require 'chefspec'
-require 'fauxhai'
 
 
 # add blank?
@@ -30,13 +29,13 @@ def enable_output
 end
 
 def dummy_nodes
-  @slave = Fauxhai::mock do |node| 
+  @slave = Fauxhai::mock do |node|
     node[:dhcp] ||= Hash.new
     node[:dhcp][:slave] = true
     node[:ipaddress] = "10.1.1.20"
   end
 
-  @master = Fauxhai::mock do |node| 
+  @master = Fauxhai::mock do |node|
     node[:dhcp] ||= Hash.new
     node[:dhcp][:master] = true
     node[:ipaddress] = "10.1.1.10"
