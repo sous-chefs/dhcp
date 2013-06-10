@@ -22,7 +22,7 @@ template node[:dhcp][:config_file] do
     :failover => DHCP::Failover.enabled?
     )
   action :create
-  notifies :restart, "service[#{node[:dhcp][:service_name]}", :delayed
+  notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
 end
 
 #
