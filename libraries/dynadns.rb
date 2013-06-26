@@ -2,13 +2,15 @@
 module DHCP
   module DynaDns 
     class  << self  
-      if  Chef::Version.new(Chef::VERSION) <= Chef::Version.new( "10.16.2" )
+      if  Chef::Version.new(Chef::VERSION) < Chef::Version.new( "11.0.0" )
         include Chef::Mixin::Language
       else
         include Chef::DSL::DataQuery
       end
 
-      attr :node, :zones, :keys
+      attr :node
+      attr :zones
+      attr :keys
 
       def load(node)
         @node = node
