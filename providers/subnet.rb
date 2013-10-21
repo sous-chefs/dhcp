@@ -1,3 +1,7 @@
+# chef11
+
+use_inline_resources 
+
 def write_include 
   file_includes = []
   run_context.resource_collection.each do |resource|
@@ -6,7 +10,7 @@ def write_include
     end
   end
 
-  t = template "#{new_resource.conf_dir}/subnets.d/list.conf" do
+  template "#{new_resource.conf_dir}/subnets.d/list.conf" do
     cookbook "dhcp"
     source "list.conf.erb"
     owner "root"
@@ -15,15 +19,13 @@ def write_include
     variables( :files => file_includes )
     notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
   end
-  new_resource.updated_by_last_action(t.updated?)
 end
 
 
 action :add do
-
   directory "#{new_resource.conf_dir}/subnets.d/"
 
-  t = template "#{new_resource.conf_dir}/subnets.d/#{new_resource.subnet}.conf" do
+  template "#{new_resource.conf_dir}/subnets.d/#{new_resource.subnet}.conf" do
     cookbook "dhcp"
     source "subnet.conf.erb"
     variables(
@@ -40,18 +42,15 @@ action :add do
     mode 0644
     notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
   end
-  new_resource.updated_by_last_action(t.updated?)
-
   write_include
 end
 
 action :remove do
-  f = file "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
+  file "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
     action :delete
     notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
     notifies :send_notification, new_resource, :immediately
   end
-  new_resource.updated_by_last_action(f.updated?)
   write_include
 end
 

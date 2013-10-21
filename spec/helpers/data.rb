@@ -1,6 +1,5 @@
 require 'chefspec'
 require 'fauxhai'
-require 'yajl'
 
 
 Chef::Config[:data_bag_path] = File.dirname(__FILE__) + "/../../examples/data_bags"
