@@ -1,118 +1,329 @@
+GIT
+  remote: git://github.com/chrisroberts/vagabond.git
+  revision: a599a2adc783361000a79859d5a1da4d6e54acf5
+  branch: develop
+  specs:
+    vagabond (0.2.9)
+      attribute_struct
+      chef
+      elecksee (>= 1.0.10)
+      knife-bootstrapsync
+      librarian-chef
+      serverspec (>= 0.6.3)
+      test-kitchen (>= 1.0.0.alpha)
+      thor
+      uuidtools
+
+GIT
+  remote: git://github.com/opscode/kitchen-vagrant
+  revision: 93a8ac4a06f315190614f59a9911a8fc446d7f03
+  specs:
+    kitchen-vagrant (0.11.2.dev)
+      test-kitchen (~> 1.0.0.beta.3)
+
+GIT
+  remote: git://github.com/opscode/test-kitchen.git
+  revision: a865ebe6ced2ba7b518b005fed51dc78bb2d1df1
+  specs:
+    test-kitchen (1.0.0.dev)
+      celluloid
+      mixlib-shellout
+      net-scp
+      net-ssh
+      pry
+      safe_yaml (~> 0.9.5)
+      thor
+
 GEM
   remote: https://rubygems.org/
   specs:
-    builder (3.1.4)
-    bunny (0.7.9)
-    chef (10.16.2)
-      bunny (>= 0.6.0, < 0.8.0)
+    activesupport (3.2.14)
+      i18n (~> 0.6, >= 0.6.4)
+      multi_json (~> 1.0)
+    addressable (2.3.5)
+    akami (1.2.0)
+      gyoku (>= 0.4.0)
+      nokogiri (>= 1.4.0)
+    archive-tar-minitar (0.5.2)
+    attribute_struct (0.1.6)
+      hashie (>= 2.0.0)
+    berkshelf (2.0.10)
+      activesupport (~> 3.2.0)
+      addressable (~> 2.3.4)
+      buff-shell_out (~> 0.1)
+      chozo (>= 0.6.1)
+      faraday (>= 0.8.5)
+      hashie (>= 2.0.2)
+      minitar (~> 0.5.4)
+      rbzip2 (~> 0.2.0)
+      retryable (~> 1.3.3)
+      ridley (~> 1.5.0)
+      solve (>= 0.5.0)
+      thor (~> 0.18.0)
+    buff-config (0.4.0)
+      buff-extensions (~> 0.3)
+      varia_model (~> 0.1)
+    buff-extensions (0.5.0)
+    buff-ignore (1.1.0)
+    buff-ruby_engine (0.1.0)
+    buff-shell_out (0.1.0)
+      buff-ruby_engine (~> 0.1.0)
+    builder (3.2.2)
+    busser (0.4.1)
+      thor
+    busser-bats (0.1.0)
+      busser
+    busser-serverspec (0.2.3)
+      busser
+    cane (2.6.0)
+      parallel
+    celluloid (0.14.1)
+      timers (>= 1.0.0)
+    celluloid-io (0.14.1)
+      celluloid (>= 0.14.1)
+      nio4r (>= 0.4.5)
+    chef (11.6.0)
       erubis
       highline (>= 1.6.9)
-      json (>= 1.4.4, <= 1.6.1)
+      json (>= 1.4.4, <= 1.7.7)
       mixlib-authentication (>= 1.3.0)
-      mixlib-cli (>= 1.1.0)
+      mixlib-cli (~> 1.3.0)
       mixlib-config (>= 1.1.2)
       mixlib-log (>= 1.3.0)
       mixlib-shellout
-      moneta
-      net-ssh (~> 2.2.2)
+      net-ssh (~> 2.6)
       net-ssh-multi (~> 1.1.0)
       ohai (>= 0.6.0)
       rest-client (>= 1.0.4, < 1.7.0)
-      treetop (~> 1.4.9)
-      uuidtools
       yajl-ruby (~> 1.1)
-    chefspec (0.9.0)
-      chef (>= 0.9.12)
+    chefspec (2.0.1)
+      chef (>= 10.0)
       erubis
-      minitest-chef-handler (~> 0.6.0)
-      rspec (~> 2.11.0)
-    ci_reporter (1.7.3)
+      fauxhai (~> 1.1)
+      minitest-chef-handler (>= 0.6.0)
+      rspec (~> 2.0)
+    chozo (0.6.1)
+      activesupport (>= 3.2.0)
+      hashie (>= 2.0.2)
+      multi_json (>= 1.3.0)
+    ci_reporter (1.9.0)
       builder (>= 2.1.2)
-    coderay (1.0.8)
-    diff-lcs (1.1.3)
+    coderay (1.0.9)
+    diff-lcs (1.2.4)
+    elecksee (1.0.10)
+      mixlib-shellout
+      net-ssh
     erubis (2.7.0)
-    fauxhai (0.0.4)
-      chef
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
+    fauxhai (1.1.1)
       httparty
       net-ssh
-    foodcritic (1.6.1)
+      ohai
+    ffi (1.9.0)
+    foodcritic (2.2.0)
       erubis
-      gherkin (~> 2.11.1)
-      gist (~> 3.1.0)
-      nokogiri (= 1.5.0)
-      pry (~> 0.9.8.4)
-      rak (~> 1.4)
+      gherkin (~> 2.11.7)
+      nokogiri (~> 1.5.4)
       treetop (~> 1.4.10)
       yajl-ruby (~> 1.1.0)
-    gherkin (2.11.5)
-      json (>= 1.4.6)
-    gist (3.1.0)
-    highline (1.6.15)
-    httparty (0.9.0)
+    formatador (0.2.4)
+    gherkin (2.11.8)
+      multi_json (~> 1.3)
+    gssapi (1.0.3)
+      ffi (>= 1.0.1)
+    guard (1.8.2)
+      formatador (>= 0.2.4)
+      listen (>= 1.0.0)
+      lumberjack (>= 1.0.2)
+      pry (>= 0.9.10)
+      thor (>= 0.14.6)
+    guard-kitchen (0.0.2)
+      guard
+      mixlib-shellout
+    guard-rake (0.0.9)
+      guard
+      rake
+    gyoku (1.1.0)
+      builder (>= 2.1.2)
+    hashie (2.0.5)
+    highline (1.6.19)
+    httparty (0.11.0)
       multi_json (~> 1.0)
-      multi_xml
+      multi_xml (>= 0.5.2)
+    httpclient (2.2.0.2)
+    httpi (0.9.7)
+      rack
+    i18n (0.6.5)
     ipaddress (0.8.0)
-    json (1.6.1)
-    method_source (0.7.1)
-    mime-types (1.19)
-    minitest (4.3.1)
-    minitest-chef-handler (0.6.3)
+    json (1.7.7)
+    knife-bootstrapsync (1.0.2)
+      chef
+      net-sftp
+    knife-cookbook-doc (0.3.0)
+      chef
+      erubis
+    librarian (0.1.1)
+      highline
+      thor (~> 0.15)
+    librarian-chef (0.0.1)
+      archive-tar-minitar (>= 0.5.2)
+      chef (>= 0.10)
+      librarian (~> 0.1.0)
+    listen (1.3.1)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+      rb-kqueue (>= 0.2)
+    little-plugger (1.1.3)
+    log_switch (0.4.0)
+    logging (1.6.2)
+      little-plugger (>= 1.1.3)
+    lumberjack (1.0.4)
+    method_source (0.8.2)
+    mime-types (1.25)
+    minitar (0.5.4)
+    minitest (4.7.5)
+    minitest-chef-handler (1.0.1)
       chef
       ci_reporter
-      minitest
+      minitest (~> 4.7.3)
     mixlib-authentication (1.3.0)
       mixlib-log
-    mixlib-cli (1.2.2)
+    mixlib-cli (1.3.0)
     mixlib-config (1.1.2)
-    mixlib-log (1.4.1)
-    mixlib-shellout (1.1.0)
-    moneta (0.6.0)
-    multi_json (1.3.7)
-    multi_xml (0.5.1)
-    net-ssh (2.2.2)
-    net-ssh-gateway (1.1.0)
-      net-ssh (>= 1.99.1)
+    mixlib-log (1.6.0)
+    mixlib-shellout (1.2.0)
+    multi_json (1.8.0)
+    multi_xml (0.5.5)
+    multipart-post (1.2.0)
+    net-http-persistent (2.9)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.6.8)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     net-ssh-multi (1.1)
       net-ssh (>= 2.1.4)
       net-ssh-gateway (>= 0.99.0)
-    nokogiri (1.5.0)
-    ohai (6.14.0)
+    nio4r (0.5.0)
+    nokogiri (1.5.10)
+    nori (1.1.5)
+    ohai (6.18.0)
       ipaddress
       mixlib-cli
       mixlib-config
       mixlib-log
+      mixlib-shellout
       systemu
       yajl-ruby
+    parallel (0.8.1)
     polyglot (0.3.3)
-    pry (0.9.8.4)
+    pry (0.9.12.2)
       coderay (~> 1.0.5)
-      method_source (~> 0.7.1)
-      slop (>= 2.4.4, < 3)
-    rak (1.4)
-    rake (10.0.2)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    rack (1.5.2)
+    rake (10.1.0)
+    rb-fsevent (0.9.3)
+    rb-inotify (0.9.1)
+      ffi (>= 0.5.0)
+    rb-kqueue (0.2.0)
+      ffi (>= 0.5.0)
+    rbzip2 (0.2.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rspec (2.11.0)
-      rspec-core (~> 2.11.0)
-      rspec-expectations (~> 2.11.0)
-      rspec-mocks (~> 2.11.0)
-    rspec-core (2.11.1)
-    rspec-expectations (2.11.3)
-      diff-lcs (~> 1.1.3)
-    rspec-mocks (2.11.3)
-    slop (2.4.4)
+    retryable (1.3.3)
+    ridley (1.5.3)
+      addressable
+      buff-config (~> 0.2)
+      buff-extensions (~> 0.3)
+      buff-ignore (~> 1.1)
+      buff-shell_out (~> 0.1)
+      celluloid (~> 0.14.0)
+      celluloid-io (~> 0.14.0)
+      erubis
+      faraday (>= 0.8.4)
+      hashie (>= 2.0.2)
+      json (>= 1.7.7)
+      mixlib-authentication (>= 1.3.0)
+      net-http-persistent (>= 2.8)
+      net-ssh
+      nio4r (>= 0.5.0)
+      retryable
+      solve (>= 0.4.4)
+      varia_model (~> 0.1)
+      winrm (~> 1.1.0)
+    rspec (2.14.1)
+      rspec-core (~> 2.14.0)
+      rspec-expectations (~> 2.14.0)
+      rspec-mocks (~> 2.14.0)
+    rspec-core (2.14.5)
+    rspec-expectations (2.14.2)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.14.3)
+    rubyntlm (0.1.1)
+    safe_yaml (0.9.5)
+    savon (0.9.5)
+      akami (~> 1.0)
+      builder (>= 2.1.2)
+      gyoku (>= 0.4.0)
+      httpi (~> 0.9)
+      nokogiri (>= 1.4.0)
+      nori (~> 1.0)
+      wasabi (~> 1.0)
+    serverspec (0.7.13)
+      highline
+      net-ssh
+      rspec (>= 2.13.0)
+    slop (3.4.6)
+    solve (0.8.1)
     systemu (2.5.2)
-    treetop (1.4.12)
+    tailor (1.2.1)
+      log_switch (>= 0.3.0)
+      term-ansicolor (>= 1.0.5)
+      text-table (>= 1.2.2)
+    term-ansicolor (1.2.2)
+      tins (~> 0.8)
+    text-table (1.2.3)
+    thor (0.18.1)
+    timers (1.1.0)
+    tins (0.9.0)
+    treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    uuidtools (2.1.3)
+    uuidtools (2.1.4)
+    varia_model (0.2.0)
+      buff-extensions (~> 0.2)
+      hashie (>= 2.0.2)
+    wasabi (1.0.0)
+      nokogiri (>= 1.4.0)
+    winrm (1.1.2)
+      gssapi (~> 1.0.0)
+      httpclient (~> 2.2.0.2)
+      logging (~> 1.6.1)
+      nokogiri (~> 1.5.0)
+      rubyntlm (~> 0.1.1)
+      savon (= 0.9.5)
+      uuidtools (~> 2.1.2)
     yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  berkshelf
+  busser-bats
+  busser-serverspec
+  cane
   chefspec
-  fauxhai
   foodcritic
-  rake
+  guard
+  guard-kitchen
+  guard-rake
+  kitchen-vagrant!
+  knife-cookbook-doc
+  tailor
+  test-kitchen!
+  vagabond!
