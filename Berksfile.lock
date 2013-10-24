@@ -6,6 +6,9 @@
     "ktc-testing": {
       "locked_version": "0.0.4"
     },
+    "chef-solo-search": {
+      "locked_version": "0.5.1"
+    },
     "ruby-helper": {
       "locked_version": "0.0.1"
     },

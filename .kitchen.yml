@@ -22,11 +22,7 @@ suites:
      groups: []
      hosts: all
      networks:
-       - 10.14.0.0/24
+       - 192.168.9.0/24
      options:
-       domain-name: \"mgmt1 pod01\"
-       domain-name-servers: 10.14.0.21
-
-clusters:
-  default:
-    - default
+       'domain-name': "vm"
+       'domain-name-servers': 192.168.9.10

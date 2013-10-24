@@ -6,6 +6,7 @@ default[:dhcp][:hosts] = []
 default[:dhcp][:groups] = []
 default[:dhcp][:networks] = []
 default[:dhcp][:interfaces] = []
+
 default[:dhcp][:hosts_bag] = "dhcp_hosts"
 default[:dhcp][:networks_bag] = "dhcp_networks"
 default[:dhcp][:groups_bag] = "dhcp_groups"
@@ -21,7 +22,7 @@ default[:dhcp][:parameters][:"ping-check"] = "true"
 default[:dhcp][:parameters][:"next-server"] = node[:ipaddress]
 default[:dhcp][:parameters][:"filename"] = '"pxelinux.0"'
 
-default[:dhcp][:options][:'domain-name'] = "\"#{domain}\"" 
+default[:dhcp][:options][:'domain-name'] = "\"#{domain}\""
 default[:dhcp][:options][:'domain-name-servers'] = "8.8.8.8"
 default[:dhcp][:options][:'host-name'] = " = binary-to-ascii (16, 8, \"-\", substring (hardware, 1, 6))"
 
@@ -34,8 +35,8 @@ when "rhel"
   default[:dhcp][:init_config]  = "/etc/sysconfig/dhcpd"
 
   if node[:platform_version].to_i >= 6
-    default[:dhcp][:config_file]  = "/etc/dhcp/dhcpd.conf" 
-  else 
+    default[:dhcp][:config_file]  = "/etc/dhcp/dhcpd.conf"
+  else
     default[:dhcp][:dir] = "/etc/dhcpd"
     default[:dhcp][:config_file]  = "/etc/dhcpd.conf"
   end

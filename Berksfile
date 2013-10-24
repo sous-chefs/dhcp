@@ -9,3 +9,4 @@ site :opscode
 metadata
 
 cookbook 'ktc-testing'
+cookbook "chef-solo-search"
