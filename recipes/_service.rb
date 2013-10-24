@@ -21,5 +21,3 @@ template node[:dhcp][:init_config] do
     :var  =>  "DHCPDARGS"
   )
 end
-
-
