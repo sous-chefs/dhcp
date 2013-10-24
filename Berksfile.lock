@@ -1,0 +1,22 @@
+{
+  "sources": {
+    "dhcp": {
+      "path": "."
+    },
+    "ktc-testing": {
+      "locked_version": "0.0.4"
+    },
+    "ruby-helper": {
+      "locked_version": "0.0.1"
+    },
+    "helpers-databags": {
+      "locked_version": "1.0.0"
+    },
+    "ubuntu": {
+      "locked_version": "1.1.2"
+    },
+    "apt": {
+      "locked_version": "2.2.1"
+    }
+  }
+}

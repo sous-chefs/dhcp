@@ -17,7 +17,15 @@ suites:
   run_list:
     - recipe[ktc-testing]
     - recipe[dhcp::server]
-  attributes: {}
+  attributes:
+    dhcp:
+     groups: []
+     hosts: all
+     networks:
+       - 10.14.0.0/24
+     options:
+       domain-name: \"mgmt1 pod01\"
+       domain-name-servers: 10.14.0.21
 
 clusters:
   default:
