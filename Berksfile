@@ -9,4 +9,4 @@ site :opscode
 metadata
 
 cookbook 'ktc-testing'
-cookbook "chef-solo-search"
+cookbook "dhcp_net_setup", path: "test/cookbooks/dhcp_net_setup"

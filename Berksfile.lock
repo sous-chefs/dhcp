@@ -6,8 +6,8 @@
     "ktc-testing": {
       "locked_version": "0.0.4"
     },
-    "chef-solo-search": {
-      "locked_version": "0.5.1"
+    "dhcp_net_setup": {
+      "path": "./test/cookbooks/dhcp_net_setup"
     },
     "ruby-helper": {
       "locked_version": "0.0.1"

@@ -1,20 +1,4 @@
 GIT
-  remote: git://github.com/chrisroberts/vagabond.git
-  revision: a599a2adc783361000a79859d5a1da4d6e54acf5
-  branch: develop
-  specs:
-    vagabond (0.2.9)
-      attribute_struct
-      chef
-      elecksee (>= 1.0.10)
-      knife-bootstrapsync
-      librarian-chef
-      serverspec (>= 0.6.3)
-      test-kitchen (>= 1.0.0.alpha)
-      thor
-      uuidtools
-
-GIT
   remote: git://github.com/opscode/kitchen-vagrant
   revision: 93a8ac4a06f315190614f59a9911a8fc446d7f03
   specs:
@@ -44,9 +28,6 @@ GEM
     akami (1.2.0)
       gyoku (>= 0.4.0)
       nokogiri (>= 1.4.0)
-    archive-tar-minitar (0.5.2)
-    attribute_struct (0.1.6)
-      hashie (>= 2.0.0)
     berkshelf (2.0.10)
       activesupport (~> 3.2.0)
       addressable (~> 2.3.4)
@@ -96,23 +77,16 @@ GEM
       ohai (>= 0.6.0)
       rest-client (>= 1.0.4, < 1.7.0)
       yajl-ruby (~> 1.1)
-    chefspec (2.0.1)
-      chef (>= 10.0)
-      erubis
+    chefspec (3.0.1)
+      chef (~> 11.0)
       fauxhai (~> 1.1)
-      minitest-chef-handler (>= 0.6.0)
-      rspec (~> 2.0)
+      rspec (~> 2.14)
     chozo (0.6.1)
       activesupport (>= 3.2.0)
       hashie (>= 2.0.2)
       multi_json (>= 1.3.0)
-    ci_reporter (1.9.0)
-      builder (>= 2.1.2)
     coderay (1.0.9)
     diff-lcs (1.2.4)
-    elecksee (1.0.10)
-      mixlib-shellout
-      net-ssh
     erubis (2.7.0)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
@@ -157,19 +131,9 @@ GEM
     i18n (0.6.5)
     ipaddress (0.8.0)
     json (1.7.7)
-    knife-bootstrapsync (1.0.2)
-      chef
-      net-sftp
     knife-cookbook-doc (0.3.0)
       chef
       erubis
-    librarian (0.1.1)
-      highline
-      thor (~> 0.15)
-    librarian-chef (0.0.1)
-      archive-tar-minitar (>= 0.5.2)
-      chef (>= 0.10)
-      librarian (~> 0.1.0)
     listen (1.3.1)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -182,11 +146,6 @@ GEM
     method_source (0.8.2)
     mime-types (1.25)
     minitar (0.5.4)
-    minitest (4.7.5)
-    minitest-chef-handler (1.0.1)
-      chef
-      ci_reporter
-      minitest (~> 4.7.3)
     mixlib-authentication (1.3.0)
       mixlib-log
     mixlib-cli (1.3.0)
@@ -198,8 +157,6 @@ GEM
     multipart-post (1.2.0)
     net-http-persistent (2.9)
     net-scp (1.1.2)
-      net-ssh (>= 2.6.5)
-    net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.8)
     net-ssh-gateway (1.2.0)
@@ -259,10 +216,10 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    rspec-core (2.14.5)
-    rspec-expectations (2.14.2)
+    rspec-core (2.14.6)
+    rspec-expectations (2.14.3)
       diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.14.3)
+    rspec-mocks (2.14.4)
     rubyntlm (0.1.1)
     safe_yaml (0.9.5)
     savon (0.9.5)
@@ -273,10 +230,6 @@ GEM
       nokogiri (>= 1.4.0)
       nori (~> 1.0)
       wasabi (~> 1.0)
-    serverspec (0.7.13)
-      highline
-      net-ssh
-      rspec (>= 2.13.0)
     slop (3.4.6)
     solve (0.8.1)
     systemu (2.5.2)
@@ -317,7 +270,7 @@ DEPENDENCIES
   busser-bats
   busser-serverspec
   cane
-  chefspec
+  chefspec (>= 3.0.0)
   foodcritic
   guard
   guard-kitchen
@@ -326,4 +279,3 @@ DEPENDENCIES
   knife-cookbook-doc
   tailor
   test-kitchen!
-  vagabond!

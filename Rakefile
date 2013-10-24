@@ -1,54 +1,86 @@
 #!/usr/bin/env rake
+require 'rake'
+require 'rspec/core/rake_task'
 
-desc "Setup the sandbox" 
-task :prepare_sandbox do 
-  ENV['COOKBOOK_PATH'] = "#{sandbox_path}../"
-  files = %w{*.md *.rb attributes definitions files libraries providers
-recipes resources templates examples spec test}
+task :default => 'test:quick'
 
-  rm_rf sandbox_path
-  mkdir_p sandbox_path
-  cp_r Dir.glob("{#{files.join(',')}}"), sandbox_path
-  puts "\n\n"
-end
+namespace :test do
+
+  RSpec::Core::RakeTask.new(:spec) do |t|
+    t.pattern = Dir.glob('test/spec/**/*_spec.rb')
+    t.rspec_opts = "--color -f d"
+  end
+
+  begin
+    require 'kitchen/rake_tasks'
+    Kitchen::RakeTasks.new
+  rescue LoadError
+    puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
+  end
+
+  begin
+    require 'cane/rake_task'
+
+    desc "Run cane to check quality metrics"
+    Cane::RakeTask.new(:quality) do |cane|
+      canefile = ".cane"
+      cane.abc_max = 14
+      cane.abc_glob =  '{recipes,libraries,resources,providers}/**/*.rb'
+      cane.no_style = true
+      cane.parallel = true
+    end
+
+    task :default => :quality
+  rescue LoadError
+    warn "cane not available, quality task not provided."
+  end
+
+  begin
+    require 'foodcritic'
+
+    task :default => [:foodcritic]
+    FoodCritic::Rake::LintTask.new do |t|
+      t.options = {:fail_tags => %w/correctness services libraries deprecated/ }
+    end
+  rescue LoadError
+    warn "Foodcritic Is missing ZOMG"
+  end
+
+  begin
+    require 'tailor/rake_task'
+    Tailor::RakeTask.new
+  rescue LoadError
+    warn "Tailor gem not installed, now the code will look like crap!"
+  end
 
 
-desc "Runs ruby syntax checks" 
-task :ruby do
-  Rake::Task[:prepare_sandbox].execute
-  sh "find  #{sandbox_path}/../ -name \"*.rb\" | xargs ruby -c "
-end
-
-desc "Runs template syntax checks" 
-task :erubis do
-  Rake::Task[:prepare_sandbox].execute
-  sh "find  #{sandbox_path}/../ -name \"*.erb\" | erubis -x "
-end
+  desc 'Run all of the quick tests.'
+  task :quick do
+    Rake::Task['test:quality'].invoke
+    Rake::Task['test:foodcritic'].invoke
+    Rake::Task['test:spec'].invoke
+    Rake::Task['test:tailor'].invoke
+  end
 
 
-desc "Runs foodcritic linter"
-task :foodcritic do
-  Rake::Task[:prepare_sandbox].execute
-  if Gem::Version.new("1.9.2") <= Gem::Version.new(RUBY_VERSION.dup)
-    sh "foodcritic -f correctness,services,libraries,deprecated -t ~FC001  -t ~FC017 -t ~FC003 -C #{sandbox_path}"
-  else
-    puts "WARN: foodcritic run is skipped as Ruby #{RUBY_VERSION} is < 1.9.2."
+  desc 'Run _all_ the tests. Go get a coffee.'
+  task :complete do
+    Rake::Task['test:quick'].invoke
+    Rake::Task['test:kitchen:all'].invoke
+  end
+
+  desc 'Run CI tests'
+  task :ci do
+    Rake::Task['test:complete'].invoke
   end
 end
 
-desc "Run chefspec"
-task :chefspec do
-  Rake::Task[:prepare_sandbox].execute
-  sh "cd #{sandbox_path}; rspec "  
+
+namespace :release do
+  task :update_metadata do
+  end
+
+  task :tag_release do
+  end
 end
 
-desc "Run all tests"
-task :test => [ :ruby, :erubis, :foodcritic, :chefspec ]
-
-desc "Default task"
-task :default => :test 
-
-private
-def sandbox_path
-  File.join(File.dirname(__FILE__), %w(tmp cookbooks dhcp))
-end

@@ -16,6 +16,7 @@ suites:
 - name: default
   run_list:
     - recipe[ktc-testing]
+    - recipe[dhcp_net_setup]
     - recipe[dhcp::server]
   attributes:
     dhcp:
@@ -23,6 +24,8 @@ suites:
      hosts: all
      networks:
        - 192.168.9.0/24
+     interfaces: 
+       - 'lo:0'
      options:
        'domain-name': "vm"
        'domain-name-servers': 192.168.9.10
