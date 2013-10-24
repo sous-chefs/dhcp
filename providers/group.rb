@@ -1,4 +1,6 @@
-def write_include 
+use_inline_resources
+
+def write_include
   file_includes = []
   run_context.resource_collection.each do |resource|
     if resource.is_a? Chef::Resource::DhcpGroup and resource.action == :add
