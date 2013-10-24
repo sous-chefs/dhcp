@@ -23,6 +23,10 @@ describe "DHCP::DynaDns malformed" do
     end.converge("dhcp::library")
   end
 
+  before do
+    file_bags
+  end
+
   it 'should not return masters without keys' do
     DHCP::DynaDns.load chef_run.run_context.node
     DHCP::DynaDns.masters.should eql({})
@@ -42,22 +46,22 @@ describe "DHCP::DynaDns" do
   end
 
   before do
-    file_bags.call
+    file_bags
   end
 
   it 'should load defined zones' do
     DHCP::DynaDns.load(chef_run.run_context.node)
     DHCP::DynaDns.load_zones.length.should  eql(2)
   end
-#
-#  it 'should return masters' do
-#    DHCP::DynaDns.load(@chef_run.converge.node)
-#    DHCP::DynaDns.masters.should eql( {"vm"=>{"master"=>"192.168.1.9", "key"=>"dhcp-key"}, "1.168.192.IN-ADDR.ARPA"=>{"master"=>"192.168.9.9", "key"=>"dhcp-key"}})
-#  end
-#
-#  it 'should load requested keys' do
-#    DHCP::DynaDns.load(@chef_run.converge.node)
-#    DHCP::DynaDns.keys.should eql({"dhcp-key"=>{"id"=>"dhcp-key", "algorithm"=>"hmac-md5", "secret"=>"L+Jl4+4onU4Wstfi4pdmnQ==", "chef_type"=>"data_bag_item", "data_bag"=>"rndc_keys"}})
-#  end
-#
+
+  it 'should return masters' do
+    DHCP::DynaDns.load(chef_run.run_context.node)
+    DHCP::DynaDns.masters.should eql( {"vm"=>{"master"=>"192.168.1.9", "key"=>"dhcp-key"}, "1.168.192.IN-ADDR.ARPA"=>{"master"=>"192.168.9.9", "key"=>"dhcp-key"}})
+  end
+
+  it 'should load requested keys' do
+    DHCP::DynaDns.load(chef_run.run_context.node)
+    DHCP::DynaDns.keys.should eql( {"dhcp-key"=>{"id"=>"dhcp-key", "algorithm"=>"hmac-md5", "secret"=>"L+Jl4+4onU4Wstfi4pdmnQ=="}} )
+  end
+
 end
