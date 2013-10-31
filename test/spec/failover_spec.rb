@@ -1,15 +1,17 @@
 require_relative 'helpers/default'
+require_relative 'helpers/data'
 require_relative '../../libraries/failover'
 
 # wrap failover lib's search
 def failover_search(result)
-  DHCP::Failover.stub!(:search).and_return(result)
+  DHCP::Failover.stub(:search).and_return(result)
 end
 
 describe "DHCP::Failover" do
   before(:each) do
     Fauxhai.mock(platform:'ubuntu', version:'12.04')
-    @chef_run = ChefSpec::ChefRunner.new
+    @chef_run = ChefSpec::Runner.new
+    ChefSpec::Runner.new.converge("dhcp::library")
   end
 
   it 'should detect when disabled' do

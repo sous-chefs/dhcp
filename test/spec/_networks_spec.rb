@@ -3,8 +3,8 @@ require_relative 'helpers/data'
 
 describe "dhcp::_networks Exceptions" do
   before(:each) do
-    Fauxhai.mock(platform:'ubuntu', version:'12.04') 
-    @chef_run = ChefSpec::ChefRunner.new
+    Fauxhai.mock(platform:'ubuntu', version:'12.04')
+    @chef_run = ChefSpec::Runner.new
   end
 
 
