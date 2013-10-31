@@ -1,7 +1,7 @@
 
 service node[:dhcp][:service_name] do
   supports :restart => true, :status => true, :reload => true
-  action [ :enable ]
+  action [:enable]
   # use upstart on ubuntu > 9.10
   case node[:platform]
   when "ubuntu"
