@@ -1,9 +1,21 @@
-source "https://rubygems.org"
+source  'https://rubygems.org'
 
-gem 'rake'
-gem 'foodcritic'
-gem 'chefspec'
-gem 'fauxhai'
-gem 'chef' 
+# get this from git for the chefignore issues
+gem 'berkshelf'
 
-
+group "develop" do
+  gem 'test-kitchen',
+    :git => "git://github.com/opscode/test-kitchen.git"
+  gem 'kitchen-vagrant',
+    :git => "git://github.com/opscode/kitchen-vagrant"
+  gem 'busser-bats'
+  gem 'busser-serverspec'
+  gem 'foodcritic'
+  gem 'tailor'
+  gem 'cane'
+  gem 'guard'
+  gem 'guard-rake'
+  gem 'guard-kitchen'
+  gem 'knife-cookbook-doc'
+  gem 'chefspec', ">= 3.0.0"
+end

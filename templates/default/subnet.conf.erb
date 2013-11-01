@@ -15,7 +15,7 @@ pool {
   option subnet-mask <%= @netmask %>;
   option broadcast-address <%= @broadcast %>;
 <% if not @options.empty? -%>
-<%   @options.each do |option| -%>
+<%   @options.sort.each do |option| -%>
   <%= option %>;
 <%   end -%>
 <% end -%>

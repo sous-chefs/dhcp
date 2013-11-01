@@ -1,0 +1,5 @@
+{
+  "id": "dhcp-key",
+  "algorithm": "hmac-md5",
+  "secret": "L+Jl4+4onU4Wstfi4pdmnQ=="
+}

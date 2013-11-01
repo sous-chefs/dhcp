@@ -1,5 +1,5 @@
 require_relative 'helpers/default'
-require_relative '../libraries/failover'
+require_relative '../../libraries/failover'
 
 # wrap failover lib's search
 def failover_search(result)
@@ -7,14 +7,14 @@ def failover_search(result)
 end
 
 describe "DHCP::Failover" do
-  before(:each) do 
+  before(:each) do
     Fauxhai.mock(platform:'ubuntu', version:'12.04')
     @chef_run = ChefSpec::ChefRunner.new
   end
 
   it 'should detect when disabled' do
     failover_search(Array.new)
-    DHCP::Failover.load(@chef_run.converge.node) 
+    DHCP::Failover.load(@chef_run.converge.node)
     DHCP::Failover.enabled?.should be_false
   end
 end
@@ -34,7 +34,7 @@ describe 'DHCP::Failover Master' do
   end
 
   it 'should identify as primary' do
-    DHCP::Failover.role.should == 'primary' 
+    DHCP::Failover.role.should == 'primary'
   end
 
   it 'should disable without secondary' do
@@ -68,7 +68,7 @@ describe "DHCP::Failover Slave" do
   end
 
   it 'should identify as secondary' do
-    DHCP::Failover.role.should == 'secondary' 
+    DHCP::Failover.role.should == 'secondary'
   end
 
   it 'should disable when no primaries found' do
@@ -80,7 +80,7 @@ describe "DHCP::Failover Slave" do
     failover_search([ @master.to_hash, 0, 1 ])
     DHCP::Failover.enabled?.should be_true
   end
-  
+
   it 'should find our peer' do
     failover_search([ @master.to_hash, 0, 1 ])
     DHCP::Failover.peer.should == '10.1.1.10'
