@@ -1,4 +1,3 @@
-
 service node[:dhcp][:service_name] do
   supports :restart => true, :status => true, :reload => true
   action [:enable]
