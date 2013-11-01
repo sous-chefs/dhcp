@@ -17,9 +17,7 @@ template node[:dhcp][:init_config] do
   mode 0644
   source "init_config.erb"
   variables(
-    :interfaces => node['dhcp']['interfaces'],
+    :interfaces => node[:dhcp][:interfaces],
     :var  =>  "DHCPDARGS"
   )
 end
-
-

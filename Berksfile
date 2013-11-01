@@ -1,11 +1,8 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 #
+# vim: set ft=ruby:
 #
 site :opscode
 
 metadata
 
-
-group "dev" do
-  cookbook "chef_solo_search", github: "edelight/chef-solo-search"
+cookbook "dhcp_net_setup", path: "test/cookbooks/dhcp_net_setup"

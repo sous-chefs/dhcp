@@ -1,4 +1,4 @@
-def write_include 
+def write_include
   file_includes = []
   run_context.resource_collection.each do |resource|
     if resource.is_a? Chef::Resource::DhcpGroup and resource.action == :add
@@ -13,9 +13,9 @@ def write_include
     group "root"
     mode 0644
     variables( :files => file_includes )
-    notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
+    notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
-  new_resource.updated_by_last_action(t.updated?) 
+  new_resource.updated_by_last_action(t.updated?)
 end
 
 
@@ -33,21 +33,21 @@ action :add do
     owner "root"
     group "root"
     mode 0644
-    notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
+    notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)
 
-  write_include
+  write_config
 end
 
 action :remove do
 
   f = file "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
     action :delete
-    notifies :restart, resources(:service => node[:dhcp][:service_name]), :delayed
+    notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
   new_resource.updated_by_last_action(f.updated?)
 
-  write_include
+  write_config
 end
 
