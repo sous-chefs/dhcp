@@ -17,6 +17,6 @@ template node[:dhcp][:init_config] do
   source "init_config.erb"
   variables(
     :interfaces => node[:dhcp][:interfaces],
-    :var  =>  "DHCPDARGS"
+    :var => node[:dhcp][:init_iface]
   )
 end
