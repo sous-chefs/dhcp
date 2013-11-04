@@ -64,7 +64,7 @@ module DHCP
 
         # global default keys if they exist
         if node.has_key? :dns  and node[:dns].has_key? :rndc_key
-          k[node[:dns][:rndc_key]] = data_bag_item("rndc_keys", node[:dns][:rndc_key])
+          k[node.normal[:dns][:rndc_key]] = data_bag_item("rndc_keys", node[:dns][:rndc_key])
         end
 
         @zones.each do |zone|
