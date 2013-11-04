@@ -2,7 +2,7 @@
 module DHCP
   module Failover
     class << self
-      if  Chef::Version.new(Chef::VERSION) <= Chef::Version.new( "10.16.2" )
+      if Chef::Version.new(Chef::VERSION) <= Chef::Version.new("10.16.2")
         include Chef::Mixin::Language
       else
         include Chef::DSL::DataQuery
@@ -54,6 +54,3 @@ module DHCP
     end
   end
 end
-
-
-

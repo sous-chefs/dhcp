@@ -12,7 +12,7 @@ def write_include
     owner "root"
     group "root"
     mode 0644
-    variables( :files => file_includes )
+    variables(:files => file_includes)
     notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)
@@ -21,9 +21,10 @@ end
 
 action :add do
 
-  directory "#{new_resource.conf_dir}/subnets.d/"
+  d = "#{new_resource.conf_dir}/subnets.d"
+  directory d
 
-  t = template "#{new_resource.conf_dir}/subnets.d/#{new_resource.subnet}.conf" do
+  t = template "#{d}/#{new_resource.subnet}.conf" do
     cookbook "dhcp"
     source "subnet.conf.erb"
     variables(
@@ -54,4 +55,3 @@ action :remove do
   new_resource.updated_by_last_action(f.updated?)
   write_include
 end
-

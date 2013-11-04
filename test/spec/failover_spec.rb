@@ -2,89 +2,99 @@ require_relative 'helpers/default'
 require_relative 'helpers/data'
 require_relative '../../libraries/failover'
 
-# wrap failover lib's search
-def failover_search(result)
-  DHCP::Failover.stub(:search).and_return(result)
+def stub_slave_search
+  stub_search(:node, "domain:local AND dhcp_slave:true") {
+    n = Chef::Node.new
+    n.set[:dhcp] ||= Hash.new
+    n.set[:dhcp][:slave] = true
+    n.set[:ipaddress] = "10.1.1.20"
+    [ n ]
+  }
+end
+
+def stub_master_search
+  stub_search(:node, "domain:local AND dhcp_master:true") {
+    n = Chef::Node.new
+    n.set[:dhcp] ||= Hash.new
+    n.set[:dhcp][:master] = true
+    n.set[:ipaddress] = "10.1.1.10"
+    [ n ]
+  }
 end
 
 describe "DHCP::Failover" do
-  before(:each) do
-    Fauxhai.mock(platform:'ubuntu', version:'12.04')
-    @chef_run = ChefSpec::Runner.new
+  let(:chef_run) do
     ChefSpec::Runner.new.converge("dhcp::library")
   end
 
   it 'should detect when disabled' do
-    failover_search(Array.new)
-    DHCP::Failover.load(@chef_run.converge.node)
+    DHCP::Failover.load(chef_run.run_context.node)
     DHCP::Failover.enabled?.should be_false
   end
 end
 
 describe 'DHCP::Failover Master' do
-  before(:each) do
-    dummy_nodes
-
-    Fauxhai.mock(platform:'ubuntu', version:'12.04') do |node|
-      node[:dhcp] ||= Hash.new
-      node[:dhcp][:master] = true
-      node[:ipaddress] = "10.1.1.10"
-    end
-
-    @chef_run = ChefSpec::ChefRunner.new
-    DHCP::Failover.load(@chef_run.converge.node)
+  let(:chef_run) do
+    ChefSpec::Runner.new do |node|
+      node.set[:dhcp] ||= Hash.new
+      node.set[:dhcp][:master] = true
+      node.set[:ipaddress] = "10.1.1.10"
+    end.converge("dhcp::library")
   end
 
   it 'should identify as primary' do
+    DHCP::Failover.load(chef_run.run_context.node)
     DHCP::Failover.role.should == 'primary'
   end
 
   it 'should disable without secondary' do
-    failover_search(Array.new)
+    DHCP::Failover.load(chef_run.run_context.node)
+    stub_search(:node, "domain:local AND dhcp_slave:true") {}
     DHCP::Failover.enabled?.should be_false
   end
 
   it 'should enable when secondary found' do
-    failover_search([@slave.to_hash])
+    DHCP::Failover.load(chef_run.run_context.node)
+    stub_slave_search
     DHCP::Failover.enabled?.should be_true
   end
 
   it 'should find our peer' do
-    failover_search([ @slave.to_hash, 0, 1])
+    DHCP::Failover.load(chef_run.run_context.node)
+    stub_slave_search
     DHCP::Failover.peer.should == '10.1.1.20'
   end
 end
 
 describe "DHCP::Failover Slave" do
-  before(:each) do
-    dummy_nodes
-
-    Fauxhai.mock(platform:'ubuntu', version:'12.04') do |node|
-      node[:dhcp] ||= Hash.new
-      node[:dhcp][:slave] = true
-      node[:ipaddress] = "10.1.1.20"
-    end
-
-    @chef_run = ChefSpec::ChefRunner.new
-    DHCP::Failover.load(@chef_run.converge.node)
+  let(:chef_run) do
+    ChefSpec::Runner.new do |node|
+      node.set[:dhcp] ||= Hash.new
+      node.set[:dhcp][:slave] = true
+      node.set[:ipaddress] = "10.1.1.20"
+    end.converge("dhcp::library")
   end
 
   it 'should identify as secondary' do
+    DHCP::Failover.load(chef_run.run_context.node)
     DHCP::Failover.role.should == 'secondary'
   end
 
   it 'should disable when no primaries found' do
-    failover_search(Array.new)
+    DHCP::Failover.load(chef_run.run_context.node)
+    stub_search(:node, "domain:local AND dhcp_master:true") {}
     DHCP::Failover.enabled?.should be_false
   end
 
   it 'should enable when primary found' do
-    failover_search([ @master.to_hash, 0, 1 ])
+    DHCP::Failover.load(chef_run.run_context.node)
+    stub_master_search
     DHCP::Failover.enabled?.should be_true
   end
 
   it 'should find our peer' do
-    failover_search([ @master.to_hash, 0, 1 ])
+    DHCP::Failover.load(chef_run.run_context.node)
+    stub_master_search
     DHCP::Failover.peer.should == '10.1.1.10'
   end
 

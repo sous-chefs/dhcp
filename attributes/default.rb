@@ -1,6 +1,6 @@
 
 default[:dhcp][:failover] = nil
-default[:dhcp][:allows] = [ "booting", "bootp", "unknown-clients" ]
+default[:dhcp][:allows] = ["booting", "bootp", "unknown-clients"]
 
 default[:dhcp][:hosts] = []
 default[:dhcp][:groups] = []
@@ -33,6 +33,7 @@ when "rhel"
   default[:dhcp][:package_name] = "dhcp"
   default[:dhcp][:service_name] = "dhcpd"
   default[:dhcp][:init_config]  = "/etc/sysconfig/dhcpd"
+  default[:dhcp][:init_iface] = "DHCPDARGS"
 
   if node[:platform_version].to_i >= 6
     default[:dhcp][:config_file]  = "/etc/dhcp/dhcpd.conf"
@@ -46,4 +47,5 @@ when "debian"
   default[:dhcp][:service_name] = "isc-dhcp-server"
   default[:dhcp][:config_file]  = "/etc/dhcp/dhcpd.conf"
   default[:dhcp][:init_config]  = "/etc/default/isc-dhcp-server"
+  default[:dhcp][:init_iface] = "INTERFACES"
 end

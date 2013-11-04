@@ -7,10 +7,18 @@ platforms:
   driver_config:
     box: opscode-centos-6.4_chef-11.4.4
     box_url:  https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4_chef-11.4.4.box
+    attributes:
+      dhcp:
+        interfaces:
+          - eth0:0
 - name: ubuntu-12.04_chef-11.4.4
   driver_config:
     box: opscode-ubuntu-12.04_chef-11.4.4
     box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-11.4.4.box
+    attributes:
+      dhcp:
+        interfaces:
+          - eth0
 
 suites:
 - name: default
@@ -23,9 +31,7 @@ suites:
      groups: []
      hosts: all
      networks:
-       - 10.0.2.0/24
-     interfaces: 
-       - 'lo:0'
+       - 192.168.9.0/24
      options:
        'domain-name': "vm"
-       'domain-name-servers': 10.0.2.15
+       'domain-name-servers': 192.168.9.1
