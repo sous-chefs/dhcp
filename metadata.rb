@@ -4,7 +4,7 @@ maintainer_email "spheromak@gmail.com"
 license          "Apache 2.0"
 description      "DHCP"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "2.1.0"
+version          "2.1.1"
 
 #tested with Ubuntu, assume Debian works similarly
 %w{ debian ubuntu centos redhat }.each do |os|

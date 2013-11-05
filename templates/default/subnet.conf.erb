@@ -1,14 +1,14 @@
 # File managed by Chef
 
 subnet <%= @subnet %> netmask <%= @netmask%> {
-<% unless @range.empty? -%>  
+<% unless @range.empty? -%>
 pool {
   <% if @peer -%>
-  failover peer "<%= node[:domain] %>"; 
+  failover peer "<%= node[:domain] %>";
   <% end -%>
   range <%= @range %>;
 }
-<% end -%>  
+<% end -%>
 <% if not @routers.empty? -%>
   option routers <%= @routers.collect! {|i| i }.join(",") %>;
 <% end -%>
@@ -19,5 +19,20 @@ pool {
   <%= option %>;
 <%   end -%>
 <% end -%>
-}
 
+<% if not @key.empty? -%>
+  key <%= @key['name'] %> {
+    algorithm <%= @key['algorithm'] %>;
+    secret "<%= @key['secret'] %>";
+  };
+<% end -%>
+
+<% if not @zones.empty? -%>
+<% @zones.each do |zone| -%>
+  zone <%= zone['zone'] %> {
+    primary <%= zone['primary'] %>;
+    key <%= zone['key'] %>;
+  }
+<% end -%>
+<% end -%>
+}

@@ -33,7 +33,9 @@ action :add do
       :routers => new_resource.routers,
       :options => new_resource.options,
       :range => new_resource.range,
-      :peer => new_resource.peer
+      :peer => new_resource.peer,
+      :key => new_resource.key,
+      :zones => new_resource.zones
     )
     owner "root"
     group "root"
@@ -54,4 +56,3 @@ action :remove do
   new_resource.updated_by_last_action(f.updated?)
   write_include
 end
-
