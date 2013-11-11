@@ -3,13 +3,10 @@ require_relative 'helpers/default'
 recipe = "dhcp::server"
 
 describe recipe do
-  let (:chef_run) { ChefSpec::ChefRunner.new.converge recipe }
-  before do
-    Fauxhai.mock(platform:'ubuntu', version:'12.04') do |n|
-      # Set node attributes
-      n['chef_environment'] = 'production'
-    end
+  let(:chef_run) do
+    ChefSpec::Runner.new do |node|
+      node.set[:chef_environment] = 'production'
+    end.converge(recipe)
   end
-
 end
 

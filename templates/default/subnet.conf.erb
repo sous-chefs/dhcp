@@ -9,25 +9,25 @@ pool {
   range <%= @range %>;
 }
 <% end -%>
-<% if not @routers.empty? -%>
+<% unless @routers.empty? -%>
   option routers <%= @routers.collect! {|i| i }.join(",") %>;
 <% end -%>
   option subnet-mask <%= @netmask %>;
   option broadcast-address <%= @broadcast %>;
-<% if not @options.empty? -%>
+<% unless @options.empty? -%>
 <%   @options.sort.each do |option| -%>
   <%= option %>;
 <%   end -%>
 <% end -%>
 
-<% if not @key.empty? -%>
+<% unless @key.empty? -%>
   key <%= @key['name'] %> {
     algorithm <%= @key['algorithm'] %>;
     secret "<%= @key['secret'] %>";
   };
 <% end -%>
 
-<% if not @zones.empty? -%>
+<% unless @zones.empty? -%>
 <% @zones.each do |zone| -%>
   zone <%= zone['zone'] %> {
     primary <%= zone['primary'] %>;
