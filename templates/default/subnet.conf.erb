@@ -8,6 +8,9 @@ pool {
   <% end -%>
   range <%= @range %>;
 }
+<% end -%>  
+<% if @ddns -%>
+  ddns-domainname "<%= @ddns %>";
 <% end -%>
 <% unless @routers.empty? -%>
   option routers <%= @routers.collect! {|i| i }.join(",") %>;

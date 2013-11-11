@@ -17,6 +17,7 @@ node[:dhcp][:networks].each do |net|
     routers   net_bag["routers"] || []
     options   net_bag["options"] || []
     range     net_bag["range"] || ""
+    ddns      net_bag["ddns"] if net_bag.has_key? "ddns"
     conf_dir  node[:dhcp][:dir]
     peer      node[:domain] if node[:dhcp][:failover]
     key       net_bag["key"] || {}

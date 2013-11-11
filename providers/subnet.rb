@@ -36,6 +36,7 @@ action :add do
       :peer => new_resource.peer,
       :key => new_resource.key,
       :zones => new_resource.zones
+      :ddns => new_resource.ddns,
     )
     owner "root"
     group "root"
