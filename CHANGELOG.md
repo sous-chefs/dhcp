@@ -1,3 +1,6 @@
+# 2.1.3:
+* fix error in subnet provider caused by mis-merged comma :(
+
 # 2.1.2:
 * change write_config to write_include, write_config doesn't work on ubuntu 12.04
 * allow you to set ddns-domainname for each subnet
