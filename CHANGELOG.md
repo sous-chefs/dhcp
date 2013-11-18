@@ -1,3 +1,11 @@
+# 2.1.2:
+* change write_config to write_include, write_config doesn't work on ubuntu 12.04
+* allow you to set ddns-domainname for each subnet
+* convert "not if"'s to "unles"
+* Cleanup Readme for readability and attribution
+* update contributors
+
+
 # 2.1.1:
 * add tailor cane, kitchen testing
 * chefspecs for chefspec 3.0 
