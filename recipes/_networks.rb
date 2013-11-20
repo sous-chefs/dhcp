@@ -11,7 +11,7 @@ node[:dhcp][:networks].each do |net|
   if node[:dhcp][:use_bags] == true
     data = data_bag_item( node[:dhcp][:networks_bag], Helpers::DataBags.escape_bagname(net) )
   else
-    data = node[:dhcp][:network_data][net]
+    data = node[:dhcp][:network_data].fetch net, nil
   end
 
   next unless data
