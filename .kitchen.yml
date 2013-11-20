@@ -38,3 +38,23 @@ suites:
      options:
        'domain-name': "vm"
        'domain-name-servers': 192.168.9.1
+
+suites:
+- name: no_bag
+  run_list:
+    - recipe[dhcp_net_setup]
+    - recipe[dhcp::server]
+  attributes:
+    dhcp:
+     use_bags: false
+     groups: []
+     hosts: all
+     networks:
+       - 192.168.9.0/24
+     interfaces:
+       - eth0:0
+     options:
+       'domain-name': "vm"
+       'domain-name-servers': 192.168.9.1
+
+
