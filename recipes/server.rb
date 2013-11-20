@@ -20,7 +20,6 @@
 # limitations under the License.
 #
 
-# load dynadns with current context
 
 include_recipe "helpers-databags"
 include_recipe "ruby-helper"

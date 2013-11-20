@@ -42,6 +42,7 @@ host/group/network scope these are general defaults for the server.
 
 | attribute | Type | Default | description | 
 |:---------------------------------|:----:|:------:|:-----------------------------------------|
+|`node[:dhcp][:use_bags]` | `Boolean` | true | When false we won't attempt to load data from bags.
 |`node[:dhcp][:hosts_bag]` | `String` | dhcp_hosts | The name of the data bag that holds host items
 |`node[:dhcp][:networks_bag]` | `String` | dhcp_networks | The name of the data bag that holds network items
 |`node[:dhcp][:groups_bag]` | `String` | dhcp_groups | The name of the data bag that holds group items

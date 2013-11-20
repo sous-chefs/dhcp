@@ -7,6 +7,7 @@ default[:dhcp][:groups] = []
 default[:dhcp][:networks] = []
 default[:dhcp][:interfaces] = []
 
+default[:dhcp][:use_bags] = true
 default[:dhcp][:hosts_bag] = "dhcp_hosts"
 default[:dhcp][:networks_bag] = "dhcp_networks"
 default[:dhcp][:groups_bag] = "dhcp_groups"
