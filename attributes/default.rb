@@ -2,15 +2,24 @@
 default[:dhcp][:failover] = nil
 default[:dhcp][:allows] = ["booting", "bootp", "unknown-clients"]
 
+# these are the arrays that dispatch to bags or attributes for actual data
 default[:dhcp][:hosts] = []
 default[:dhcp][:groups] = []
 default[:dhcp][:networks] = []
 default[:dhcp][:interfaces] = []
 
+# turn bag support on/off
 default[:dhcp][:use_bags] = true
+
+# these are the lookup keys for bag names
 default[:dhcp][:hosts_bag] = "dhcp_hosts"
-default[:dhcp][:networks_bag] = "dhcp_networks"
 default[:dhcp][:groups_bag] = "dhcp_groups"
+default[:dhcp][:networks_bag] = "dhcp_networks"
+
+# these are the attribute keys used for records when not using bags
+default[:dhcp][:hosts_data] = {}
+default[:dhcp][:groups_data] = {}
+default[:dhcp][:networks_data] = {}
 
 default[:dhcp][:parameters][:"default-lease-time"] = "6400"
 default[:dhcp][:parameters][:"ddns-domainname"] = "\"#{domain}\""
