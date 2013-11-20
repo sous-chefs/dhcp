@@ -3,20 +3,23 @@
 #
 unless node[:dhcp][:hosts].empty?
 
-
-
   # special key to just use all hosts in dhcp_hosts databag
   # figure which hosts to load
+  # TODO: this should be refactored into libs
   host_list = node[:dhcp][:hosts]
-  if host_list.is_a? String and node[:dhcp][:use_bags] == true
+  if host_list.is_a? String
     if host_list.downcase == "all"
-      begin
-        host_list = data_bag( node[:dhcp][:hosts_bag] )
-        # TODO: Make this more specific to the non existing bag
-      rescue
-        return
+      host_list = node[:dhcp][:host_data].keys
+
+      if node[:dhcp][:use_bags] == true
+        begin
+          host_list = data_bag( node[:dhcp][:hosts_bag] )
+          # TODO: Make this more specific to the non existing bag
+        rescue
+          return
+        end
       end
-    else
+    elsif node[:dhcp][:use_bags] == true
       search( node[:dhcp][:hosts_bag], "id:#{node[:dhcp][:hosts_bag]}" ).each do |host|
         host_lst << host['id']
       end
@@ -37,7 +40,7 @@ unless node[:dhcp][:hosts].empty?
       ipaddress  host_data["ip"]
       parameters host_data["parameters"] || []
       options    host_data["options"] || []
-      conf_dir  node[:dhcp][:dir]
+      conf_dir   node[:dhcp][:dir]
     end
   end
 end
