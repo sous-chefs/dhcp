@@ -64,17 +64,30 @@ module DHCP
         return if @zones.blank?
 
         # global default keys if they exist
+        # TODO: need to work out the namespace on dns stuff here.
+        # TODO: be good to support knife-vault/encrypted bags for keys
         if node.has_key? :dns  and node[:dns].has_key? :rndc_key
-          k[node.normal[:dns][:rndc_key]] = data_bag_item("rndc_keys", node[:dns][:rndc_key])
+          k[node.normal[:dns][:rndc_key]] = get_key node[:dns][:rndc_key]
         end
 
         @zones.each do |zone|
           name = zone["zone_name"]
           if zone.has_key? "rndc_key"
-            k[zone['rndc_key']] = data_bag_item("rndc_keys", zone["rndc_key"]).to_hash
+            k[zone['rndc_key']] = get_key zone['rndc_key']
           end
         end
         k
+      end
+
+      #
+      # Get a key from bag or attributes
+      #
+      def get_key(name)
+        key = if node[:dhcp][:use_bags] == true
+          data_bag_item("rndc_keys", name).to_hash
+        else
+          node[:dhcp][:rndc_keys].fetch name, ""
+        end
       end
 
       #
