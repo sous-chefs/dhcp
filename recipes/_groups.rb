@@ -3,7 +3,11 @@
 #
 unless node[:dhcp][:groups].empty?
   node[:dhcp][:groups].each do  |group|
-    group_data = data_bag_item( node[:dhcp][:groups_bag], group)
+    if node[:dhcp][:use_bags] == true
+      group_data = data_bag_item( node[:dhcp][:groups_bag], group)
+    else
+      group_data = node[:dhcp][:group_data][group]
+    end
 
     next unless group_data
     dhcp_group group do
