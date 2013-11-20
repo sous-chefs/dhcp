@@ -3,7 +3,8 @@
 # Setup subnets
 #
 if node[:dhcp][:networks].empty?
-  raise Chef::Exceptions::AttributeNotFound, "node[:dhcp][:networks] must contain entries for dhcpd to operate"
+  Chef::Log.info("Attribute node[:dhcp][:networks] is empty, guess you are using LWRP")
+  return
 end
 
 node[:dhcp][:networks].each do |net|
