@@ -8,11 +8,11 @@ allow <%= allow %>;
 <% end -%>
 
 <% @parameters.sort.each do |key, value| -%>
-  <%= key %> <%= value %>;
+<%= key %> <%= value %>;
 <% end -%>
 
 <% @options.sort.each do |key, value| -%>
-  option <%= key %> <%= value %>;
+option <%= key %> <%= value %>;
 <% end -%>
 
 <% unless @keys.nil? || @keys.empty? -%>
@@ -53,4 +53,3 @@ failover peer "<%= node[:domain] %>" {
 include "<%= node[:dhcp][:dir] %>/groups.d/list.conf";
 include "<%= node[:dhcp][:dir] %>/subnets.d/list.conf";
 include "<%= node[:dhcp][:dir] %>/hosts.d/list.conf";
-
