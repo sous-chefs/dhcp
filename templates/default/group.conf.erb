@@ -13,13 +13,16 @@ group  {
   <% data['parameters'].sort.each do |param| -%>
     <%= param %>;
   <% end -%>
-<% end -%> 
+<% end -%>
+<% if data.has_key?("options") -%>
+  <% data['options'].sort.each do |option| -%>
+    option <%= option %>;
+  <% end -%>
+<% end -%>
     hardware ethernet <%= data["mac"] %>; 
     <% if data.has_key?("ip") -%>  
     fixed-address <%= data["ip"] %>;
     <% end -%>
-
-
   }
 <% end -%>
 }
