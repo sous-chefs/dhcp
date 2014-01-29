@@ -292,6 +292,7 @@ If you undefine an entry it will also get removed.
 * `name` - _String_ - :name_attribute
 * `hosts`- _Hash_ - {} - This is a hash of host entries that follow the host-databag format. See the example entry in examples directory
 * `parameters` - _Array_ -  []
+* `evals` - _Array_ -  [] - This is an array of multiline strings of eval
 * `conf_dir` - _String_ - "/etc/dhcp" - The directory where the config files are stored
 
 ### Example

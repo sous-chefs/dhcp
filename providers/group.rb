@@ -28,6 +28,7 @@ action :add do
     variables(
       :name => new_resource.name,
       :parameters => new_resource.parameters,
+      :evals => new_resource.evals,
       :hosts => new_resource.hosts
     )
     owner "root"
