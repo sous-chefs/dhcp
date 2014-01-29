@@ -276,6 +276,7 @@ If you undefine an entry it will also get removed.
 | `name`      | `String`| `:name_attribute`
 | `hosts`     | `Hash`  | `{}` | This is a hash of host entries that follow the host-databag format. See the example entry in examples directory
 | `parameters`| `Array` |  `[]`
+| `evals`| `Array` |  `[]` | This is an array of multiline strings of eval
 | `conf_dir`  | `String`| `"/etc/dhcp"` | The directory where the config files are stored
 
 ### Example

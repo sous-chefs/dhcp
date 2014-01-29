@@ -3,7 +3,10 @@
 #<%= @name %>
 group  {
 <% @parameters.sort.each do |parameter| -%>
-    <%= parameter %>;
+  <%= parameter %>;
+<% end -%>
+<% @evals.sort.each do |eval| -%>
+<%= eval %>
 <% end -%>
 
 <% @hosts.sort.each do |host,data| -%>
