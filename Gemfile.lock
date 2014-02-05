@@ -1,3 +1,16 @@
+GIT
+  remote: https://github.com/mlafeldt/foodcritic.git
+  revision: 605d86ffcf0138009c13af8c3c47e09f943b368f
+  branch: improve-rake-task
+  specs:
+    foodcritic (3.0.3)
+      erubis
+      gherkin (~> 2.11.7)
+      nokogiri (~> 1.5.4)
+      rake
+      treetop (~> 1.4.10)
+      yajl-ruby (~> 1.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -80,9 +93,8 @@ GEM
       net-ssh
       ohai
     ffi (1.9.3)
-    foodcritic (0.3.0)
-      nokogiri (~> 1.5.0)
-      xml-simple (~> 1.1.1)
+    gherkin (2.11.8)
+      multi_json (~> 1.3)
     gssapi (1.0.3)
       ffi (>= 1.0.1)
     gyoku (1.1.1)
@@ -140,6 +152,7 @@ GEM
     parser (2.1.4)
       ast (~> 1.1)
       slop (~> 3.4, >= 3.4.5)
+    polyglot (0.3.3)
     powerpack (0.0.9)
     pry (0.9.12.6)
       coderay (~> 1.0)
@@ -209,6 +222,9 @@ GEM
     thor (0.18.1)
     timers (2.0.0)
       hitimes
+    treetop (1.4.15)
+      polyglot
+      polyglot (>= 0.3.1)
     uuidtools (2.1.4)
     varia_model (0.3.2)
       buff-extensions (~> 0.2)
@@ -223,8 +239,7 @@ GEM
       rubyntlm (~> 0.1.1)
       savon (= 0.9.5)
       uuidtools (~> 2.1.2)
-    xml-simple (1.1.3)
-    yajl-ruby (1.2.0)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -232,7 +247,7 @@ PLATFORMS
 DEPENDENCIES
   berkshelf
   chefspec (>= 3.2.0)
-  foodcritic
+  foodcritic!
   kitchen-vagrant
   knife-cookbook-doc
   rake
