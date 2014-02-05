@@ -9,6 +9,7 @@ AllCops:
     - resources/**
   Excludes:
     - test/**
+    - vendor/**
 
 Encoding:
   Exclude:
