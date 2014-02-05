@@ -2,7 +2,7 @@
 module DHCP
   module DynaDns
     class  << self
-      if  Chef::Version.new(Chef::VERSION) <= Chef::Version.new( "10.16.2" )
+      if  Chef::Version.new(Chef::VERSION) <= Chef::Version.new('10.16.2')
         include Chef::Mixin::Language
       else
         include Chef::DSL::DataQuery
@@ -21,32 +21,32 @@ module DHCP
       #
       def masters
         @zones ||= load_zones
-        masters ||= Hash.new
+        masters ||= {}
         return unless @zones
         @zones.each do |zone|
-          name = zone["zone_name"]
+          name = zone['zone_name']
           masters[name] ||= Hash.new
 
           # set to global master by default
-          if node[:dns].has_key? :master and node[:dns][:master].blank? == false
-            masters[name]["master"] = node[:dns][:master]
+          if node[:dns].key? :master and node[:dns][:master].blank? == false
+            masters[name]['master'] = node[:dns][:master]
           end
 
-          if node[:dns].has_key? :rndc_key and node[:dns][:rndc_key].blank? == false
-            masters[name]["key"] = node[:dns][:rndc_key]
+          if node[:dns].key? :rndc_key and node[:dns][:rndc_key].blank? == false
+            masters[name]['key'] = node[:dns][:rndc_key]
           end
 
           # use zone bag override if it exists
-          if zone.has_key? "master_address" and  zone["master_address"].blank? == false
-            masters[name]["master"] = zone["master_address"]
+          if zone.key? 'master_address' and  zone['master_address'].blank? == false
+            masters[name]['master'] = zone['master_address']
           end
 
-          if zone.has_key? "rndc_key" and zone["rndc_key"].blank? == false
-             masters[name]["key"] = zone["rndc_key"]
+          if zone.key? 'rndc_key' and zone['rndc_key'].blank? == false
+             masters[name]['key'] = zone['rndc_key']
           end
 
           # validate
-          unless masters[name].has_key? "key" and masters[name].has_key? "master"
+          unless masters[name].key? 'key' and masters[name].key? 'master'
             masters.delete(name)
           end
         end
@@ -59,20 +59,20 @@ module DHCP
       # Returns a hash of key-names containing bag data for each key
       #
       def keys
-        k ||= Hash.new
+        k ||= {}
         @zones ||= load_zones
         return if @zones.blank?
 
         # global default keys if they exist
         # TODO: need to work out the namespace on dns stuff here.
         # TODO: be good to support knife-vault/encrypted bags for keys
-        if node.has_key? :dns  and node[:dns].has_key? :rndc_key
+        if node.key? :dns  and node[:dns].key? :rndc_key
           k[node.normal[:dns][:rndc_key]] = get_key node[:dns][:rndc_key]
         end
 
         @zones.each do |zone|
-          name = zone["zone_name"]
-          if zone.has_key? "rndc_key"
+          name = zone['zone_name']
+          if zone.key? 'rndc_key'
             k[zone['rndc_key']] = get_key zone['rndc_key']
           end
         end
@@ -84,9 +84,9 @@ module DHCP
       #
       def get_key(name)
         key = if node[:dhcp][:use_bags] == true
-          data_bag_item("rndc_keys", name).to_hash
+          data_bag_item('rndc_keys', name).to_hash
         else
-          node[:dhcp][:rndc_keys].fetch name, ""
+          node[:dhcp][:rndc_keys].fetch name, ''
         end
       end
 
@@ -94,18 +94,17 @@ module DHCP
       # Load all zone bags this node calls out
       #
       def load_zones
-        unless node[:dhcp][:use_bags] == true and node.has_key? :dns and node[:dns].has_key? :zones and node[:dns][:zones].blank? != true
+        unless node[:dhcp][:use_bags] == true and node.key? :dns and node[:dns].key? :zones and node[:dns][:zones].blank? != true
           return nil
         end
 
-        @zones =  Array.new
+        @zones =  []
         node[:dns][:zones].each do |zone|
-          bag_name = node[:dns][:bag_name] || "dns_zones"
-          zones << data_bag_item(bag_name, Helpers::DataBags.escape_bagname(zone) ).to_hash
+          bag_name = node[:dns][:bag_name] || 'dns_zones'
+          zones << data_bag_item(bag_name, Helpers::DataBags.escape_bagname(zone)).to_hash
         end
         @zones
       end
-
     end
   end
 end

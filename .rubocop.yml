@@ -1,0 +1,22 @@
+AllCops:
+  Includes:
+    - metadata.rb
+    - Gemfile
+    - attributes/**
+    - recipes/**
+    - libraries/**
+    - providers/**
+    - resources/**
+  Excludes:
+    - test/**
+
+Encoding:
+  Exclude:
+    - metadata.rb
+    - Gemfile
+
+LineLength:
+  Enabled: false
+
+WordArray:
+  MinSize: 3

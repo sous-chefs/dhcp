@@ -4,7 +4,7 @@
 unless node[:dhcp][:groups].empty?
   node[:dhcp][:groups].each do  |group|
     if node[:dhcp][:use_bags] == true
-      group_data = data_bag_item( node[:dhcp][:groups_bag], group)
+      group_data = data_bag_item(node[:dhcp][:groups_bag], group)
     else
       group_data = node[:dhcp][:group_data].fetch group, nil
     end
@@ -17,4 +17,3 @@ unless node[:dhcp][:groups].empty?
     end
   end
 end
-

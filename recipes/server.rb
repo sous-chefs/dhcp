@@ -20,13 +20,12 @@
 # limitations under the License.
 #
 
+include_recipe 'helpers-databags'
+include_recipe 'ruby-helper'
 
-include_recipe "helpers-databags"
-include_recipe "ruby-helper"
-
-include_recipe "dhcp::_package"
-include_recipe "dhcp::_service"
-include_recipe "dhcp::_config"
-include_recipe "dhcp::_networks"
-include_recipe "dhcp::_groups"
-include_recipe "dhcp::_hosts"
+include_recipe 'dhcp::_package'
+include_recipe 'dhcp::_service'
+include_recipe 'dhcp::_config'
+include_recipe 'dhcp::_networks'
+include_recipe 'dhcp::_groups'
+include_recipe 'dhcp::_hosts'

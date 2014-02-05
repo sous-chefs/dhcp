@@ -7,31 +7,30 @@ def write_include
   end
 
   t = template "#{new_resource.conf_dir}/groups.d/list.conf" do
-    cookbook "dhcp"
-    source "list.conf.erb"
-    owner "root"
-    group "root"
+    cookbook 'dhcp'
+    source 'list.conf.erb'
+    owner 'root'
+    group 'root'
     mode 0644
-    variables( :files => file_includes )
+    variables(files: file_includes)
     notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)
 end
 
-
 action :add do
   directory "#{new_resource.conf_dir}/groups.d"
 
   t = template "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
-    cookbook "dhcp"
-    source "group.conf.erb"
+    cookbook 'dhcp'
+    source 'group.conf.erb'
     variables(
-      :name => new_resource.name,
-      :parameters => new_resource.parameters,
-      :hosts => new_resource.hosts
+      name: new_resource.name,
+      parameters: new_resource.parameters,
+      hosts: new_resource.hosts
     )
-    owner "root"
-    group "root"
+    owner 'root'
+    group 'root'
     mode 0644
     notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
@@ -50,4 +49,3 @@ action :remove do
 
   write_include
 end
-

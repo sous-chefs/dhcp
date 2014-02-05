@@ -7,39 +7,38 @@ def write_include
   end
 
   t = template "#{new_resource.conf_dir}/subnets.d/list.conf" do
-    cookbook "dhcp"
-    source "list.conf.erb"
-    owner "root"
-    group "root"
+    cookbook 'dhcp'
+    source 'list.conf.erb'
+    owner 'root'
+    group 'root'
     mode 0644
-    variables( :files => file_includes )
+    variables(files: file_includes)
     notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)
 end
-
 
 action :add do
 
   directory "#{new_resource.conf_dir}/subnets.d/"
 
   t = template "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
-    cookbook "dhcp"
-    source "subnet.conf.erb"
+    cookbook 'dhcp'
+    source 'subnet.conf.erb'
     variables(
-      :subnet => new_resource.subnet,
-      :netmask => new_resource.netmask,
-      :broadcast => new_resource.broadcast,
-      :routers => new_resource.routers,
-      :options => new_resource.options,
-      :range => new_resource.range,
-      :peer => new_resource.peer,
-      :key => new_resource.key,
-      :zones => new_resource.zones,
-      :ddns => new_resource.ddns
+      subnet: new_resource.subnet,
+      netmask: new_resource.netmask,
+      broadcast: new_resource.broadcast,
+      routers: new_resource.routers,
+      options: new_resource.options,
+      range: new_resource.range,
+      peer: new_resource.peer,
+      key: new_resource.key,
+      zones: new_resource.zones,
+      ddns: new_resource.ddns
     )
-    owner "root"
-    group "root"
+    owner 'root'
+    group 'root'
     mode 0644
     notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
