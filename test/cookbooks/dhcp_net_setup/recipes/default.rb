@@ -1,6 +1,6 @@
 # make sure ifconfig is there on deb/ubu 
 # my docker images don't have it
-if platform_family == 'debian' do
+if node.platform_family == 'debian'
   package 'net-tools'
 end
 
