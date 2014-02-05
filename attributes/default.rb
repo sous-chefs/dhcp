@@ -17,9 +17,9 @@ default[:dhcp][:groups_bag] = 'dhcp_groups'
 default[:dhcp][:networks_bag] = 'dhcp_networks'
 
 # these are the attribute keys used for records when not using bags
-default[:dhcp][:hosts_data] = {}
-default[:dhcp][:groups_data] = {}
-default[:dhcp][:networks_data] = {}
+default[:dhcp][:host_data] = {}
+default[:dhcp][:group_data] = {}
+default[:dhcp][:network_data] = {}
 
 default[:dhcp][:parameters][:"default-lease-time"] = '6400'
 default[:dhcp][:parameters][:"ddns-domainname"] = "\"#{domain}\""
