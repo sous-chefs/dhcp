@@ -38,6 +38,7 @@ action :add do
       options: new_resource.options,
       range: new_resource.range,
       peer: new_resource.peer,
+      evals: new_resource.evals,
       key: new_resource.key,
       zones: new_resource.zones,
       ddns: new_resource.ddns

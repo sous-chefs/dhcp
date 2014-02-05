@@ -312,6 +312,7 @@ If you undefine an entry it will also get removed.
 | `options`  |`Array` - `[]`
 | `range`    |`String` 
 | `peer`     |`String` | `nil` | Peer server for this segment
+| `evals`    | `Array` |  `[]` | This is an array of multiline strings of eval
 | `conf_dir` |`String` | `"/etc/dhcp"` 
 
 ### Example
