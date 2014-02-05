@@ -9,7 +9,7 @@ module DHCP
         include Chef::DSL::DataQuery
       end
 
-      attr_writer :node
+      attr_reader :node
 
       # rubocop:disable TrivialAccessors
       # TODO: depricate this for initialize/node accessor
@@ -20,7 +20,7 @@ module DHCP
 
       def enabled?
         case role
-        when  'primary'
+        when 'primary'
           return slaves.blank? ? false : true
         when 'secondary'
           return masters.blank? ? false : true
