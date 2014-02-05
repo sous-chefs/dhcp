@@ -12,6 +12,7 @@ unless node[:dhcp][:groups].empty?
     next unless group_data
     dhcp_group group do
       parameters  group_data[:parameters]  || []
+      evals  group_data[:evals] || []
       hosts       group_data[:hosts] || []
       conf_dir  node[:dhcp][:dir]
     end

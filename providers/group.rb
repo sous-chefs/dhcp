@@ -30,9 +30,10 @@ action :add do
     cookbook 'dhcp'
     source 'group.conf.erb'
     variables(
-      name: new_resource.name,
-      parameters: new_resource.parameters,
-      hosts: new_resource.hosts
+      :name => new_resource.name,
+      :parameters => new_resource.parameters,
+      :evals => new_resource.evals,
+      :hosts => new_resource.hosts
     )
     owner 'root'
     group 'root'
