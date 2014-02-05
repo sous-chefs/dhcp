@@ -6,6 +6,7 @@ gem 'berkshelf'
 group 'develop' do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
+  gem 'kitchen-docker'
   gem 'rake'
   gem 'foodcritic', git: 'https://github.com/mlafeldt/foodcritic.git', branch: 'improve-rake-task'
   gem 'rubocop'

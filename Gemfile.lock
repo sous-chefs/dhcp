@@ -108,6 +108,8 @@ GEM
     i18n (0.6.9)
     ipaddress (0.8.0)
     json (1.7.7)
+    kitchen-docker (0.13.0)
+      test-kitchen (>= 1.0.0.rc.2)
     kitchen-vagrant (0.14.0)
       test-kitchen (~> 1.0)
     knife-cookbook-doc (0.7.0)
@@ -248,6 +250,7 @@ DEPENDENCIES
   berkshelf
   chefspec (>= 3.2.0)
   foodcritic!
+  kitchen-docker
   kitchen-vagrant
   knife-cookbook-doc
   rake
