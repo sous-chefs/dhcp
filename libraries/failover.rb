@@ -1,3 +1,4 @@
+# encoding: UTF-8
 
 module DHCP
   # methods for detecthing and reporting on failover role/peers

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 
 default[:dhcp][:failover] = nil
 default[:dhcp][:allows] = ['booting', 'bootp', 'unknown-clients']

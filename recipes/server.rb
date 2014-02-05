@@ -1,3 +1,4 @@
+# encoding: UTF-8
 #
 # Author:: Jesse Nelson <spheromak@gmail.com>
 # Author:: Matt Ray <matt@opscode.com>

@@ -1,3 +1,4 @@
+# encoding: UTF-8
 
 DHCP::Failover.load(node)
 DHCP::DynaDns.load(node)

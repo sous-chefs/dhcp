@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 def includes
   file_includes = []
   run_context.resource_collection.each do |resource|

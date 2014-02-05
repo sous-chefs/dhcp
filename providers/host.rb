@@ -1,3 +1,5 @@
+# encoding: UTF-8
+#
 # TODO: these should be put into a lib/mixin since we use it everywhere
 def includes
   file_includes = []
