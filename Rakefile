@@ -19,8 +19,8 @@ namespace :test do
   end
 
   begin
+    require 'foodcritic/rake_task'
     require 'foodcritic'
-
     task :default => [:foodcritic]
     FoodCritic::Rake::LintTask.new do |t|
       t.options = {:fail_tags => %w/correctness services libraries deprecated/ }

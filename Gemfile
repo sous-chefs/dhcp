@@ -7,7 +7,7 @@ group 'develop' do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
   gem 'rake'
-  gem 'foodcritic'
+  gem 'foodcritic', git: 'https://github.com/mlafeldt/foodcritic.git', branch: 'improve-rake-task'
   gem 'rubocop'
   gem 'knife-cookbook-doc'
   gem 'chefspec', '>= 3.2.0'
