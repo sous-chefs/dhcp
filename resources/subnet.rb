@@ -11,6 +11,7 @@ attribute :options, kind_of: Array, default: []
 attribute :range, kind_of: String
 attribute :ddns, kind_of: String, default: nil
 attribute :peer, kind_of: String, default: nil
+attribute :evals, kind_of: Array, default: []
 attribute :key, kind_of: Hash, default: {}
 attribute :zones, kind_of: Array, default: []
 attribute :conf_dir, kind_of: String, default: '/etc/dhcp'
