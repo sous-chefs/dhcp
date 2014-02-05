@@ -1,6 +1,6 @@
 
 default[:dhcp][:failover] = nil
-default[:dhcp][:allows] = [ "booting", "bootp", "unknown-clients" ]
+default[:dhcp][:allows] = ["booting", "bootp", "unknown-clients"]
 
 default[:dhcp][:hosts] = []
 default[:dhcp][:groups] = []
