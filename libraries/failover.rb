@@ -1,5 +1,6 @@
 
 module DHCP
+  # methods for detecthing and reporting on failover role/peers
   module Failover
     class << self
       if  Chef::Version.new(Chef::VERSION) <= Chef::Version.new('11.0.0')
@@ -8,34 +9,38 @@ module DHCP
         include Chef::DSL::DataQuery
       end
 
-      attr_reader :node
+      attr_writer :node
+
+      # rubocop:disable TrivialAccessors
+      # TODO: depricate this for initialize/node accessor
       def load(node)
         @node = node
       end
+      # rubocop:enable
 
       def enabled?
-        if role == 'primary'
+        case role
+        when  'primary'
           return slaves.blank? ? false : true
-        end
-        if role == 'secondary'
+        when 'secondary'
           return masters.blank? ? false : true
         end
         false
       end
 
       def role
-        if node[:dhcp].key? :slave and node[:dhcp][:slave] == true
+        if node[:dhcp].key?(:slave) && node[:dhcp][:slave] == true
           return 'secondary'
-        elsif node[:dhcp].key? :master and node[:dhcp][:master] == true
+        elsif node[:dhcp].key?(:master) && node[:dhcp][:master] == true
           return 'primary'
         end
         nil
       end
 
       def peer
-        if node[:dhcp].key? :slave and node[:dhcp][:slave] == true
+        if node[:dhcp].key?(:slave) && node[:dhcp][:slave] == true
           slave = masters.first
-        elsif node[:dhcp].key? :master and node[:dhcp][:master] == true
+        elsif node[:dhcp].key?(:master) && node[:dhcp][:master] == true
           slave  =  slaves.first
         end
         Chef::Log.info "Dhcp Slave: #{slave}"

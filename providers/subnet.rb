@@ -1,18 +1,21 @@
-def write_include
+def includes
   file_includes = []
   run_context.resource_collection.each do |resource|
-    if resource.is_a? Chef::Resource::DhcpSubnet and resource.action == :add
+    if resource.is_a?(Chef::Resource::DhcpSubnet) && resource.action == :add
       file_includes << "#{resource.conf_dir}/subnets.d/#{resource.name}.conf"
     end
   end
+  file_includes
+end
 
+def write_include
   t = template "#{new_resource.conf_dir}/subnets.d/list.conf" do
     cookbook 'dhcp'
     source 'list.conf.erb'
     owner 'root'
     group 'root'
     mode 0644
-    variables(files: file_includes)
+    variables(files: includes)
     notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)
