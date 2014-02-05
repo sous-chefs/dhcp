@@ -1,5 +1,6 @@
 # 2.2.1:
 * support attribute driven mode, where no databags are needed to opperate 
+* feature: add evals to groups
 * fix error in subnet provider caused by mis-merged comma :(
 
 # 2.1.2:
