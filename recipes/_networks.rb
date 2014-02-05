@@ -1,27 +1,31 @@
-
+# encoding: UTF-8
 #
 # Setup subnets
 #
 if node[:dhcp][:networks].empty?
-  Chef::Log.info("Attribute node[:dhcp][:networks] is empty, guess you are using LWRP")
+  Chef::Log.info('Attribute node[:dhcp][:networks] is empty, guess you are using LWRP')
   return
 end
 
 node[:dhcp][:networks].each do |net|
-  net_bag = data_bag_item( node[:dhcp][:networks_bag], Helpers::DataBags.escape_bagname(net) )
+  if node[:dhcp][:use_bags] == true
+    data = data_bag_item(node[:dhcp][:networks_bag], Helpers::DataBags.escape_bagname(net))
+  else
+    data = node[:dhcp][:network_data].fetch net, nil
+  end
 
-  next unless net_bag
+  next unless data
   # run the lwrp with the bag data
-  dhcp_subnet net_bag["address"] do
-    broadcast net_bag["broadcast"]
-    netmask   net_bag["netmask"]
-    routers   net_bag["routers"] || []
-    options   net_bag["options"] || []
-    range     net_bag["range"] || ""
-    ddns      net_bag["ddns"] if net_bag.has_key? "ddns"
+  dhcp_subnet data['address'] do
+    broadcast data['broadcast']
+    netmask   data['netmask']
+    routers   data['routers'] || []
+    options   data['options'] || []
+    range     data['range'] || ''
+    ddns      data['ddns'] if data.key? 'ddns'
     conf_dir  node[:dhcp][:dir]
     peer      node[:domain] if node[:dhcp][:failover]
-    key       net_bag["key"] || {}
-    zones     net_bag["zones"] || []
+    key       data['key'] || {}
+    zones     data['zones'] || []
   end
 end

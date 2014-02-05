@@ -13,7 +13,7 @@ pool {
   ddns-domainname "<%= @ddns %>";
 <% end -%>
 <% unless @routers.empty? -%>
-  option routers <%= @routers.collect! {|i| i }.join(",") %>;
+  option routers <%= @routers.map {|i| i }.join(",") %>;
 <% end -%>
   option subnet-mask <%= @netmask %>;
   option broadcast-address <%= @broadcast %>;

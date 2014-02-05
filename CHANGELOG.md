@@ -1,4 +1,5 @@
-# 2.1.3:
+# 2.2.1:
+* support attribute driven mode, where no databags are needed to opperate 
 * fix error in subnet provider caused by mis-merged comma :(
 
 # 2.1.2:

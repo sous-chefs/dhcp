@@ -42,13 +42,18 @@ host/group/network scope these are general defaults for the server.
 
 | attribute | Type | Default | description | 
 |:---------------------------------|:----:|:------:|:-----------------------------------------|
-|`node[:dhcp][:hosts_bag]` | `String` | dhcp_hosts | The name of the data bag that holds host items
-|`node[:dhcp][:networks_bag]` | `String` | dhcp_networks | The name of the data bag that holds network items
-|`node[:dhcp][:groups_bag]` | `String` | dhcp_groups | The name of the data bag that holds group items
+|`node[:dhcp][:use_bags]` | `Boolean` | true | When false we won't attempt to load data from bags.
 |`node[:dhcp][:hosts]` | `Array` | `[]` | The list of hosts items that this server should load 
 |`node[:dhcp][:groups]` | `Array` | `[]` | The list of group items this server should load 
 |`node[:dhcp][:networks]` | `Array` | `[]` | The list of network items this node shoul load
 |`node[:dhcp][:interfaces]` | `Array` | `[]` | The Network Interface(s) to listen on. If an empty list then we will listen on all interfaces.
+|`node[:dhcp][:rndc_keys]` | `Array` | Attribute based representation of rndc keys you want to use.
+|`node[:dhcp][:hosts_bag]` | `String` | dhcp_hosts | The name of the data bag that holds host items.
+|`node[:dhcp][:groups_bag]` | `String` | dhcp_groups | The name of the data bag that holds group items
+|`node[:dhcp][:networks_bag]` | `String` | dhcp_networks | The name of the data bag that holds network items
+|`node[:dhcp][:host_data]` | `Hash` | `{}` | Hash of hosts data. The `node[dhcp][:hosts]` entries should have a corresponding entry here when not using bags 
+|`node[:dhcp][:group_data]` | `Hash` | `{}` | Same as host_data, but for groups
+|`node[:dhcp][:network_data]` | `Hash` | `{}` | Same as host_data, but for networks
 |`node[:dhcp][:failover]` | `Boolean` | `false` | Enable Failover support buy setting to `true`
 |`node[:dhcp][:allows]` | `Array` | ["booting", "bootp", "unknown-clients"] | Global Dhcpd allow entries 
 

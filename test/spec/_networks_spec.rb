@@ -8,8 +8,8 @@ describe "dhcp::_networks Exceptions" do
   end
 
 
-  it 'should raise error unless we have network data bags' do
-    expect { @chef_run.converge "dhcp::_networks" }.to raise_error(Chef::Exceptions::AttributeNotFound)
+  it 'should not raise error unless when bags are missing' do
+    @chef_run.converge "dhcp::_networks"
   end
 end
 
