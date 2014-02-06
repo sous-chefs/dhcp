@@ -323,13 +323,13 @@ If you undefine an entry it will also get removed.
       broadcast "192.168.1.255"
       options [ "next-server 192.168.1.11" ]
       routers "192.168.1.1"
-      evals [%Q{
+      evals [ %q|
         if exists user-class and option user-class = "iPXE" {
           filename "bootstrap.ipxe";
         } else {
           filename "undionly.kpxe";
         }
-      }]
+      | ]
     end
 
 License and Author
