@@ -339,12 +339,14 @@ License and Author
 |:---------------------|:-----------------------------------------|
 | **Author**           | [Jesse Nelson](https://github.com/spheromak)
 | **Author**           | [Matt Ray](https://github.com/mattray)
+| **Contributor**      | [Myles Steinhauser](https://github.com/masteinhauser)
+| **Contributor**      | [Bao Nguyen](https://github.com/sysbot)
 | **Contributor**      | [Chaman Kang](https://github.com/chamankang)
 | **Contributor**      | [Will Reichert](https://github.com/wilreichert)
 | **Contributor**      | [Simon Johansson](https://github.com/simonjohansson)  
 | **Contributor**      | [Robert Choi](https://github.com/robertchoi8099)
 | **Contributor**      | [Hippie Hacker](https://github.com/hh)
-| **Contributor**      | [Eric Blevins(https://github.com/e1000)
+| **Contributor**      | [Eric Blevins](https://github.com/e1000)
 | **Copyright** | Copyright (c) 2013 Jesse Nelson          
 | **Copyright** | 2011 Atalanta Systems
 | **Copyright** | 2011 Dell, Inc.
