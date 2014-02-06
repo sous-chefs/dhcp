@@ -148,6 +148,7 @@ Contains no host or parameters entries whatsover, and just defines options.
 The only required key in a host def is the `"mac":` key. Everything else is optional
 
 Example Group Bag
+
         {
           "id": "test",
           "pxe":  "ubuntu-precise",
