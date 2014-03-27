@@ -25,7 +25,7 @@ node[:dhcp][:networks].each do |net|
     ddns      data['ddns'] if data.key? 'ddns'
     conf_dir  node[:dhcp][:dir]
     peer      node[:domain] if node[:dhcp][:failover]
-    evals     data[:evals] || []
+    evals     data['evals'] || []
     key       data['key'] || {}
     zones     data['zones'] || []
   end
