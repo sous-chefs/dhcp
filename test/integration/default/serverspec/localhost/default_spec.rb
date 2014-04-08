@@ -2,7 +2,7 @@ require 'spec_helper'
 
 # simple example
 describe package( "yum" ) do
-  case backend(Serverspec::Commands::Base).check_os
+  case backend(Serverspec::Commands::Base).check_os[:family]
   when "RedHat"
     it { should be_installed }
   else
