@@ -21,7 +21,7 @@ unless node[:dhcp][:hosts].empty?
     end
   elsif node[:dhcp][:use_bags] == true
     search(node[:dhcp][:hosts_bag], "id:#{node[:dhcp][:hosts_bag]}").each do |host|
-      host_lst << host['id']
+      host_list << host['id']
     end
   end
   # rubocop:endable all
