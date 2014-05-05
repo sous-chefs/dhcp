@@ -50,7 +50,7 @@ module DHCP
       end
 
       def slaves
-        if node[:dhcp].key?(:slaves) && ! node[:dhcp][:slaves].empty?
+        if node[:dhcp].key?(:slaves) && !node[:dhcp][:slaves].empty?
           node[:dhcp][:slaves]
         else
           search(:node, "domain:#{node[:domain]} AND dhcp_slave:true")
@@ -58,7 +58,7 @@ module DHCP
       end
 
       def masters
-        if node[:dhcp].key?(:masters) && ! node[:dhcp][:masters].empty?
+        if node[:dhcp].key?(:masters) && !node[:dhcp][:masters].empty?
           node[:dhcp][:masters]
         else
           search(:node, "domain:#{node[:domain]} AND dhcp_master:true")
