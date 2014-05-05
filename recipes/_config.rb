@@ -17,7 +17,7 @@ template node[:dhcp][:config_file] do
     options: node[:dhcp][:options] || [],
     masters: DHCP::DynaDns.masters,
     keys: DHCP::DynaDns.keys,
-    my_ip: node[:ipaddress],
+    my_ip: node[:dhcp][:my_ip] || node[:ipaddress],
     role: DHCP::Failover.role,
     peer_ip: DHCP::Failover.peer,
     failover: DHCP::Failover.enabled?

@@ -56,6 +56,9 @@ host/group/network scope these are general defaults for the server.
 |`node[:dhcp][:network_data]` | `Hash` | `{}` | Same as host_data, but for networks
 |`node[:dhcp][:failover]` | `Boolean` | `false` | Enable Failover support buy setting to `true`
 |`node[:dhcp][:allows]` | `Array` | ["booting", "bootp", "unknown-clients"] | Global Dhcpd allow entries 
+|`node[:dhcp][:my_ip]` | `String` | Nil | Set host IP address in failover setup. node[:ipaddress] is used if empty.
+|`node[:dhcp][:masters]` | `Array` | Array of hashes to override node search for masters. Must have :ipaddress key.
+|`node[:dhcp][:slaves]` | `Array` | Array of hashes to override node search for slaves.
 
 #### DHCP Global Options 
 | attribute | Type | Default | description | 
