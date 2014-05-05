@@ -40,13 +40,13 @@ module DHCP
 
       def peer
         if node[:dhcp].key?(:slave) && node[:dhcp][:slave] == true
-          slave = masters.first
+          peer_node = masters.first
         elsif node[:dhcp].key?(:master) && node[:dhcp][:master] == true
-          slave  =  slaves.first
+          peer_node  =  slaves.first
         end
-        Chef::Log.info "Dhcp Slave: #{slave}"
-        return nil if slave.blank?
-        slave[:ipaddress]
+        Chef::Log.info "Dhcp Peer: #{peer_node}"
+        return nil if peer_node.blank?
+        peer_node[:ipaddress]
       end
 
       def slaves
