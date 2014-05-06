@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
 default[:dhcp][:failover] = nil
+default[:dhcp][:failover_lease_hack] = false
 default[:dhcp][:failover_params][:mclt] = 3600
 default[:dhcp][:failover_params][:port] = 647
 default[:dhcp][:failover_params][:peer_port] = 647
@@ -44,12 +45,14 @@ default[:dhcp][:options]['host-name'] = " = binary-to-ascii (16, 8, \"-\", subst
 
 default[:dhcp][:dir] = '/etc/dhcp'
 default[:dhcp][:init_config]  = '/etc/sysconfig/dhcpd'
+default[:dhcp][:dhcpd_leases]  = '/var/lib/dhcpd/dhcpd.leases'
 case node[:platform_family]
 when 'rhel'
   default[:dhcp][:package_name] = 'dhcp'
   default[:dhcp][:service_name] = 'dhcpd'
   default[:dhcp][:init_config]  = '/etc/sysconfig/dhcpd'
   default[:dhcp][:init_iface] = 'DHCPDARGS'
+  default[:dhcp][:dhcpd_leases]  = '/var/lib/dhcpd/dhcpd.leases'
 
   if node[:platform_version].to_i >= 6
     default[:dhcp][:config_file]  = '/etc/dhcp/dhcpd.conf'
@@ -63,5 +66,6 @@ when 'debian'
   default[:dhcp][:service_name] = 'isc-dhcp-server'
   default[:dhcp][:config_file]  = '/etc/dhcp/dhcpd.conf'
   default[:dhcp][:init_config]  = '/etc/default/isc-dhcp-server'
+  default[:dhcp][:dhcpd_leases]  = '/var/lib/dhcp/dhcpd.leases'
   default[:dhcp][:init_iface] = 'INTERFACES'
 end
