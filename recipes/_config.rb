@@ -34,7 +34,7 @@ if node[:dhcp][:failover_lease_hack]
     source 'dhcpd.leases-hack.erb'
     action :create
     notifies :restart, "service[#{node[:dhcp][:service_name]}]"
-    not_if { ::File.exist?('#{node[:dhcp][:dhcpd_leases]}-hack.lock') }
+    not_if { ::File.exist?("#{node[:dhcp][:dhcpd_leases]}-hack.lock") }
   end
 
   file "#{node[:dhcp][:dhcpd_leases]}-hack.lock" do
