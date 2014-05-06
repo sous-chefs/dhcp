@@ -34,15 +34,16 @@ zone <%= zone %>. {
 <% end -%>
 
 <% if @failover %>
-failover peer "<%= node[:domain] %>" { 
-  <%= @role %>; 
-  address <%= @my_ip %>;     
-  port 647;
+failover peer "<%= node[:domain] %>" {
+  <%= @role %>;
+  address <%= @my_ip %>;
+  port <%= node[:dhcp][:failover_params][:port] %>;
   peer address <%= @peer_ip %>;
-  peer port 647;
+  peer port <%= node[:dhcp][:failover_params][:peer_port] %>;
   max-response-delay 60;
   max-unacked-updates 10;
-  mclt 3600;
+  mclt <%= node[:dhcp][:failover_params][:mclt] %>;
+  auto-partner-down <%= node[:dhcp][:failover_params][:auto_partner_down] %> ;
   <% if @role =~ /primary/i -%>
   split 128;
   load balance max seconds 3;
