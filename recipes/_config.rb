@@ -38,9 +38,9 @@ if node[:dhcp][:failover_lease_hack]
   end
 
   file "#{node[:dhcp][:dhcpd_leases]}-hack.lock" do
-    owner "root"
-    group "root"
-    mode "0755"
+    owner 'root'
+    group 'root'
+    mode '0755'
     action :touch
   end
 end
