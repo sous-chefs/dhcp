@@ -26,6 +26,25 @@ template node[:dhcp][:config_file] do
   notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
 end
 
+if node[:dhcp][:failover_lease_hack]
+  template node[:dhcp][:dhcpd_leases] do
+    owner 'root'
+    group 'root'
+    mode 0644
+    source 'dhcpd.leases-hack.erb'
+    action :create
+    notifies :restart, "service[#{node[:dhcp][:service_name]}]"
+    not_if { ::File.exist?("#{node[:dhcp][:dhcpd_leases]}-hack.lock") }
+  end
+
+  file "#{node[:dhcp][:dhcpd_leases]}-hack.lock" do
+    owner 'root'
+    group 'root'
+    mode '0755'
+    action :touch
+  end
+end
+
 #
 # Create the dirs and stub files for each resource type
 #
