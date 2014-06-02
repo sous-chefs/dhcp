@@ -29,7 +29,7 @@ default[:dhcp][:group_data] = {}
 default[:dhcp][:network_data] = {}
 
 if not defined?(domain)
-  default[:domain] = "local"
+  default['domain'] = "local"
 end
 
 default[:dhcp][:parameters]['default-lease-time'] = '6400'
