@@ -28,6 +28,10 @@ default[:dhcp][:host_data] = {}
 default[:dhcp][:group_data] = {}
 default[:dhcp][:network_data] = {}
 
+if not defined?(domain)
+  default[:domain] = "local"
+end
+
 default[:dhcp][:parameters]['default-lease-time'] = '6400'
 default[:dhcp][:parameters]['ddns-domainname'] = "\"#{domain}\""
 default[:dhcp][:parameters]['ddns-update-style'] = 'interim'
