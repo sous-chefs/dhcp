@@ -28,7 +28,7 @@ default[:dhcp][:host_data] = {}
 default[:dhcp][:group_data] = {}
 default[:dhcp][:network_data] = {}
 
-if !defined?(domain)
+unless defined?(domain)
   default[:domain] = 'local'
 end
 
