@@ -28,9 +28,7 @@ default[:dhcp][:host_data] = {}
 default[:dhcp][:group_data] = {}
 default[:dhcp][:network_data] = {}
 
-unless defined?(domain)
-  default[:domain] = 'local'
-end
+defined?(domain) || default[:domain] = 'local'
 
 default[:dhcp][:parameters]['default-lease-time'] = '6400'
 default[:dhcp][:parameters]['ddns-domainname'] = "\"#{domain}\""
