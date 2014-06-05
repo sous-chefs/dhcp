@@ -4,7 +4,7 @@ module DHCP
   # methods for managing rndc key data and dynadns bind masters
   module DynaDns
     class  << self
-      if  Chef::Version.new(Chef::VERSION) <= Chef::Version.new('10.16.2')
+      if  Gem::Version.new(Chef::VERSION) <= Gem::Version.new('10.16.2')
         include Chef::Mixin::Language
       else
         include Chef::DSL::DataQuery
