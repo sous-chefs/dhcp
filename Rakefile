@@ -2,13 +2,18 @@
 require 'rake'
 require 'rspec/core/rake_task'
 
-task :default => 'test:quick'
+cfg_dir = File.expand_path File.dirname(__FILE__)
+ENV['BERKSHELF_PATH'] = cfg_dir + '/.berkshelf'
+cook_dir = cfg_dir + '/.cooks'
 
+task :default => 'test:quick'
 namespace :test do
 
   RSpec::Core::RakeTask.new(:spec) do |t|
     t.pattern = Dir.glob('test/spec/**/*_spec.rb')
-    t.rspec_opts = "--color -f d"
+    t.rspec_opts = "--color -f d --fail-fast"
+    system "rm -rf  #{cook_dir}"
+    system "berks vendor #{cook_dir}"
   end
 
   begin
@@ -33,12 +38,11 @@ namespace :test do
     require 'rubocop/rake_task'
     Rubocop::RakeTask.new do |task|
       task.fail_on_error = true
-      task.options = %w{-D -a -c ./.rubocop.yml}
+      task.options = %w{-D -a}
     end
   rescue LoadError
     warn "Rubocop gem not installed, now the code will look like crap!"
   end
-
 
   desc 'Run all of the quick tests.'
   task :quick do
@@ -46,7 +50,6 @@ namespace :test do
     Rake::Task['test:foodcritic'].invoke
     Rake::Task['test:spec'].invoke
   end
-
 
   desc 'Run _all_ the tests. Go get a coffee.'
   task :complete do
@@ -59,7 +62,6 @@ namespace :test do
     Rake::Task['test:complete'].invoke
   end
 end
-
 
 namespace :release do
   task :update_metadata do

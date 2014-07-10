@@ -1,7 +1,7 @@
 #
 # vim: set ft=ruby:
 #
-site :opscode
+source "https://api.berkshelf.com"
 
 metadata
 
