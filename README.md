@@ -7,6 +7,7 @@ Data bag and Attribute driven DHCP server.
 * Supports setting up Master/Master isc DHCP failover.
 * Includes Support for ddns
 * Includes LWRPs for managing hosts, groups and subnets.
+* Use databags or attributes + wrapper cooks to manage dhcp server [Example](examples/attribute_driven.rb)
 
 Large parts were borrowed from  work initially done by Dell, extended by Atalanta Systems and reworked by Matt Ray and Opscode. Big thanks to all of them.
 
@@ -17,7 +18,6 @@ Tested on `Ubuntu 12.04` `CentOS 6` using Chef 10+
 Limitations
 ===========
 * only setup to handle ipv4
-
 
 Recipes
 =======
