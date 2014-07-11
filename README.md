@@ -2,7 +2,7 @@
 
 Description
 ===========
-Data bag and environment driven DHCP server.
+Data bag and Attribute driven DHCP server.
 
 * Supports setting up Master/Master isc DHCP failover.
 * Includes Support for ddns
@@ -17,8 +17,6 @@ Tested on `Ubuntu 12.04` `CentOS 6` using Chef 10+
 Limitations
 ===========
 * only setup to handle ipv4
-* no generic classification support
-* ddns is tied to dns_zones databags
 
 
 Recipes
