@@ -6,13 +6,9 @@ pool {
   <% if @peer -%>
   failover peer "<%= node[:domain] %>";
   <% end -%>
-  <% if @range.is_a? Array %>
   <%   @range.each do |range| %>
   range <%= range %>;
   <%   end -%>
-  <% else %>
-  range <%= @range %>;
-  <% end -%>
 }
 <% end -%>  
 <% if @ddns -%>

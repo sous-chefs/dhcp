@@ -319,8 +319,8 @@ If you undefine an entry it will also get removed.
 | `broadcast`|`String`
 | `netmask`  |`String` |
 | `routers`  |`Array`| `[]`
-| `options`  |`Array` - `[]`
-| `range`    |`String`
+| `options`  |`Array`| `[]`
+| `range`    |`Array` | `[]`
 | `peer`     |`String` | `nil` | Peer server for this segment
 | `evals`    | `Array` |  `[]` | This is an array of multiline strings of eval
 | `conf_dir` |`String` | `"/etc/dhcp"`
@@ -328,7 +328,7 @@ If you undefine an entry it will also get removed.
 ### Example
 
     dhcp_subnet "192.168.1.0" do
-      range "192.168.1.100 192.168.1.200"
+      range ["192.168.1.100 192.168.1.200", "10.33.66.10 10.33.66.100"]
       netmask "255.255.255.0"
       broadcast "192.168.1.255"
       options [ "next-server 192.168.1.11" ]
