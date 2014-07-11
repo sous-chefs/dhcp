@@ -1,3 +1,8 @@
+### 3.0.0 
+_Breaking Changes_ 
+* feature: allow setting multiple ranges in subnets. The range param now HAS to be an array, existing cooks will not work.
+* improve: hostname in group configs is no long forced instead you can specify this in paramaters you pass. 
+
 ### 2.2.2
 * fix: Debian system have Chef with version Chef: 11.10.0.rc.1 that Chef::Version doesn't detect correctly
 * fix: handle case where peer is unavailable on cluster start
