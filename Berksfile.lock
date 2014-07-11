@@ -8,7 +8,7 @@ DEPENDENCIES
 
 GRAPH
   apt (2.4.0)
-  dhcp (2.2.1)
+  dhcp (3.0.0)
     helpers-databags (>= 0.0.0)
     ruby-helper (>= 0.0.0)
   dhcp_net_setup (1.0.0)
