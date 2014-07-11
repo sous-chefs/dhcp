@@ -1,16 +1,17 @@
 AllCops:
-  Includes:
+  Include:
     - metadata.rb
     - Gemfile
-    - attributes/**
-    - recipes/**
-    - libraries/**
-    - providers/**
-    - resources/**
-  Excludes:
-    - bin/**
-    - test/**
-    - vendor/**
+    - attributes/**/*
+    - recipes/**/*
+    - libraries/**/*
+    - providers/**/*
+    - resources/**/*
+      
+  Exclude:
+    - bin/**/*
+    - test/**/*
+    - vendor/**/*
 
 Encoding:
   Exclude:
@@ -18,6 +19,9 @@ Encoding:
     - Gemfile
 
 LineLength:
+  Enabled: false
+
+Style/Next:
   Enabled: false
 
 WordArray:

@@ -35,12 +35,12 @@ unless node[:dhcp][:hosts].empty?
 
     next unless host_data
     dhcp_host host do
-      hostname   host_data['hostname']
+      hostname host_data['hostname']
       macaddress host_data['mac']
-      ipaddress  host_data['ip']
+      ipaddress host_data['ip']
       parameters host_data['parameters'] || []
-      options    host_data['options'] || []
-      conf_dir   node[:dhcp][:dir]
+      options host_data['options'] || []
+      conf_dir node[:dhcp][:dir]
     end
   end
 end

@@ -74,9 +74,7 @@ module DHCP
         end
 
         @zones.each do |zone|
-          if zone.key? 'rndc_key'
-            k[zone['rndc_key']] = get_key zone['rndc_key']
-          end
+          k[zone['rndc_key']] = get_key zone['rndc_key'] if zone.key? 'rndc_key'
         end
         k
       end

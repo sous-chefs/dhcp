@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # Example Attribute driven  wrapper recipe
 
 # rubocop:disable LineLength

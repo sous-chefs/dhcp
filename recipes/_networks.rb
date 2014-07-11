@@ -18,15 +18,15 @@ node[:dhcp][:networks].each do |net|
   # run the lwrp with the bag data
   dhcp_subnet data['address'] do
     broadcast data['broadcast']
-    netmask   data['netmask']
-    routers   data['routers'] || []
-    options   data['options'] || []
-    range     data['range'] || ''
-    ddns      data['ddns'] if data.key? 'ddns'
-    conf_dir  node[:dhcp][:dir]
-    peer      node[:domain] if node[:dhcp][:failover]
-    evals     data['evals'] || []
-    key       data['key'] || {}
-    zones     data['zones'] || []
+    netmask data['netmask']
+    routers data['routers'] || []
+    options data['options'] || []
+    range data['range'] || ''
+    ddns data['ddns'] if data.key? 'ddns'
+    conf_dir node[:dhcp][:dir]
+    peer node[:domain] if node[:dhcp][:failover]
+    evals data['evals'] || []
+    key data['key'] || {}
+    zones data['zones'] || []
   end
 end
