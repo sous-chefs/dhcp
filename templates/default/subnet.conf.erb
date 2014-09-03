@@ -21,7 +21,7 @@ pool {
   option broadcast-address <%= @broadcast %>;
 <% unless @options.empty? -%>
 <%   @options.sort.each do |option| -%>
-  <%= option %>;
+  option <%= option %>;
 <%   end -%>
 <% end -%>
 
