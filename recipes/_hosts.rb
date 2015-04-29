@@ -43,4 +43,17 @@ unless node['dhcp']['hosts'].empty?
       conf_dir node['dhcp']['dir']
     end
   end
+
+else
+
+  template "#{node['dhcp']['dir']}/hosts.d/list.conf" do
+    source 'list.conf.erb'
+    owner 'root'
+    group 'root'
+    mode 0644
+    variables(files: node['dhcp']['hosts_files'])
+    notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+    not_if { node['dhcp']['hosts_files'].nil? }
+  end
+
 end
