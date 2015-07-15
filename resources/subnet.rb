@@ -8,7 +8,7 @@ attribute :broadcast, kind_of: String
 attribute :netmask, kind_of: String
 attribute :routers, kind_of: Array, default: []
 attribute :options, kind_of: Array, default: []
-attribute :range, kind_of: Array
+attribute :range, kind_of: [Array, String]
 attribute :ddns, kind_of: String, default: nil
 attribute :peer, kind_of: String, default: nil
 attribute :evals, kind_of: Array, default: []

@@ -24,9 +24,10 @@ def write_include
 end
 
 action :add do
-
   directory "#{new_resource.conf_dir}/subnets.d/"
 
+  range = new_resource.range
+  range = [new_resource.range] if new_resource.range.is_a? String
   t = template "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
     cookbook 'dhcp'
     source 'subnet.conf.erb'
@@ -36,7 +37,7 @@ action :add do
       broadcast: new_resource.broadcast,
       routers: new_resource.routers,
       options: new_resource.options,
-      range: new_resource.range,
+      range: range,
       peer: new_resource.peer,
       evals: new_resource.evals,
       key: new_resource.key,
