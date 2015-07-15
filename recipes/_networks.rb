@@ -2,6 +2,9 @@
 #
 # Setup subnets
 #
+
+include_recipe 'dhcp::_service'
+
 if node[:dhcp][:networks].empty?
   Chef::Log.info('Attribute node[:dhcp][:networks] is empty, guess you are using LWRP')
   return
