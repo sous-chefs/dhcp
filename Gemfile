@@ -8,9 +8,7 @@ group 'develop' do
   gem 'kitchen-vagrant'
   gem 'kitchen-docker'
   gem 'rake'
-  gem 'foodcritic',
-      git: 'https://github.com/mlafeldt/foodcritic.git',
-      branch: 'improve-rake-task'
+  gem 'foodcritic'
   gem 'rubocop', '0.24.0'
   gem 'knife-cookbook-doc'
   gem 'chefspec', '>= 3.2.0'
