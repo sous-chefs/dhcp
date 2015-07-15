@@ -16,4 +16,5 @@ group 'develop' do
   gem 'guard'
   gem 'guard-rake'
   gem 'guard-kitchen'
+  gem 'ohai', '<= 8.0.0'
 end
