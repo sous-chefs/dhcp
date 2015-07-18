@@ -29,7 +29,7 @@ describe "DHCP::Failover" do
 
   it 'should detect when disabled' do
     DHCP::Failover.load(chef_run.run_context.node)
-    DHCP::Failover.enabled?.should be_false
+    DHCP::Failover.enabled?.should be false
   end
 end
 
@@ -50,13 +50,13 @@ describe 'DHCP::Failover Master' do
   it 'should disable without secondary' do
     DHCP::Failover.load(chef_run.run_context.node)
     stub_search(:node, "domain:local AND dhcp_slave:true") {}
-    DHCP::Failover.enabled?.should be_false
+    DHCP::Failover.enabled?.should be false
   end
 
   it 'should enable when secondary found' do
     DHCP::Failover.load(chef_run.run_context.node)
     stub_slave_search
-    DHCP::Failover.enabled?.should be_true
+    DHCP::Failover.enabled?.should be true
   end
 
   it 'should find our peer' do
@@ -83,13 +83,13 @@ describe "DHCP::Failover Slave" do
   it 'should disable when no primaries found' do
     DHCP::Failover.load(chef_run.run_context.node)
     stub_search(:node, "domain:local AND dhcp_master:true") {}
-    DHCP::Failover.enabled?.should be_false
+    DHCP::Failover.enabled?.should be false
   end
 
   it 'should enable when primary found' do
     DHCP::Failover.load(chef_run.run_context.node)
     stub_master_search
-    DHCP::Failover.enabled?.should be_true
+    DHCP::Failover.enabled?.should be true
   end
 
   it 'should find our peer' do
@@ -99,4 +99,3 @@ describe "DHCP::Failover Slave" do
   end
 
 end
-
