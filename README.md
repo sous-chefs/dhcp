@@ -121,14 +121,14 @@ Host names provisioned by dhcp you will have to add either `dhcp_groups/dhcp_hos
 
 You can generate example bags by using these handy commands
 
-    % knife data bag create dhcp_networks
-    % knife data bag create dhcp_groups
-    % knife data bag create dhcp_hosts
-    % knife data bag from file dhcp_networks examples/data_bags/dhcp_networks
-    % knife data bag from file dhcp_groups examples/data_bags/dhcp_groups
-    % knife data bag from file dhcp_hosts examples/data_bags/dhcp_hosts
-
-
+```
+knife data bag create dhcp_networks
+knife data bag create dhcp_groups
+knife data bag create dhcp_hosts
+knife data bag from file dhcp_networks examples/data_bags/dhcp_networks
+knife data bag from file dhcp_groups examples/data_bags/dhcp_groups
+knife data bag from file dhcp_hosts examples/data_bags/dhcp_hosts
+```
 
 dhcp_networks
 -------------
@@ -136,16 +136,17 @@ Looked up via `node[:dhcp][:networks_bag]`. Describes networks this dhcp server 
 Per-network options can be provided as an array of strings where each string is a dhcp option.
 Make sure you escape `"`'s properly as dhcpd is touchy about the format of values.
 
-    {
-      "id": "192-168-1-0_24",
-      "routers": [ "192.168.1.1" ],
-      "address": "192.168.1.0",
-      "netmask": "255.255.255.0",
-      "broadcast": "192.168.1.255",
-      "range": "192.168.1.50 192.168.1.240",
-      "options": [ "next-server 192.168.1.11" ]
-    }
-
+```json
+{
+  "id": "192-168-1-0_24",
+  "routers": [ "192.168.1.1" ],
+  "address": "192.168.1.0",
+  "netmask": "255.255.255.0",
+  "broadcast": "192.168.1.255",
+  "range": "192.168.1.50 192.168.1.240",
+  "options": [ "next-server 192.168.1.11" ]
+}
+```
 
 dhcp_groups
 ----------
@@ -157,29 +158,28 @@ Contains no host or parameters entries whatsover, and just defines options.
 The only required key in a host def is the `"mac":` key. Everything else is optional
 
 Example Group Bag
-
-        {
-          "id": "test",
-          "pxe":  "ubuntu-precise",
-          "parameters": [
-            "use-host-decl-names on",
-            "max-lease-time 300",
-            "default-lease-time 120",
-            "next-server \"someplace\""
-          ],
-          "hosts": {
-            "some-vm": {
-              "parameters": [  ],
-              "mac": "11:22:33:44:55:66",
-              "ip": "192.168.1.111"
-            },
-            "another-host": {
-              "mac": "22:33:44:55:66:77"
-            }
-          }
-        }
-
-
+```json
+{
+  "id": "test",
+  "pxe":  "ubuntu-precise",
+  "parameters": [
+    "use-host-decl-names on",
+    "max-lease-time 300",
+    "default-lease-time 120",
+    "next-server \"someplace\""
+  ],
+  "hosts": {
+    "some-vm": {
+      "parameters": [  ],
+      "mac": "11:22:33:44:55:66",
+      "ip": "192.168.1.111"
+    },
+    "another-host": {
+      "mac": "22:33:44:55:66:77"
+    }
+  }
+}
+```
 
 There are a few keys that merit more discussion:
 ## `"hosts":` key dhcp_group Items
@@ -205,26 +205,26 @@ Dhcp hosts bag is looked up via  `node[:dhcp][:hosts_bag]`, and contains Host It
 
 Example Most Basic host:
 
-    {
-      "id": "vagrant-vm",
-      "hostname": "vagrant.vm",
-      "mac": "08:00:27:f1:1f:b6",
-    }
-
+```json
+{
+  "id": "vagrant-vm",
+  "hostname": "vagrant.vm",
+  "mac": "08:00:27:f1:1f:b6",
+}
+```
 
 Example Complex host:
-
-    {
-      "id": "pxe_test-vm",
-      "hostname": "pxe_test.vm",
-      "mac": "08:00:27:8f:7b:db",
-      "ip": "192.168.1.31",
-      "parameters": [ ],
-      "options": [ ],
-      "pxe": "ubuntu-precise"
-    }
-
-
+```json
+{
+  "id": "pxe_test-vm",
+  "hostname": "pxe_test.vm",
+  "mac": "08:00:27:8f:7b:db",
+  "ip": "192.168.1.31",
+  "parameters": [ ],
+  "options": [ ],
+  "pxe": "ubuntu-precise"
+}
+```
 
 Resources/Providers
 ===================
@@ -252,20 +252,22 @@ Manipulate host entries in dhcpd
 ### Example
 
 Add a Node
-
-    dhcp_host "myhost" do
-      hostname   "somebox.foobar.com"
-      macaddress "08:00:27:f1:1f:b6"
-      ipaddress  "192.168.1.22"
-      options   [ "domain-name-servers 8.8.8.8" ]
-    end
+```ruby
+dhcp_host "myhost" do
+  hostname   "somebox.foobar.com"
+  macaddress "08:00:27:f1:1f:b6"
+  ipaddress  "192.168.1.22"
+  options   [ "domain-name-servers 8.8.8.8" ]
+end
+```
 
 Remove a node
-
-    dhcp_host "myhost" do
-      action :remove
-      hostname "somebox.foobar.com"
-    end
+```ruby
+dhcp_host "myhost" do
+  action :remove
+  hostname "somebox.foobar.com"
+end
+```
 
 If you undefine an entry it will also get removed.
 
@@ -291,18 +293,17 @@ If you undefine an entry it will also get removed.
 
 ### Example
 
+```ruby
+hosts_data = {
+  "some-vm"=> {"parameters"=>[], "mac"=>"11:22:33:44:55:66", "ip"=>"192.168.1.111"},
+  "another-host"=>{"mac"=>"22:33:44:55:66:77"}}
+}
 
-    hosts_data = {
-      "some-vm"=> {"parameters"=>[], "mac"=>"11:22:33:44:55:66", "ip"=>"192.168.1.111"},
-      "another-host"=>{"mac"=>"22:33:44:55:66:77"}}
-    }
-
-    group "some_group" do
-      parameters [ "default-lease-time 120", "next-server \"someplace\""]
-      hosts hosts_data
-    end
-
-
+dhcp_group "some_group" do
+  parameters [ "default-lease-time 120", "next-server \"someplace\""]
+  hosts hosts_data
+end
+```
 
 ## dhcp_subnet
 
@@ -326,21 +327,22 @@ If you undefine an entry it will also get removed.
 | `conf_dir` |`String` | `"/etc/dhcp"`
 
 ### Example
-
-    dhcp_subnet "192.168.1.0" do
-      range ["192.168.1.100 192.168.1.200", "10.33.66.10 10.33.66.100"]
-      netmask "255.255.255.0"
-      broadcast "192.168.1.255"
-      options [ "next-server 192.168.1.11" ]
-      routers "192.168.1.1"
-      evals [ %q|
-        if exists user-class and option user-class = "iPXE" {
-          filename "bootstrap.ipxe";
-        } else {
-          filename "undionly.kpxe";
-        }
-      | ]
-    end
+```ruby
+dhcp_subnet "192.168.1.0" do
+  range ["192.168.1.100 192.168.1.200", "10.33.66.10 10.33.66.100"]
+  netmask "255.255.255.0"
+  broadcast "192.168.1.255"
+  options [ "next-server 192.168.1.11" ]
+  routers "192.168.1.1"
+  evals [ %q|
+    if exists user-class and option user-class = "iPXE" {
+      filename "bootstrap.ipxe";
+    } else {
+      filename "undionly.kpxe";
+    }
+  | ]
+end
+```
 
 License and Author
 ==================
