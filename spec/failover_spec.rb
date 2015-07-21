@@ -3,28 +3,28 @@ require_relative 'helpers/data'
 require_relative '../libraries/failover'
 
 def stub_slave_search
-  stub_search(:node, "domain:local AND dhcp_slave:true") {
+  stub_search(:node, 'domain:local AND dhcp_slave:true') do
     n = Chef::Node.new
-    n.set[:dhcp] ||= Hash.new
+    n.set[:dhcp] ||= {}
     n.set[:dhcp][:slave] = true
-    n.set[:ipaddress] = "10.1.1.20"
-    [ n ]
-  }
+    n.set[:ipaddress] = '10.1.1.20'
+    [n]
+  end
 end
 
 def stub_master_search
-  stub_search(:node, "domain:local AND dhcp_master:true") {
+  stub_search(:node, 'domain:local AND dhcp_master:true') do
     n = Chef::Node.new
-    n.set[:dhcp] ||= Hash.new
+    n.set[:dhcp] ||= {}
     n.set[:dhcp][:master] = true
-    n.set[:ipaddress] = "10.1.1.10"
-    [ n ]
-  }
+    n.set[:ipaddress] = '10.1.1.10'
+    [n]
+  end
 end
 
-describe "DHCP::Failover" do
+describe 'DHCP::Failover' do
   let(:chef_run) do
-    ChefSpec::Runner.new.converge("dhcp::library")
+    ChefSpec::Runner.new.converge('dhcp::library')
   end
 
   it 'should detect when disabled' do
@@ -36,10 +36,10 @@ end
 describe 'DHCP::Failover Master' do
   let(:chef_run) do
     ChefSpec::Runner.new do |node|
-      node.set[:dhcp] ||= Hash.new
+      node.set[:dhcp] ||= {}
       node.set[:dhcp][:master] = true
-      node.set[:ipaddress] = "10.1.1.10"
-    end.converge("dhcp::library")
+      node.set[:ipaddress] = '10.1.1.10'
+    end.converge('dhcp::library')
   end
 
   it 'should identify as primary' do
@@ -49,7 +49,7 @@ describe 'DHCP::Failover Master' do
 
   it 'should disable without secondary' do
     DHCP::Failover.load(chef_run.run_context.node)
-    stub_search(:node, "domain:local AND dhcp_slave:true") {}
+    stub_search(:node, 'domain:local AND dhcp_slave:true') {}
     DHCP::Failover.enabled?.should be false
   end
 
@@ -66,13 +66,13 @@ describe 'DHCP::Failover Master' do
   end
 end
 
-describe "DHCP::Failover Slave" do
+describe 'DHCP::Failover Slave' do
   let(:chef_run) do
     ChefSpec::Runner.new do |node|
-      node.set[:dhcp] ||= Hash.new
+      node.set[:dhcp] ||= {}
       node.set[:dhcp][:slave] = true
-      node.set[:ipaddress] = "10.1.1.20"
-    end.converge("dhcp::library")
+      node.set[:ipaddress] = '10.1.1.20'
+    end.converge('dhcp::library')
   end
 
   it 'should identify as secondary' do
@@ -82,7 +82,7 @@ describe "DHCP::Failover Slave" do
 
   it 'should disable when no primaries found' do
     DHCP::Failover.load(chef_run.run_context.node)
-    stub_search(:node, "domain:local AND dhcp_master:true") {}
+    stub_search(:node, 'domain:local AND dhcp_master:true') {}
     DHCP::Failover.enabled?.should be false
   end
 
@@ -97,5 +97,4 @@ describe "DHCP::Failover Slave" do
     stub_master_search
     DHCP::Failover.peer.should == '10.1.1.10'
   end
-
 end

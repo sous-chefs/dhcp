@@ -1,6 +1,6 @@
 require_relative 'helpers/default'
 
-recipe = "dhcp::server"
+recipe = 'dhcp::server'
 
 describe recipe do
   let(:chef_run) do
@@ -9,4 +9,3 @@ describe recipe do
     end.converge(recipe)
   end
 end
-
