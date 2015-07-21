@@ -345,9 +345,15 @@ If you undefine an entry it will also get removed.
 License and Author
 ==================
 
+### Originally forked from
+https://github.com/spheromak/dhcp-cook
+
+### Maintainer, Authors and Contributors
+
 |                      |                                          |
 |:---------------------|:-----------------------------------------|
-| **Author**           | [Jesse Nelson](https://github.com/spheromak)
+| **Maintainer**       | [Jacob McCann](https://github.com/jmccann)
+| **Original Author**  | [Jesse Nelson](https://github.com/spheromak)
 | **Author**           | [Matt Ray](https://github.com/mattray)
 | **Contributor**      | [Myles Steinhauser](https://github.com/masteinhauser)
 | **Contributor**      | [Bao Nguyen](https://github.com/sysbot)
