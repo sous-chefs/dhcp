@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module Dhcp
   #
   # Helper methods that are used in multiple providers
