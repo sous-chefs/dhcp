@@ -19,9 +19,9 @@ module DHCP
       end
 
       #
-      # Returns a hash of zone_name => master_addr
-      # rubocop:disable CyclomaticComplexity, MethodLength, AbcSize, PerceivedComplexity
-      def masters
+      # @return [Hash] of zone_name => master_addr
+      #
+      def masters # rubocop:disable CyclomaticComplexity, MethodLength, AbcSize, PerceivedComplexity
         @zones ||= load_zones
         masters ||= {}
         return unless @zones
@@ -55,12 +55,13 @@ module DHCP
 
         masters
       end
-      # rubocop:enable CyclomaticComplexity, MethodLength
 
       #
       # Fetch all keys this node requests
-      # Returns a hash of key-names containing bag data for each key
-      def keys
+      #
+      # @return [Hash] of key-names containing bag data for each key
+      #
+      def keys # rubocop:disable AbcSize
         k ||= {}
         @zones ||= load_zones
         return if @zones.blank?
@@ -95,7 +96,7 @@ module DHCP
       #
       # Load all zone bags this node calls out
       #
-      def load_zones
+      def load_zones # rubocop:disable AbcSize
         unless node['dhcp']['use_bags'] == true && node.key?(:dns) && node['dns'].key?(:zones) && node['dns']['zones'].blank? != true
           return nil
         end
