@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/spheromak/dhcp-cook.png)](http://travis-ci.org/spheromak/dhcp-cook)
+[![Build Status](https://secure.travis-ci.org/chef-brigade/dhcp-cook.png)](http://travis-ci.org/chef-brigade/dhcp-cook)
 
 Description
 ===========
