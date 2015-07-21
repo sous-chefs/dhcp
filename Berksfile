@@ -1,7 +1,7 @@
 #
 # vim: set ft=ruby:
 #
-source "https://api.berkshelf.com"
+source 'https://supermarket.chef.io'
 
 metadata
 
