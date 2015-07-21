@@ -11,7 +11,7 @@ group 'develop' do
   gem 'foodcritic'
   gem 'rubocop', '0.24.0'
   gem 'knife-cookbook-doc'
-  gem 'chefspec', '>= 3.2.0'
+  gem 'chefspec', '~> 4.3.0'
   gem 'git'
   gem 'guard'
   gem 'guard-rake'
