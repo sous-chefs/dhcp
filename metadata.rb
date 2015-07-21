@@ -1,6 +1,8 @@
 name 'dhcp'
-maintainer 'Jesse Nelson'
-maintainer_email 'spheromak@gmail.com'
+source_url "https://github.com/chef-brigade/#{name}-cookbook" if respond_to?(:source_url)
+issues_url "https://github.com/chef-brigade/#{name}-cookbook/issues" if respond_to?(:issues_url)
+maintainer 'Chef Brigade'
+maintainer_email 'help@chefbrigade.io'
 license 'Apache 2.0'
 description 'DHCP'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
