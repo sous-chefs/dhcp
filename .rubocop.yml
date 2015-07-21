@@ -1,6 +1,8 @@
 AllCops:
   Exclude:
     - Rakefile
+    - Berksfile
+    - Guardfile
     - bin/**/*
     - test/**/*
     - vendor/**/*
