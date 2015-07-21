@@ -73,9 +73,7 @@ module DHCP
           k[node.normal['dns']['rndc_key']] = get_key node['dns']['rndc_key']
         end
 
-        @zones.each do |zone|
-          k[zone['rndc_key']] = get_key zone['rndc_key'] if zone.key? 'rndc_key'
-        end
+        @zones.each { |zone| k[zone['rndc_key']] = get_key zone['rndc_key'] if zone.key? 'rndc_key' }
         k
       end
       # rubocop:enable MethodLength
