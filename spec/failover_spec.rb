@@ -24,7 +24,7 @@ end
 
 describe 'DHCP::Failover' do
   let(:chef_run) do
-    ChefSpec::Runner.new.converge('dhcp::library')
+    ChefSpec::SoloRunner.new.converge('dhcp::library')
   end
 
   it 'should detect when disabled' do
@@ -35,7 +35,7 @@ end
 
 describe 'DHCP::Failover Master' do
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       node.set[:dhcp] ||= {}
       node.set[:dhcp][:master] = true
       node.set[:ipaddress] = '10.1.1.10'
@@ -68,7 +68,7 @@ end
 
 describe 'DHCP::Failover Slave' do
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       node.set[:dhcp] ||= {}
       node.set[:dhcp][:slave] = true
       node.set[:ipaddress] = '10.1.1.20'

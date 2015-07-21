@@ -4,7 +4,7 @@ require_relative 'helpers/data'
 describe 'dhcp::_networks Exceptions' do
   before(:each) do
     Fauxhai.mock(platform: 'ubuntu', version: '12.04')
-    @chef_run = ChefSpec::Runner.new
+    @chef_run = ChefSpec::SoloRunner.new
   end
 
   it 'should not raise error unless when bags are missing' do

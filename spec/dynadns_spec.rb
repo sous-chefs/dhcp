@@ -4,7 +4,7 @@ require_relative '../libraries/dynadns'
 
 describe 'DHCP::DyanDns disabled' do
   let(:chef_run) do
-    ChefSpec::Runner.new.converge('dhcp::library')
+    ChefSpec::SoloRunner.new.converge('dhcp::library')
   end
 
   it 'should take no action if we have no zone info' do
@@ -15,7 +15,7 @@ end
 
 describe 'DHCP::DynaDns malformed' do
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       node.set[:dns] ||= {}
       node.set[:dns][:zones] ||= []
       node.set[:dns][:zones]  =  %w(192.168.1.0)
@@ -35,7 +35,7 @@ end
 
 describe 'DHCP::DynaDns' do
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       node.set[:dns] ||= {}
       node.set[:dns][:zones] ||= []
       node.set[:dns][:master] = '192.168.9.9'
