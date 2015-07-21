@@ -27,7 +27,7 @@ module DHCP
         return unless @zones
         @zones.each do |zone|
           name = zone['zone_name']
-          masters[name] ||= Hash.new
+          masters[name] ||= {}
 
           # set to global master by default
           if node[:dns].key?(:master) && node[:dns][:master].blank? == false
@@ -60,7 +60,6 @@ module DHCP
       #
       # Fetch all keys this node requests
       # Returns a hash of key-names containing bag data for each key
-      # rubocop:disable MethodLength
       def keys
         k ||= {}
         @zones ||= load_zones
@@ -69,7 +68,7 @@ module DHCP
         # global default keys if they exist
         # TODO: need to work out the namespace on dns stuff here.
         # TODO: be good to support knife-vault/encrypted bags for keys
-        if node.key?(:dns) &&  node[:dns].key?(:rndc_key)
+        if node.key?(:dns) && node[:dns].key?(:rndc_key)
           k[node.normal[:dns][:rndc_key]] = get_key node[:dns][:rndc_key]
         end
 

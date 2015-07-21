@@ -12,7 +12,6 @@ module DHCP
 
       attr_reader :node
 
-      # rubocop:disable TrivialAccessors
       # TODO: depricate this for initialize/node accessor
       def load(node)
         @node = node

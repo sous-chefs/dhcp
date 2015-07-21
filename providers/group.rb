@@ -25,7 +25,6 @@ action :add do
 end
 
 action :remove do
-
   f = file "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
     action :delete
     notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed

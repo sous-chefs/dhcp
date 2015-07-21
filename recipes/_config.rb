@@ -21,7 +21,7 @@ template node[:dhcp][:config_file] do
     role: DHCP::Failover.role,
     peer_ip: DHCP::Failover.peer,
     failover: DHCP::Failover.enabled?
-    )
+  )
   action :create
   notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
 end

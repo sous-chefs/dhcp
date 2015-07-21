@@ -1,7 +1,6 @@
 # encoding: UTF-8
 # Example Attribute driven  wrapper recipe
 
-# rubocop:disable LineLength
 node.default[:dhcp][:options]['domain-name'] = '"dev.f00bar.com"'
 node.default[:dhcp][:options]['domain-name-servers'] = '10.33.87.98, 10.33.87.99'
 node.default[:dhcp][:options]['domain-search'] = '"dev.f00bar.com","f00bar.com"'
