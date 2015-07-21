@@ -15,3 +15,4 @@ attribute :evals, kind_of: Array, default: []
 attribute :key, kind_of: Hash, default: {}
 attribute :zones, kind_of: Array, default: []
 attribute :conf_dir, kind_of: String, default: '/etc/dhcp'
+attribute :next_server, kind_of: String

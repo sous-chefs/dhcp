@@ -24,6 +24,9 @@ pool {
   option <%= option %>;
 <%   end -%>
 <% end -%>
+<% if @next_server -%>
+  next-server <%= @next_server %>;
+<% end -%>
 
 <% @evals.sort.each do |eval| -%>
 <%= eval %>

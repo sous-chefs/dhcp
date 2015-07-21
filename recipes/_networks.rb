@@ -31,5 +31,6 @@ node['dhcp']['networks'].each do |net|
     evals data['evals'] || []
     key data['key'] || {}
     zones data['zones'] || []
+    next_server data['next_server'] if data.key? 'next_server'
   end
 end
