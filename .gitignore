@@ -19,3 +19,5 @@ vendor/*
 .colander
 berks.json
 .vagabond
+Berksfile.lock
+Gemfile.lock
