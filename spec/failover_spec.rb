@@ -1,6 +1,6 @@
 require_relative 'helpers/default'
 require_relative 'helpers/data'
-require_relative '../../libraries/failover'
+require_relative '../libraries/failover'
 
 def stub_slave_search
   stub_search(:node, "domain:local AND dhcp_slave:true") {

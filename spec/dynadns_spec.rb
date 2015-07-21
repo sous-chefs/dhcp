@@ -1,6 +1,6 @@
 require_relative 'helpers/default'
 require_relative 'helpers/data'
-require_relative '../../libraries/dynadns'
+require_relative '../libraries/dynadns'
 
 describe "DHCP::DyanDns disabled" do
   let(:chef_run) do
