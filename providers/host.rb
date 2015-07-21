@@ -33,5 +33,5 @@ action :remove do
   end
   new_resource.updated_by_last_action(f.updated?)
 
-  write_include 'groups.d'
+  write_include 'hosts.d'
 end

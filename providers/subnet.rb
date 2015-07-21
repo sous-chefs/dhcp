@@ -39,5 +39,5 @@ action :remove do
     notifies :send_notification, new_resource, :immediately
   end
   new_resource.updated_by_last_action(f.updated?)
-  write_include 'groups.d'
+  write_include 'subnets.d'
 end
