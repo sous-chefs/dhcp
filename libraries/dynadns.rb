@@ -20,7 +20,7 @@ module DHCP
 
       #
       # Returns a hash of zone_name => master_addr
-      # rubocop:disable CyclomaticComplexity, MethodLength
+      # rubocop:disable CyclomaticComplexity, MethodLength, AbcSize, PerceivedComplexity
       def masters
         @zones ||= load_zones
         masters ||= {}

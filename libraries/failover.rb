@@ -37,11 +37,11 @@ module DHCP
         nil
       end
 
-      def peer
-        if node[:dhcp].key?(:slave) && node[:dhcp][:slave] == true
+      def peer # rubocop:disable AbcSize
+        if node[:dhcp].key?(:slave) && node[:dhcp][:slave]
           peer_node = masters.first
-        elsif node[:dhcp].key?(:master) && node[:dhcp][:master] == true
-          peer_node  =  slaves.first
+        elsif node[:dhcp].key?(:master) && node[:dhcp][:master]
+          peer_node = slaves.first
         end
         Chef::Log.info "Dhcp Peer: #{peer_node}"
         return nil if peer_node.blank?
