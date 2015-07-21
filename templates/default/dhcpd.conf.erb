@@ -34,16 +34,16 @@ zone <%= zone %>. {
 <% end -%>
 
 <% if @failover %>
-failover peer "<%= node[:domain] %>" {
+failover peer "<%= node['domain'] %>" {
   <%= @role %>;
   address <%= @my_ip %>;
-  port <%= node[:dhcp][:failover_params][:port] %>;
+  port <%= node['dhcp']['failover_params']['port'] %>;
   peer address <%= @peer_ip %>;
-  peer port <%= node[:dhcp][:failover_params][:peer_port] %>;
+  peer port <%= node['dhcp']['failover_params']['peer_port'] %>;
   max-response-delay 60;
   max-unacked-updates 10;
-  mclt <%= node[:dhcp][:failover_params][:mclt] %>;
-  auto-partner-down <%= node[:dhcp][:failover_params][:auto_partner_down] %> ;
+  mclt <%= node['dhcp']['failover_params']['mclt'] %>;
+  auto-partner-down <%= node['dhcp']['failover_params']['auto_partner_down'] %> ;
   <% if @role =~ /primary/i -%>
   split 128;
   load balance max seconds 3;
@@ -51,6 +51,6 @@ failover peer "<%= node[:domain] %>" {
 }
 <% end %>
 
-include "<%= node[:dhcp][:dir] %>/groups.d/list.conf";
-include "<%= node[:dhcp][:dir] %>/subnets.d/list.conf";
-include "<%= node[:dhcp][:dir] %>/hosts.d/list.conf";
+include "<%= node['dhcp']['dir'] %>/groups.d/list.conf";
+include "<%= node['dhcp']['dir'] %>/subnets.d/list.conf";
+include "<%= node['dhcp']['dir'] %>/hosts.d/list.conf";

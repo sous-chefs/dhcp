@@ -30,12 +30,12 @@ module DHCP
           masters[name] ||= {}
 
           # set to global master by default
-          if node[:dns].key?(:master) && node[:dns][:master].blank? == false
-            masters[name]['master'] = node[:dns][:master]
+          if node['dns'].key?(:master) && node['dns']['master'].blank? == false
+            masters[name]['master'] = node['dns']['master']
           end
 
-          if node[:dns].key?(:rndc_key) && node[:dns][:rndc_key].blank? == false
-            masters[name]['key'] = node[:dns][:rndc_key]
+          if node['dns'].key?(:rndc_key) && node['dns']['rndc_key'].blank? == false
+            masters[name]['key'] = node['dns']['rndc_key']
           end
 
           # use zone bag override if it exists
@@ -68,8 +68,8 @@ module DHCP
         # global default keys if they exist
         # TODO: need to work out the namespace on dns stuff here.
         # TODO: be good to support knife-vault/encrypted bags for keys
-        if node.key?(:dns) && node[:dns].key?(:rndc_key)
-          k[node.normal[:dns][:rndc_key]] = get_key node[:dns][:rndc_key]
+        if node.key?(:dns) && node['dns'].key?(:rndc_key)
+          k[node.normal['dns']['rndc_key']] = get_key node['dns']['rndc_key']
         end
 
         @zones.each do |zone|
@@ -84,10 +84,10 @@ module DHCP
       #
       def get_key(name)
         key = nil
-        if node[:dhcp][:use_bags] == true
+        if node['dhcp']['use_bags'] == true
           key = data_bag_item('rndc_keys', name).to_hash
         else
-          key = node[:dhcp][:rndc_keys].fetch name, ''
+          key = node['dhcp']['rndc_keys'].fetch name, ''
         end
         key
       end
@@ -96,13 +96,13 @@ module DHCP
       # Load all zone bags this node calls out
       #
       def load_zones
-        unless node[:dhcp][:use_bags] == true && node.key?(:dns) && node[:dns].key?(:zones) && node[:dns][:zones].blank? != true
+        unless node['dhcp']['use_bags'] == true && node.key?(:dns) && node['dns'].key?(:zones) && node['dns']['zones'].blank? != true
           return nil
         end
 
         @zones =  []
-        node[:dns][:zones].each do |zone|
-          bag_name = node[:dns][:bag_name] || 'dns_zones'
+        node['dns']['zones'].each do |zone|
+          bag_name = node['dns']['bag_name'] || 'dns_zones'
           zones << data_bag_item(bag_name, Helpers::DataBags.escape_bagname(zone)).to_hash
         end
         @zones

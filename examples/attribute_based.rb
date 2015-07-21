@@ -1,9 +1,9 @@
 # encoding: UTF-8
 # Example Attribute driven  wrapper recipe
 
-node.default[:dhcp][:options]['domain-name'] = '"dev.f00bar.com"'
-node.default[:dhcp][:options]['domain-name-servers'] = '10.33.87.98, 10.33.87.99'
-node.default[:dhcp][:options]['domain-search'] = '"dev.f00bar.com","f00bar.com"'
+node.default['dhcp']['options']['domain-name'] = '"dev.f00bar.com"'
+node.default['dhcp']['options']['domain-name-servers'] = '10.33.87.98, 10.33.87.99'
+node.default['dhcp']['options']['domain-search'] = '"dev.f00bar.com","f00bar.com"'
 # rubocop:enable All
 
 include_recipe 'dhcp::_package'
@@ -30,7 +30,7 @@ dns_zones = [
 ]
 
 dhcp_subnet '10.33.87.0' do
-  conf_dir node[:dhcp][:dir]
+  conf_dir node['dhcp']['dir']
   netmask '255.255.255.0'
   broadcast '10.33.87.255'
   routers ['10.33.87.1']

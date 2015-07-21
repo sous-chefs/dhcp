@@ -29,38 +29,38 @@ module DHCP
       end
 
       def role
-        if node[:dhcp].key?(:slave) && node[:dhcp][:slave] == true
+        if node['dhcp'].key?(:slave) && node['dhcp']['slave'] == true
           return 'secondary'
-        elsif node[:dhcp].key?(:master) && node[:dhcp][:master] == true
+        elsif node['dhcp'].key?(:master) && node['dhcp']['master'] == true
           return 'primary'
         end
         nil
       end
 
       def peer # rubocop:disable AbcSize
-        if node[:dhcp].key?(:slave) && node[:dhcp][:slave]
+        if node['dhcp'].key?(:slave) && node['dhcp']['slave']
           peer_node = masters.first
-        elsif node[:dhcp].key?(:master) && node[:dhcp][:master]
+        elsif node['dhcp'].key?(:master) && node['dhcp']['master']
           peer_node = slaves.first
         end
         Chef::Log.info "Dhcp Peer: #{peer_node}"
         return nil if peer_node.blank?
-        peer_node[:ipaddress]
+        peer_node['ipaddress']
       end
 
       def slaves
-        if node[:dhcp].key?(:slaves) && !node[:dhcp][:slaves].empty?
-          node[:dhcp][:slaves]
+        if node['dhcp'].key?(:slaves) && !node['dhcp']['slaves'].empty?
+          node['dhcp']['slaves']
         else
-          search(:node, "domain:#{node[:domain]} AND dhcp_slave:true")
+          search(:node, "domain:#{node['domain']} AND dhcp_slave:true")
         end
       end
 
       def masters
-        if node[:dhcp].key?(:masters) && !node[:dhcp][:masters].empty?
-          node[:dhcp][:masters]
+        if node['dhcp'].key?(:masters) && !node['dhcp']['masters'].empty?
+          node['dhcp']['masters']
         else
-          search(:node, "domain:#{node[:domain]} AND dhcp_master:true")
+          search(:node, "domain:#{node['domain']} AND dhcp_master:true")
         end
       end
     end

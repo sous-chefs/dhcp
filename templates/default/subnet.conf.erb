@@ -4,13 +4,13 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
 <% unless @range.empty? -%>
 pool {
   <% if @peer -%>
-  failover peer "<%= node[:domain] %>";
+  failover peer "<%= node['domain'] %>";
   <% end -%>
   <%   @range.each do |range| %>
   range <%= range %>;
   <%   end -%>
 }
-<% end -%>  
+<% end -%>
 <% if @ddns -%>
   ddns-domainname "<%= @ddns %>";
 <% end -%>

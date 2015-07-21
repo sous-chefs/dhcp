@@ -1,4 +1,4 @@
-failover peer "<%= node[:domain] %>" state {
+failover peer "<%= node['domain'] %>" state {
   my state partner-down;
   partner state unknown-state;
 }

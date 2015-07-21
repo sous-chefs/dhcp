@@ -5,16 +5,16 @@
 
 include_recipe 'dhcp::_service'
 
-if node[:dhcp][:networks].empty?
-  Chef::Log.info('Attribute node[:dhcp][:networks] is empty, guess you are using LWRP')
+if node['dhcp']['networks'].empty?
+  Chef::Log.info("Attribute node['dhcp']['networks'] is empty, guess you are using LWRP")
   return
 end
 
-node[:dhcp][:networks].each do |net|
-  if node[:dhcp][:use_bags] == true
-    data = data_bag_item(node[:dhcp][:networks_bag], Helpers::DataBags.escape_bagname(net))
+node['dhcp']['networks'].each do |net|
+  if node['dhcp']['use_bags'] == true
+    data = data_bag_item(node['dhcp']['networks_bag'], Helpers::DataBags.escape_bagname(net))
   else
-    data = node[:dhcp][:network_data].fetch net, nil
+    data = node['dhcp']['network_data'].fetch net, nil
   end
 
   next unless data
@@ -26,8 +26,8 @@ node[:dhcp][:networks].each do |net|
     options data['options'] || []
     range data['range'] || ''
     ddns data['ddns'] if data.key? 'ddns'
-    conf_dir node[:dhcp][:dir]
-    peer node[:domain] if node[:dhcp][:failover]
+    conf_dir node['dhcp']['dir']
+    peer node['domain'] if node['dhcp']['failover']
     evals data['evals'] || []
     key data['key'] || {}
     zones data['zones'] || []

@@ -49,7 +49,7 @@ module Dhcp
         group 'root'
         mode 0644
         variables(files: includes(sub_dir))
-        notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
+        notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
       end
       new_resource.updated_by_last_action(t.updated?)
     end
