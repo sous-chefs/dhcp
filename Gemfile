@@ -9,7 +9,7 @@ group 'develop' do
   gem 'kitchen-docker'
   gem 'rake'
   gem 'foodcritic'
-  gem 'rubocop', '0.24.0'
+  gem 'rubocop', '0.32.1'
   gem 'knife-cookbook-doc'
   gem 'chefspec', '~> 4.3.0'
   gem 'git'
