@@ -2,13 +2,12 @@
 #
 # TODO: these should be put into a lib/mixin since we use it everywhere
 def includes
-  file_includes = []
-  run_context.resource_collection.each do |resource|
-    if resource.is_a?(Chef::Resource::DhcpHost) && resource.action == :add
-      file_includes << "#{resource.conf_dir}/hosts.d/#{resource.hostname}.conf"
-    end
-  end
-  file_includes
+  run_context.resource_collection.map do |resource|
+    next if Gem::Version.new(Chef::VERSION) >= Gem::Version.new('12.0.0') && resource.declared_type != new_resource.declared_type
+    next if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12.0.0') && resource.resource_name != new_resource.resource_name
+    next unless resource.action == :add || resource.action.include?(:add)
+    "#{resource.conf_dir}/hosts.d/#{resource.hostname}.conf"
+  end.compact
 end
 
 def write_include

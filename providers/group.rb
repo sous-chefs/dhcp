@@ -1,13 +1,12 @@
 # encoding: UTF-8
 
 def includes
-  file_includes = []
-  run_context.resource_collection.each do |resource|
-    if resource.is_a?(Chef::Resource::DhcpGroup) && resource.action == :add
-      file_includes << "#{resource.conf_dir}/groups.d/#{resource.name}.conf"
-    end
-  end
-  file_includes
+  run_context.resource_collection.map do |resource|
+    next if Gem::Version.new(Chef::VERSION) >= Gem::Version.new('12.0.0') && resource.declared_type != new_resource.declared_type
+    next if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12.0.0') && resource.resource_name != new_resource.resource_name
+    next unless resource.action == :add || resource.action.include?(:add)
+    "#{resource.conf_dir}/groups.d/#{resource.name}.conf"
+  end.compact
 end
 
 def write_include
