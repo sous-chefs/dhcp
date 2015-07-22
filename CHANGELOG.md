@@ -1,3 +1,13 @@
+### 4.0.0
+* feature: dhcp_shared_network provider to define subnets inside a shared-network block
+* improve: allowing as blank as possible of a subnet block
+* improve: setting next-server in a subnet block
+* improve: allow dhcp_subnet range to be set with a String
+* improve: documentation
+* fix: including dhcp_host config files
+* fix: Chef 12 support
+* fix/improve: testing
+
 ### 3.0.0 
 _Breaking Changes_ 
 * feature: allow setting multiple ranges in subnets. The range param now HAS to be an array, existing cooks will not work.
