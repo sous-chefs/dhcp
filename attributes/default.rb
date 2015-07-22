@@ -28,6 +28,7 @@ default['dhcp']['networks_bag'] = 'dhcp_networks'
 default['dhcp']['host_data'] = {}
 default['dhcp']['group_data'] = {}
 default['dhcp']['network_data'] = {}
+default['dhcp']['shared_network_data'] = {}
 
 defined?(domain) || default['domain'] = 'local'
 
