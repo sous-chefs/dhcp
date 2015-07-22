@@ -32,7 +32,7 @@ action :add do
     owner 'root'
     group 'root'
     mode 0644
-    notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
+    notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)
 
@@ -42,7 +42,7 @@ end
 action :remove do
   f = file "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
     action :delete
-    notifies :restart, "service[#{node[:dhcp][:service_name]}]", :delayed
+    notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
     notifies :send_notification, new_resource, :immediately
   end
   new_resource.updated_by_last_action(f.updated?)
