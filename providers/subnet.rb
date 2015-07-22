@@ -3,6 +3,8 @@
 include Dhcp::Helpers
 
 action :add do
+  run_context.include_recipe 'dhcp::_service'
+
   directory "#{new_resource.conf_dir}/subnets.d/"
 
   range = new_resource.range
