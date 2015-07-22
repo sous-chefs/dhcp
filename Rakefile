@@ -26,12 +26,12 @@ namespace :test do
   begin
     require 'foodcritic/rake_task'
     require 'foodcritic'
-    task :default => [:foodcritic]
+    task default: [:foodcritic]
     FoodCritic::Rake::LintTask.new do |t|
-      t.options = { :tags => %w(~FC003), :fail_tags => %w/correctness services libraries deprecated/ }
+      t.options = { tags: ['~FC003'], fail_tags: ['any'] }
     end
   rescue LoadError
-    warn "Foodcritic Is missing ZOMG"
+    warn 'Foodcritic Is missing ZOMG'
   end
 
   begin
@@ -70,4 +70,3 @@ namespace :release do
   task :tag_release do
   end
 end
-
