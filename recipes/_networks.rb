@@ -5,11 +5,6 @@
 
 include_recipe 'dhcp::_service'
 
-if node['dhcp']['networks'].empty?
-  Chef::Log.info("Attribute node['dhcp']['networks'] is empty, guess you are using LWRP")
-  return
-end
-
 node['dhcp']['networks'].each do |net|
   if node['dhcp']['use_bags'] == true
     data = data_bag_item(node['dhcp']['networks_bag'], Helpers::DataBags.escape_bagname(net))

@@ -30,8 +30,8 @@ suites:
      networks:
        - 192.168.9.0/24
      options:
-       'domain-name': "vm"
-       'domain-name-servers': 192.168.9.1
+       domain-name: vm
+       domain-name-servers: 192.168.9.1
 
 - name: no_bag
   run_list:
@@ -45,8 +45,22 @@ suites:
      networks:
        - 192.168.9.0/24
      options:
-       'domain-name': "vm"
-       'domain-name-servers': 192.168.9.1
+       domain-name: vm
+       domain-name-servers: 192.168.9.1
+
+- name: shared
+  run_list:
+    - recipe[dhcp_net_setup]
+    - recipe[dhcp::server]
+  attributes:
+    dhcp:
+     groups: []
+     hosts: all
+     shared_networks:
+       - mysharednet
+     options:
+       domain-name: vm
+       domain-name-servers: 192.168.9.1
 
 - name: chef11
   provisioner:
@@ -61,5 +75,5 @@ suites:
      networks:
        - 192.168.9.0/24
      options:
-       'domain-name': "vm"
-       'domain-name-servers': 192.168.9.1
+       domain-name: vm
+       domain-name-servers: 192.168.9.1
