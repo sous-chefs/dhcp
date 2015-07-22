@@ -13,7 +13,7 @@ Large parts were borrowed from  work initially done by Dell, extended by Atalant
 
 Requirements
 ============
-Tested on the following with Chef11:
+Tested on the following with Chef 11 and Chef 12:
 * `Ubuntu 12.04`
 * `CentOS 6`
 
