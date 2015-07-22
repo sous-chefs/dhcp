@@ -39,6 +39,7 @@ describe 'dhcp::_networks' do
         node.set['dhcp']['shared_network_data']['mysharednet']['subnets']['10.0.2.0/24'] = {
           'address' => '10.0.2.0',
           'netmask' => '255.255.255.0',
+          'broadcast' => '10.0.2.255',
           'range'     => '10.0.2.50 10.0.2.240'
         }
       end.converge(described_recipe)
