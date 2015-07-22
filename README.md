@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/chef-brigade/dhcp-cook.png)](http://travis-ci.org/chef-brigade/dhcp-cook)
+[![Build Status](https://secure.travis-ci.org/chef-brigade/dhcp-cookbook.png)](http://travis-ci.org/chef-brigade/dhcp-cookbook)
 
 Description
 ===========
