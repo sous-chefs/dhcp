@@ -1,0 +1,4 @@
+# File managed by Chef
+
+subnet 10.0.2.0 netmask  {
+}
