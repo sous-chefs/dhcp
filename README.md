@@ -319,16 +319,19 @@ end
 
 | Param | Type | Default | Desciption |
 |:----------|:----|:----|:------------|
-| `subnet`   |`String` |  `:name_attribute` | The network subnet
-| `broadcast`|`String`
-| `netmask`  |`String` |
-| `routers`  |`Array`| `[]`
-| `options`  |`Array`| `[]`
-| `range`    |`Array` | `[]`
+| `subnet` | `String` | `:name_attribute` | The network subnet
+| `broadcast`| `String` | `nil` | The broadcast address for the subnet
+| `netmask` | `String` | `nil` | The netmask address for the subnet
+| `routers` | `Array`| `[]` | Gateways for the subnet
+| `options` | `Array`| `[]` | DHCP options to set for the subnet
+| `range` | `Array` | `[]` | Range of IPs to make available for DHCP in the subnet
 | `next_server` | `String` | `nil` | Next server for TFTP/PXE
-| `peer`     |`String` | `nil` | Peer server for this segment
-| `evals`    | `Array` |  `[]` | This is an array of multiline strings of eval
-| `conf_dir` |`String` | `"/etc/dhcp"`
+| `peer` | `String` | `nil` | Peer server for this segment
+| `evals` | `Array` |  `[]` | This is an array of multiline strings of eval
+| `ddns` | `String` | `nil` | Domain name that will be appended to the client's hostname to form a fully-qualified domain-name (FQDN)
+| `key` | `Hash` | `{}` | Shared secret key for DDNS
+| `zones` | `Array` | `[]` | _NOTE: Please help update with a good description_
+| `conf_dir` |`String` | `"/etc/dhcp"` | Main dhcpd config directory
 
 ### Example
 ```ruby
