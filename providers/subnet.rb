@@ -21,7 +21,8 @@ action :add do
       evals: new_resource.evals,
       key: new_resource.key,
       zones: new_resource.zones,
-      ddns: new_resource.ddns
+      ddns: new_resource.ddns,
+      next_server: new_resource.next_server
     )
     owner 'root'
     group 'root'

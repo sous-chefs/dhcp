@@ -13,7 +13,9 @@ Large parts were borrowed from  work initially done by Dell, extended by Atalant
 
 Requirements
 ============
-Tested on `Ubuntu 12.04` `CentOS 6` using Chef 10+
+Tested on the following with Chef11:
+* `Ubuntu 12.04`
+* `CentOS 6`
 
 Limitations
 ===========
@@ -144,7 +146,8 @@ Make sure you escape `"`'s properly as dhcpd is touchy about the format of value
   "netmask": "255.255.255.0",
   "broadcast": "192.168.1.255",
   "range": "192.168.1.50 192.168.1.240",
-  "options": [ "next-server 192.168.1.11" ]
+  "options": [ "time-offset 10" ],
+  "next_server": "192.168.1.11"
 }
 ```
 
@@ -322,6 +325,7 @@ end
 | `routers`  |`Array`| `[]`
 | `options`  |`Array`| `[]`
 | `range`    |`Array` | `[]`
+| `next_server` | `String` | `nil` | Next server for TFTP/PXE
 | `peer`     |`String` | `nil` | Peer server for this segment
 | `evals`    | `Array` |  `[]` | This is an array of multiline strings of eval
 | `conf_dir` |`String` | `"/etc/dhcp"`
@@ -332,7 +336,8 @@ dhcp_subnet "192.168.1.0" do
   range ["192.168.1.100 192.168.1.200", "10.33.66.10 10.33.66.100"]
   netmask "255.255.255.0"
   broadcast "192.168.1.255"
-  options [ "next-server 192.168.1.11" ]
+  options [ "time-offset 10" ]
+  next_server "192.168.1.11"
   routers "192.168.1.1"
   evals [ %q|
     if exists user-class and option user-class = "iPXE" {

@@ -6,7 +6,7 @@ include Dhcp::Helpers
 action :add do
   directory "#{new_resource.conf_dir}/hosts.d/"
 
-  t = template "#{new_resource.conf_dir}/hosts.d/#{new_resource.hostname}.conf" do
+  t = template "#{new_resource.conf_dir}/hosts.d/#{new_resource.name}.conf" do
     cookbook 'dhcp'
     source 'host.conf.erb'
     variables(

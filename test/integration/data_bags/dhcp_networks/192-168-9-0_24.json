@@ -5,5 +5,6 @@
   "netmask": "255.255.255.0",
   "broadcast": "192.168.9.255",
   "range": "192.168.9.50 192.168.9.240",
-  "options": [ "next-server 192.168.9.11" ]
+  "options": [ "time-offset 10" ],
+  "next_server": "192.168.9.11"
 }
