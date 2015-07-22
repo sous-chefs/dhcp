@@ -5,7 +5,7 @@ default_action :add
 
 attribute :subnet, kind_of: String, name_attribute: true
 attribute :broadcast, kind_of: String
-attribute :netmask, kind_of: String
+attribute :netmask, kind_of: String, required: true
 attribute :routers, kind_of: Array, default: []
 attribute :options, kind_of: Array, default: []
 attribute :range, kind_of: [Array, String]

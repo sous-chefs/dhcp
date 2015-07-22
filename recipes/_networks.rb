@@ -15,11 +15,11 @@ node['dhcp']['networks'].each do |net|
   next unless data
   # run the lwrp with the bag data
   dhcp_subnet data['address'] do
-    broadcast data['broadcast']
-    netmask data['netmask']
+    broadcast data['broadcast'] if data.key? 'broadcast'
+    netmask data['netmask'] if data.key? 'netmask'
     routers data['routers'] || []
     options data['options'] || []
-    range data['range'] || ''
+    range data['range'] if data.key? 'range'
     ddns data['ddns'] if data.key? 'ddns'
     conf_dir node['dhcp']['dir']
     peer node['domain'] if node['dhcp']['failover']

@@ -1,5 +1,7 @@
 # Define using defaults
-dhcp_subnet '10.0.2.0'
+dhcp_subnet '10.0.2.0' do
+  netmask '255.255.254.0' # Requried attribute
+end
 
 # Override everything
 dhcp_subnet 'overrides' do

@@ -18,7 +18,7 @@ describe 'dhcp::_networks' do
       ChefSpec::SoloRunner.new(platform: 'centos', version: '6.6', step_into: ['dhcp_subnet', 'dhcp_shared_network']) do |node|
         node.set['chef_environment'] = 'production'
         node.set['dhcp']['use_bags'] = false
-        node.set['dhcp']['networks'] = ['192.168.9.0/24']
+        node.set['dhcp']['networks'] = ['192.168.9.0/24', '192.168.11.0/24']
         node.set['dhcp']['network_data']['192.168.9.0/24'] = {
           'routers'     => ['192.168.9.1'],
           'address'     => '192.168.9.0',
@@ -27,6 +27,10 @@ describe 'dhcp::_networks' do
           'range'       => '192.168.9.50 192.168.9.240',
           'options'     => ['time-offset 10'],
           'next_server' => '192.168.9.11'
+        }
+        node.set['dhcp']['network_data']['192.168.11.0/24'] = {
+          'address'     => '192.168.11.0',
+          'netmask'     => '255.255.255.0'
         }
         node.set['dhcp']['shared_network_data']['mysharednet']['subnets']['192.168.10.0/24'] = {
           'routers'   => ['192.168.10.1'],
@@ -56,6 +60,11 @@ describe 'dhcp::_networks' do
     it 'generates subnet config for 192.168.9.0' do
       expect(chef_run).to create_template '/etc/dhcp/subnets.d/192.168.9.0.conf'
       expect(chef_run).to render_file('/etc/dhcp/subnets.d/192.168.9.0.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', '192.168.9.0.conf'))
+    end
+
+    it 'generates blank subnet config for 192.168.11.0' do
+      expect(chef_run).to create_template '/etc/dhcp/subnets.d/192.168.11.0.conf'
+      expect(chef_run).to render_file('/etc/dhcp/subnets.d/192.168.11.0.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', '192.168.11.0.conf'))
     end
 
     it 'declares shared network mysharednet' do

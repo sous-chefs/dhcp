@@ -1,4 +1,5 @@
 # File managed by Chef
 
-subnet 10.0.2.0 netmask  {
+subnet 10.0.2.0 netmask 255.255.254.0 {
+  option subnet-mask 255.255.254.0;
 }
