@@ -13,6 +13,7 @@ default['dhcp']['allows'] = ['booting', 'bootp', 'unknown-clients']
 default['dhcp']['hosts'] = []
 default['dhcp']['groups'] = []
 default['dhcp']['networks'] = []
+default['dhcp']['shared_networks'] = []
 default['dhcp']['interfaces'] = []
 
 # turn bag support on/off

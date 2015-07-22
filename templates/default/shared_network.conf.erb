@@ -1,0 +1,21 @@
+# File managed by Chef
+
+shared-network <%= @name %> {
+  <% @subnets.each do |subnet| -%>
+  <%= render 'subnet.erb', :variables => {
+          subnet: subnet.subnet,
+          netmask: subnet.netmask,
+          broadcast: subnet.broadcast,
+          routers: subnet.routers,
+          options: subnet.options,
+          range: subnet.range.is_a?(String) ? [subnet.range] : subnet.range,
+          peer: subnet.peer,
+          evals: subnet.evals,
+          key: subnet.key,
+          zones: subnet.zones,
+          ddns: subnet.ddns,
+          next_server: subnet.next_server
+        }
+    %>
+  <% end -%>
+}

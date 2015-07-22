@@ -349,6 +349,44 @@ dhcp_subnet "192.168.1.0" do
 end
 ```
 
+## dhcp_shared_network
+
+| Action | Description |
+|:----------|:---------|
+| `add`    | `_default_` Add this shared network
+| `remove` | Delete this shared network record
+
+### Paramaters
+
+| Param | Type | Default | Desciption |
+|:----------|:----|:----|:------------|
+| `subnet` | `dhcp_subnet` |  `nil` | The network subnet to define inside the shared network.  Can define multiple.
+
+### Example
+```ruby
+dhcp_shared_network 'mysharednet' do
+  subnet '192.168.1.0' do
+    range ['192.168.1.100 192.168.1.200', '10.33.66.10 10.33.66.100']
+    netmask '255.255.255.0'
+    broadcast '192.168.1.255'
+    next_server '192.168.1.11'
+    routers '192.168.1.1'
+    evals [ %q|
+      if exists user-class and option user-class = "iPXE" {
+        filename "bootstrap.ipxe";
+      } else {
+        filename "undionly.kpxe";
+      }
+    | ]
+  end
+  subnet '10.0.2.0' do
+    broadcast '10.0.2.254'
+    netmask '255.255.255.0'
+    range ['10.0.2.50 10.0.2.240']
+  end
+end
+```
+
 License and Author
 ==================
 
