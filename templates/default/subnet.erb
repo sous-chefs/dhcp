@@ -1,0 +1,48 @@
+subnet <%= @subnet %> netmask <%= @netmask%> {
+<% unless @range.empty? -%>
+pool {
+  <% if @peer -%>
+  failover peer "<%= node['domain'] %>";
+  <% end -%>
+  <%   @range.each do |range| %>
+  range <%= range %>;
+  <%   end -%>
+}
+<% end -%>
+<% if @ddns -%>
+  ddns-domainname "<%= @ddns %>";
+<% end -%>
+<% unless @routers.empty? -%>
+  option routers <%= @routers.map {|i| i }.join(",") %>;
+<% end -%>
+  option subnet-mask <%= @netmask %>;
+  option broadcast-address <%= @broadcast %>;
+<% unless @options.empty? -%>
+<%   @options.sort.each do |option| -%>
+  option <%= option %>;
+<%   end -%>
+<% end -%>
+<% if @next_server -%>
+  next-server <%= @next_server %>;
+<% end -%>
+
+<% @evals.sort.each do |eval| -%>
+<%= eval %>
+<% end -%>
+
+<% unless @key.empty? -%>
+  key <%= @key['name'] %> {
+    algorithm <%= @key['algorithm'] %>;
+    secret "<%= @key['secret'] %>";
+  };
+<% end -%>
+
+<% unless @zones.empty? -%>
+<% @zones.each do |zone| -%>
+  zone <%= zone['zone'] %> {
+    primary <%= zone['primary'] %>;
+    key <%= zone['key'] %>;
+  }
+<% end -%>
+<% end -%>
+}
