@@ -1,3 +1,6 @@
+### 4.0.1
+* fix: be able to declare a blank subnet inside a shared-network
+
 ### 4.0.0
 * feature: dhcp_shared_network provider to define subnets inside a shared-network block
 * improve: allowing as blank as possible of a subnet block
