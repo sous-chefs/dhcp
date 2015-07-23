@@ -42,9 +42,7 @@ describe 'dhcp::_networks' do
         }
         node.set['dhcp']['shared_network_data']['mysharednet']['subnets']['10.0.2.0/24'] = {
           'address' => '10.0.2.0',
-          'netmask' => '255.255.255.0',
-          'broadcast' => '10.0.2.255',
-          'range'     => '10.0.2.50 10.0.2.240'
+          'netmask' => '255.255.255.0'
         }
       end.converge(described_recipe)
     end
@@ -67,8 +65,22 @@ describe 'dhcp::_networks' do
       expect(chef_run).to render_file('/etc/dhcp/subnets.d/192.168.11.0.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', '192.168.11.0.conf'))
     end
 
-    it 'declares shared network mysharednet' do
+    it 'declares shared-network mysharednet' do
       expect(chef_run).to add_dhcp_shared_network('mysharednet')
+    end
+
+    it 'declares the subnets in the mysharednet shared-network' do
+      subnet1 = chef_run.dhcp_subnet '192.168.10.0'
+      expect(subnet1).to do_nothing
+      expect(subnet1.range).to eq '192.168.10.50 192.168.10.240'
+      expect(subnet1.subnet).to eq '192.168.10.0'
+      expect(subnet1.netmask).to eq '255.255.255.0'
+
+      subnet2 = chef_run.dhcp_subnet '10.0.2.0'
+      expect(subnet2).to do_nothing
+      expect(subnet2.range).to be_nil
+      expect(subnet2.subnet).to eq '10.0.2.0'
+      expect(subnet2.netmask).to eq '255.255.255.0'
     end
 
     it 'generates a shared network config' do
