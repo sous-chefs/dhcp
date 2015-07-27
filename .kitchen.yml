@@ -1,22 +1,23 @@
 ---
-driver_plugin: vagrant
-provisioner: chef_zero
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
 
 platforms:
-- name: centos-6.4
-  driver_config:
-    attributes:
-      dhcp:
-        interfaces:
-          - eth0:0
+- name: centos-6.6
+  attributes:
+    dhcp:
+      interfaces:
+        - eth0:0
 - name: ubuntu-12.04
   run_list:
     - recipe[ubuntu]
-  driver_config:
-    attributes:
-      dhcp:
-        interfaces:
-          - eth0
+  attributes:
+    dhcp:
+      interfaces:
+        - eth0
 
 suites:
 - name: default

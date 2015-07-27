@@ -6,23 +6,36 @@ cfg_dir = File.expand_path File.dirname(__FILE__)
 ENV['BERKSHELF_PATH'] = cfg_dir + '/.berkshelf'
 cook_dir = cfg_dir + '/.cooks'
 
-task :default => 'test:quick'
+# Checks if we are inside Travis CI.
+#
+# @return [Boolean] whether we are inside Travis CI.
+# @example
+#   travis? #=> false
+def travis?
+  ENV['TRAVIS'] == 'true'
+end
+
+task default: 'test:quick'
 namespace :test do
-
-  RSpec::Core::RakeTask.new(:spec) do |t|
-    t.pattern = Dir.glob('test/spec/**/*_spec.rb')
-    t.rspec_opts = "--color -f d --fail-fast"
-    system "rm -rf  #{cook_dir}"
-    system "berks vendor #{cook_dir}"
+  desc 'Run all of the quick tests.'
+  task :quick do
+    Rake::Task['style'].invoke
+    Rake::Task['unit'].invoke
   end
 
-  begin
-    require 'kitchen/rake_tasks'
-    Kitchen::RakeTasks.new
-  rescue
-    puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
+  desc 'Run _all_ the tests. Go get a coffee.'
+  task :complete do
+    Rake::Task['test:quick'].invoke
+    Rake::Task['integration'].invoke
   end
 
+  desc 'Run CI tests'
+  task :ci do
+    Rake::Task['test:complete'].invoke
+  end
+end
+
+namespace :style do
   begin
     require 'foodcritic/rake_task'
     require 'foodcritic'
@@ -38,30 +51,48 @@ namespace :test do
     require 'rubocop/rake_task'
     RuboCop::RakeTask.new do |task|
       task.fail_on_error = true
-      task.options = %w{-D -a}
+      task.options = %w(-D -a)
     end
   rescue LoadError
-    warn "Rubocop gem not installed, now the code will look like crap!"
-  end
-
-  desc 'Run all of the quick tests.'
-  task :quick do
-    Rake::Task['test:rubocop'].invoke
-    Rake::Task['test:foodcritic'].invoke
-    Rake::Task['test:spec'].invoke
-  end
-
-  desc 'Run _all_ the tests. Go get a coffee.'
-  task :complete do
-    Rake::Task['test:quick'].invoke
-    Rake::Task['test:kitchen:all'].invoke
-  end
-
-  desc 'Run CI tests'
-  task :ci do
-    Rake::Task['test:complete'].invoke
+    warn 'Rubocop gem not installed, now the code will look like crap!'
   end
 end
+
+desc 'Run styling tests'
+task style: ['style:foodcritic', 'style:rubocop']
+
+namespace :unit do
+  RSpec::Core::RakeTask.new(:spec) do |t|
+    t.pattern = Dir.glob('test/spec/**/*_spec.rb')
+    t.rspec_opts = '--color -f d --fail-fast'
+    system "rm -rf  #{cook_dir}"
+    system "berks vendor #{cook_dir}"
+  end
+end
+
+desc 'Run unit tests'
+task unit: ['unit:spec']
+
+namespace :integration do
+  def run_kitchen
+    sh "kitchen test #{ENV['KITCHEN_ARGS']} #{ENV['KITCHEN_REGEXP']}"
+  end
+
+  desc 'Run Test Kitchen integration tests using vagrant'
+  task :vagrant do
+    ENV.delete('KITCHEN_LOCAL_YAML')
+    run_kitchen
+  end
+
+  desc 'Run Test Kitchen integration tests using docker'
+  task :docker do
+    ENV['KITCHEN_LOCAL_YAML'] = '.kitchen.docker.yml'
+    run_kitchen
+  end
+end
+
+desc 'Run Test Kitchen integration tests'
+task integration: travis? ? %w(integration:docker) : %w(integration:vagrant)
 
 namespace :release do
   task :update_metadata do

@@ -1,0 +1,23 @@
+---
+driver:
+  name: docker
+  privileged: true
+
+platforms:
+- name: centos-6.6
+  attributes:
+    dhcp:
+      interfaces:
+        - eth0:0
+- name: ubuntu-12.04
+  run_list:
+    - recipe[ubuntu]
+  driver:
+    image: ubuntu-upstart:12.04
+    platform: ubuntu
+    disable_upstart: false
+    run_command: /sbin/init
+  attributes:
+    dhcp:
+      interfaces:
+        - eth0
