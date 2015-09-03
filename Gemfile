@@ -30,10 +30,9 @@ group :integration do
 end
 
 group :integration_docker do
-  gem 'kitchen-docker', '~> 2.1'
+  gem 'kitchen-docker', '~> 2.3'
 end
 
 group :integration_vagrant do
-  gem 'vagrant-wrapper', '~> 2.0'
-  gem 'kitchen-vagrant', '~> 0.10'
+  gem 'kitchen-vagrant', '~> 0.18'
 end
