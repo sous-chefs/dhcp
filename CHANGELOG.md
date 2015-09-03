@@ -1,3 +1,7 @@
+4.1.0
+-----
+* feature: dhcp_class provider
+
 ### 4.0.1
 * fix: be able to declare a blank subnet inside a shared-network
 
