@@ -16,4 +16,8 @@ if defined?(ChefSpec)
   def remove_dhcp_shared_network(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:dhcp_shared_network, :remove, resource_name)
   end
+
+  def add_dhcp_class(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:dhcp_class, :add, resource_name)
+  end
 end
