@@ -10,6 +10,7 @@ describe 'testing::dhcp_class' do
 # file managed by chef
 # Host entry includes
 #
+include "/etc/dhcp/classes.d/BlankClass.conf";
 include "/etc/dhcp/classes.d/RegisteredHosts.conf";'
   end
 
@@ -22,7 +23,12 @@ include "/etc/dhcp/classes.d/RegisteredHosts.conf";'
     expect(chef_run).to render_file('/etc/dhcp/classes.d/list.conf').with_content(list_conf_contents)
   end
 
-  it 'generates class config' do
+  it 'generates a blank class config' do
+    expect(chef_run).to create_template '/etc/dhcp/classes.d/BlankClass.conf'
+    expect(chef_run).to render_file('/etc/dhcp/classes.d/BlankClass.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', 'dhcp_class_blank.conf'))
+  end
+
+  it 'generates class config with subclasses' do
     expect(chef_run).to create_template '/etc/dhcp/classes.d/RegisteredHosts.conf'
     expect(chef_run).to render_file('/etc/dhcp/classes.d/RegisteredHosts.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', 'dhcp_class_registered_hosts.conf'))
   end

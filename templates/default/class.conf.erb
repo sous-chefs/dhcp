@@ -3,6 +3,8 @@
 class "<%= @name %>" {
   match <%= @match %>;
 }
+<% unless @subclasses.nil? || @subclasses.empty? -%>
 <% @subclasses.each do |value| -%>
 subclass "<%= @name %>" <%= value %>;
+<% end -%>
 <% end -%>

@@ -1,3 +1,7 @@
+dhcp_class 'BlankClass' do
+  match 'hardware'
+end
+
 dhcp_class 'RegisteredHosts' do
   match 'hardware'
   subclass '1:10:bf:48:42:55:01'
