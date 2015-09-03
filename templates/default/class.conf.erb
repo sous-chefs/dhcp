@@ -1,0 +1,8 @@
+# File managed by Chef
+
+class "<%= @name %>" {
+  match <%= @match %>;
+}
+<% @subclasses.each do |value| -%>
+subclass "<%= @name %>" <%= value %>;
+<% end -%>

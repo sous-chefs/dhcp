@@ -390,6 +390,36 @@ dhcp_shared_network 'mysharednet' do
 end
 ```
 
+## dhcp_class
+
+Manage dhcp classes
+
+### Actions
+
+| Action | Description |
+|:----------|:---------|
+| `add`    | `_default_` Add this host record
+
+### Paramaters
+| Param | Type | Default |
+|:----------|:---------|:-------|
+| `match`   | `String` | |
+| `subclass` | `String` | |
+| `subclasses`  | `Array` | `[]` |
+
+### Example
+
+Add a Node
+```ruby
+dhcp_class 'ignorehosts' do
+  match 'hardware'
+  subclass '1:10:bf:48:42:55:01'
+  subclass '1:10:bf:48:42:55:02'
+end
+```
+
+If you undefine an entry it will also get removed.
+
 License and Author
 ==================
 
