@@ -1,3 +1,7 @@
+4.1.2
+-----
+* bug: Allow defining dhcp_class with no subclasses
+
 4.1.1
 -----
 * improve: Add dhcp_class ChefSpec matcher
