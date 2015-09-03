@@ -32,7 +32,7 @@ matrix:
 bundler_args: --without integration_vagrant guard
 
 before_script:
-  - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.1.0/scripts/start_docker.sh)
+  - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
 
 script:
   - bundle exec rake $TESTS
