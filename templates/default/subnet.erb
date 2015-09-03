@@ -1,14 +1,14 @@
 subnet <%= @subnet %> netmask <%= @netmask%> {
 <% unless @range.nil? || @range.empty? -%>
 <% if @peer || @range -%>
-pool {
-  <% if @peer -%>
-  failover peer "<%= node['domain'] %>";
-  <% end -%>
-  <% @range.each do |range| -%>
-  range <%= range %>;
-  <% end -%>
-}
+  pool {
+    <% if @peer -%>
+    failover peer "<%= node['domain'] %>";
+    <% end -%>
+    <% @range.each do |range| -%>
+    range <%= range %>;
+    <% end -%>
+  }
 <% end -%>
 <% end -%>
 <% if @ddns -%>
@@ -32,9 +32,9 @@ pool {
   next-server <%= @next_server %>;
 <% end -%>
 <% @evals.sort.each do |eval| -%>
-<%= eval %>
-
+  <%= eval %>
 <% end -%>
+
 <% unless @key.empty? -%>
   key <%= @key['name'] %> {
     algorithm <%= @key['algorithm'] %>;
