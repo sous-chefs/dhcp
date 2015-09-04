@@ -34,7 +34,6 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
 <% @evals.sort.each do |eval| -%>
   <%= eval %>
 <% end -%>
-
 <% unless @key.empty? -%>
   key <%= @key['name'] %> {
     algorithm <%= @key['algorithm'] %>;
