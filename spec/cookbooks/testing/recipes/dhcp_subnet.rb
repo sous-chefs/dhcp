@@ -10,9 +10,11 @@ dhcp_subnet 'overrides' do
   netmask '255.255.255.0'
   routers ['192.168.0.1']
   options ['time-offset 10']
-  range '192.168.0.100 192.168.0.200'
+  pool do
+    peer '192.168.0.2'
+    range '192.168.0.100 192.168.0.200'
+  end
   ddns 'test.com'
-  peer '192.168.0.2'
   evals [%q(
     if exists user-class and option user-class = "iPXE" {
       filename "bootstrap.ipxe";

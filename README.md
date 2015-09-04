@@ -324,19 +324,27 @@ end
 | `netmask` | `String` | `nil` | The netmask address for the subnet
 | `routers` | `Array`| `[]` | Gateways for the subnet
 | `options` | `Array`| `[]` | DHCP options to set for the subnet
-| `range` | `Array` | `[]` | Range of IPs to make available for DHCP in the subnet
+| `pool`    | `block` | `nil` | Define a pool block for a `dhcp_subnet`.  See 'Parameters for pool' below.
 | `next_server` | `String` | `nil` | Next server for TFTP/PXE
-| `peer` | `String` | `nil` | Peer server for this segment
 | `evals` | `Array` |  `[]` | This is an array of multiline strings of eval
 | `ddns` | `String` | `nil` | Domain name that will be appended to the client's hostname to form a fully-qualified domain-name (FQDN)
 | `key` | `Hash` | `{}` | Shared secret key for DDNS
 | `zones` | `Array` | `[]` | _NOTE: Please help update with a good description_
 | `conf_dir` |`String` | `"/etc/dhcp"` | Main dhcpd config directory
 
+#### Parameters for pool
+
+| Param | Type | Default | Desciption |
+|:----------|:----|:----|:------------|
+| `peer` | `String` | `nil` | Peer server for this segment
+| `range` | `String` or `Array` | `[]` | Range of IPs to make available for DHCP in the subnet
+
 ### Example
 ```ruby
 dhcp_subnet "192.168.1.0" do
-  range ["192.168.1.100 192.168.1.200", "10.33.66.10 10.33.66.100"]
+  pool do
+    range ["192.168.1.100 192.168.1.200", "10.33.66.10 10.33.66.100"]
+  end
   netmask "255.255.255.0"
   broadcast "192.168.1.255"
   options [ "time-offset 10" ]
@@ -369,7 +377,9 @@ end
 ```ruby
 dhcp_shared_network 'mysharednet' do
   subnet '192.168.1.0' do
-    range ['192.168.1.100 192.168.1.200', '10.33.66.10 10.33.66.100']
+    pool do
+      range ['192.168.1.100 192.168.1.200', '10.33.66.10 10.33.66.100']
+    end
     netmask '255.255.255.0'
     broadcast '192.168.1.255'
     next_server '192.168.1.11'
@@ -385,7 +395,9 @@ dhcp_shared_network 'mysharednet' do
   subnet '10.0.2.0' do
     broadcast '10.0.2.254'
     netmask '255.255.255.0'
-    range ['10.0.2.50 10.0.2.240']
+    pool do
+      range ['10.0.2.50 10.0.2.240']
+    end
   end
 end
 ```

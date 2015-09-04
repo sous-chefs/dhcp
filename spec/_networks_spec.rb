@@ -51,8 +51,16 @@ describe 'dhcp::_networks' do
       expect(chef_run).to add_dhcp_subnet('192.168.9.0')
         .with(broadcast: '192.168.9.255', netmask: '255.255.255.0', routers: ['192.168.9.1'],
               options: ['time-offset 10'], next_server: '192.168.9.11',
-              range: '192.168.9.50 192.168.9.240', conf_dir: '/etc/dhcp',
-              evals: [], key: {}, zones: [])
+              conf_dir: '/etc/dhcp', evals: [], key: {}, zones: [])
+
+      # Check that pools are defined for the subnet
+      subnet = chef_run.dhcp_subnet '192.168.9.0'
+      expect(subnet.pools.count).to eq 1
+
+      # Check that the pool is defined correctly
+      subnet_pool = chef_run.dhcp_pool '192.168.9.0-pool0'
+      expect(subnet_pool).to do_nothing
+      expect(subnet_pool.range).to eq '192.168.9.50 192.168.9.240'
     end
 
     it 'generates subnet config for 192.168.9.0' do
@@ -72,13 +80,16 @@ describe 'dhcp::_networks' do
     it 'declares the subnets in the mysharednet shared-network' do
       subnet1 = chef_run.dhcp_subnet '192.168.10.0'
       expect(subnet1).to do_nothing
-      expect(subnet1.range).to eq '192.168.10.50 192.168.10.240'
+      expect(subnet1.pools.count).to eq 1
       expect(subnet1.subnet).to eq '192.168.10.0'
       expect(subnet1.netmask).to eq '255.255.255.0'
+      subnet1_pool = chef_run.dhcp_pool '192.168.10.0-pool0'
+      expect(subnet1_pool).to do_nothing
+      expect(subnet1_pool.range).to eq '192.168.10.50 192.168.10.240'
 
       subnet2 = chef_run.dhcp_subnet '10.0.2.0'
       expect(subnet2).to do_nothing
-      expect(subnet2.range).to be_nil
+      expect(subnet2.pools).to be_nil
       expect(subnet2.subnet).to eq '10.0.2.0'
       expect(subnet2.netmask).to eq '255.255.255.0'
     end

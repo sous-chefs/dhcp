@@ -19,10 +19,14 @@ node['dhcp']['networks'].each do |net|
     netmask data['netmask'] if data.key? 'netmask'
     routers data['routers'] || []
     options data['options'] || []
-    range data['range'] if data.key? 'range'
+    if data.key?('range') || node['dhcp']['failover']
+      pool do
+        range data['range'] if data.key? 'range'
+        peer node['domain'] if node['dhcp']['failover']
+      end
+    end
     ddns data['ddns'] if data.key? 'ddns'
     conf_dir node['dhcp']['dir']
-    peer node['domain'] if node['dhcp']['failover']
     evals data['evals'] || []
     key data['key'] || {}
     zones data['zones'] || []
@@ -41,10 +45,14 @@ if node['dhcp']['use_bags']
           netmask data['netmask'] if data.key? 'netmask'
           routers data['routers'] || []
           options data['options'] || []
-          range data['range'] if data.key? 'range'
+          if data.key?('range') || node['dhcp']['failover']
+            pool do
+              range data['range'] if data.key? 'range'
+              peer node['domain'] if node['dhcp']['failover']
+            end
+          end
           ddns data['ddns'] if data.key? 'ddns'
           conf_dir node['dhcp']['dir']
-          peer node['domain'] if node['dhcp']['failover']
           evals data['evals'] || []
           key data['key'] || {}
           zones data['zones'] || []
@@ -65,10 +73,14 @@ unless node['dhcp']['use_bags']
           netmask data['netmask'] if data.key? 'netmask'
           routers data['routers'] || []
           options data['options'] || []
-          range data['range'] if data.key? 'range'
+          if data.key?('range') || node['dhcp']['failover']
+            pool do
+              range data['range'] if data.key? 'range'
+              peer node['domain'] if node['dhcp']['failover']
+            end
+          end
           ddns data['ddns'] if data.key? 'ddns'
           conf_dir node['dhcp']['dir']
-          peer node['domain'] if node['dhcp']['failover']
           evals data['evals'] || []
           key data['key'] || {}
           zones data['zones'] || []

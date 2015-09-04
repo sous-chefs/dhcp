@@ -1,5 +1,7 @@
 if defined?(ChefSpec)
   ChefSpec.define_matcher :dhcp_subnet
+  ChefSpec.define_matcher :dhcp_shared_network
+  ChefSpec.define_matcher :dhcp_pool
 
   def add_dhcp_subnet(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:dhcp_subnet, :add, resource_name)

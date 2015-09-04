@@ -1,14 +1,7 @@
 subnet <%= @subnet %> netmask <%= @netmask%> {
-<% unless @range.nil? || @range.empty? -%>
-<% if @peer || @range -%>
-pool {
-  <% if @peer -%>
-  failover peer "<%= node['domain'] %>";
-  <% end -%>
-  <% @range.each do |range| -%>
-  range <%= range %>;
-  <% end -%>
-}
+<% unless @pools.nil? || @pools.empty? -%>
+<% @pools.each do |pool| -%>
+<%= render 'subnet_pool.erb', :variables => { peer: pool.peer, range: pool.range, node: @node } %>
 <% end -%>
 <% end -%>
 <% if @ddns -%>
