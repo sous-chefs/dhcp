@@ -338,6 +338,7 @@ end
 |:----------|:----|:----|:------------|
 | `peer` | `String` | `nil` | Peer server for this segment
 | `range` | `String` or `Array` | `[]` | Range of IPs to make available for DHCP in the subnet
+| `deny` | `String` | `nil` | Only those clients that do not match any entries on the deny list will be eligible.
 
 ### Example
 ```ruby

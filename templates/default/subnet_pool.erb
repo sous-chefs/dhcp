@@ -6,4 +6,7 @@ pool {
   <% @range.each do |range| -%>
   range <%= range %>;
   <% end -%>
+  <% if @deny -%>
+  deny <%= @deny %>;
+  <% end -%>
 }

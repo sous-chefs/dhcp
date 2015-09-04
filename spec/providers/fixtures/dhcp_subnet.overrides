@@ -4,6 +4,7 @@ subnet 192.168.0.0 netmask 255.255.255.0 {
 pool {
   failover peer "local";
   range 192.168.0.100 192.168.0.200;
+  deny members of "RegisteredHosts";
 }
 
   ddns-domainname "test.com";

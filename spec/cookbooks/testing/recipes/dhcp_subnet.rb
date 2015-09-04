@@ -3,6 +3,18 @@ dhcp_subnet '10.0.2.0' do
   netmask '255.255.254.0' # Requried attribute
 end
 
+# Basic definition
+dhcp_subnet 'basic' do
+  subnet '192.168.0.0'
+  broadcast '192.168.0.255'
+  netmask '255.255.255.0'
+  routers ['192.168.0.1']
+  options ['time-offset 10']
+  pool do
+    range '192.168.0.100 192.168.0.200'
+  end
+end
+
 # Override everything
 dhcp_subnet 'overrides' do
   subnet '192.168.0.0'
@@ -13,6 +25,7 @@ dhcp_subnet 'overrides' do
   pool do
     peer '192.168.0.2'
     range '192.168.0.100 192.168.0.200'
+    deny 'members of "RegisteredHosts"'
   end
   ddns 'test.com'
   evals [%q(
