@@ -5,7 +5,7 @@ if Gem::Version.new(Chef::VERSION) <= Gem::Version.new('12.4.1')
       module Template
         class TemplateContext < Erubis::Context # rubocop:disable Documentation
           def render(partial_name, options = {})
-            raise "You cannot render partials in this context" unless @template_finder
+            fail 'You cannot render partials in this context' unless @template_finder
 
             partial_variables = options.delete(:variables) || _public_instance_variables
             partial_variables[:template_finder] = @template_finder
