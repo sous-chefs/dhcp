@@ -1,3 +1,4 @@
+# Hotfix Chef with bugfix for https://github.com/chef/chef/issues/2513
 if Gem::Version.new(Chef::VERSION) <= Gem::Version.new('12.4.1')
   class Chef
     module Mixin
