@@ -1,5 +1,3 @@
-include_attribute 'dhcp'
-
 default['dhcp']['network_data']['192.168.9.0/24'] = {
   'id' => '192-168-9-0_24',
   'routers'     => ['192.168.9.1'],
