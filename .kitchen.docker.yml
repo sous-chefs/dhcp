@@ -8,7 +8,8 @@ platforms:
   attributes:
     dhcp:
       interfaces:
-        - eth0:0
+        - eth0
+        - eth1
 - name: ubuntu-12.04
   run_list:
     - recipe[ubuntu]
@@ -21,3 +22,4 @@ platforms:
     dhcp:
       interfaces:
         - eth0
+        - eth1
