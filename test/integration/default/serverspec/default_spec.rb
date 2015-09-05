@@ -1,11 +1,27 @@
 require 'spec_helper'
 
-# simple example
-describe package('yum') do
-  case os[:family]
-  when 'redhat'
-    it { should be_installed }
-  else
-    it { should_not be_installed }
+case os[:family]
+when 'redhat'
+  package_name = 'dhcp'
+  service_name = 'dhcpd'
+when 'debian', 'ubuntu'
+  package_name = 'isc-dhcp-server'
+  service_name = 'isc-dhcp-server'
+end
+
+describe 'dhcp::_package' do
+  it 'installs dhcp server package' do
+    expect(package(package_name)).to be_installed
+  end
+end
+
+describe 'dhcp::_service' do
+  it 'enables dhcp server service' do
+    expect(service(service_name)).to be_enabled
+    expect(service(service_name)).to be_running
+  end
+
+  describe process('dhcpd') do
+    it { should be_running }
   end
 end
