@@ -5,11 +5,6 @@ driver:
 
 platforms:
 - name: centos-6.6
-  attributes:
-    dhcp:
-      interfaces:
-        - eth0
-        - eth1
 - name: ubuntu-12.04
   run_list:
     - recipe[ubuntu]
@@ -18,8 +13,3 @@ platforms:
     platform: ubuntu
     disable_upstart: false
     run_command: /sbin/init
-  attributes:
-    dhcp:
-      interfaces:
-        - eth0
-        - eth1

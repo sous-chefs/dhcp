@@ -7,19 +7,9 @@ provisioner:
 
 platforms:
 - name: centos-6.6
-  attributes:
-    dhcp:
-      interfaces:
-        - eth0
-        - eth1
 - name: ubuntu-12.04
   run_list:
     - recipe[ubuntu]
-  attributes:
-    dhcp:
-      interfaces:
-        - eth0
-        - eth1
 
 suites:
 - name: default
@@ -28,6 +18,9 @@ suites:
     - recipe[dhcp::server]
   attributes:
     dhcp:
+      interfaces:
+        - eth0
+        - eth1
       groups: []
       hosts: all
       networks:
@@ -45,14 +38,17 @@ suites:
     - recipe[dhcp::server]
   attributes:
     dhcp:
-     use_bags: false
-     groups: []
-     hosts: all
-     networks:
-       - 192.168.9.0/24
-     options:
-       domain-name: vm
-       domain-name-servers: 192.168.9.1
+      interfaces:
+        - eth0
+        - eth1
+      use_bags: false
+      groups: []
+      hosts: all
+      networks:
+        - 192.168.9.0/24
+      options:
+        domain-name: vm
+        domain-name-servers: 192.168.9.1
 
 - name: chef11
   provisioner:
@@ -62,6 +58,9 @@ suites:
     - recipe[dhcp::server]
   attributes:
     dhcp:
+      interfaces:
+        - eth0
+        - eth1
       groups: []
       hosts: all
       networks:
