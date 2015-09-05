@@ -1,3 +1,9 @@
+5.0.0
+-----
+* BREAKING feature: Allow defining multiple pools in a subnet
+ * This moves `range` and `peer` attribtue from `dhcp_subnet` block to embedded `pool` block inside `dhcp_subnet`.  See updated examples.
+ * Currently this DOES NOT break defining subnets via data_bags or node attributes
+
 4.1.2
 -----
 * bug: Allow defining dhcp_class with no subclasses
