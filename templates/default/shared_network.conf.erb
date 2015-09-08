@@ -3,6 +3,7 @@
 shared-network <%= @name %> {
   <% @subnets.each do |subnet| -%>
   <%= render 'subnet.erb', :variables => {
+          node: @node,
           subnet: subnet.subnet,
           netmask: subnet.netmask,
           broadcast: subnet.broadcast,
@@ -15,6 +16,6 @@ shared-network <%= @name %> {
           ddns: subnet.ddns,
           next_server: subnet.next_server
         }
-    %>
+  %>
   <% end -%>
 }
