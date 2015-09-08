@@ -1,3 +1,7 @@
+5.0.1
+-----
+* bug: Pin partial templates to dhcp cookbook
+
 5.0.0
 -----
 * BREAKING feature: Allow defining multiple pools in a subnet
