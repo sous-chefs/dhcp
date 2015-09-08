@@ -16,6 +16,7 @@ suites:
   run_list:
     - recipe[dhcp_net_setup::default]
     - recipe[dhcp::server]
+    - recipe[testing::dhcp_shared_network]
   attributes:
     dhcp:
       interfaces:

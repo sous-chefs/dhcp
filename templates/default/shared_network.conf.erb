@@ -2,7 +2,7 @@
 
 shared-network <%= @name %> {
   <% @subnets.each do |subnet| -%>
-  <%= render 'subnet.erb', :variables => {
+  <%= render 'subnet.erb', :cookbook => 'dhcp', :variables => {
           node: @node,
           subnet: subnet.subnet,
           netmask: subnet.netmask,
