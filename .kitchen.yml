@@ -17,6 +17,7 @@ suites:
     - recipe[dhcp_net_setup::default]
     - recipe[dhcp::server]
     - recipe[testing::dhcp_shared_network]
+    - recipe[testing::dhcp_class]
   attributes:
     dhcp:
       interfaces:
