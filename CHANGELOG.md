@@ -1,3 +1,8 @@
+5.0.2
+-----
+* bug: Include classes.d/list.conf in dhcp.conf
+* bug: Make dhcp_subnet names declared in dhcp_shared_network more unique
+
 5.0.1
 -----
 * bug: Pin partial templates to dhcp cookbook
