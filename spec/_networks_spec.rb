@@ -78,16 +78,16 @@ describe 'dhcp::_networks' do
     end
 
     it 'declares the subnets in the mysharednet shared-network' do
-      subnet1 = chef_run.dhcp_subnet '192.168.10.0'
+      subnet1 = chef_run.dhcp_subnet 'mysharednet-192.168.10.0'
       expect(subnet1).to do_nothing
       expect(subnet1.pools.count).to eq 1
       expect(subnet1.subnet).to eq '192.168.10.0'
       expect(subnet1.netmask).to eq '255.255.255.0'
-      subnet1_pool = chef_run.dhcp_pool '192.168.10.0-pool0'
+      subnet1_pool = chef_run.dhcp_pool 'mysharednet-192.168.10.0-pool0'
       expect(subnet1_pool).to do_nothing
       expect(subnet1_pool.range).to eq '192.168.10.50 192.168.10.240'
 
-      subnet2 = chef_run.dhcp_subnet '10.0.2.0'
+      subnet2 = chef_run.dhcp_subnet 'mysharednet-10.0.2.0'
       expect(subnet2).to do_nothing
       expect(subnet2.pools).to be_nil
       expect(subnet2.subnet).to eq '10.0.2.0'

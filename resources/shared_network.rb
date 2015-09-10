@@ -10,9 +10,9 @@ attr_accessor :subnets
 
 def subnet(name, &block)
   @subnets ||= []
-  Chef::Log.debug "Creating subnet #{name}"
-  s = dhcp_subnet(name, &block)
+  s = dhcp_subnet("#{@name}-#{name}", &block)
   s.action :nothing
+  s.subnet name
   @subnets << s
   s
 end
