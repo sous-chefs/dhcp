@@ -6,7 +6,7 @@ issues_url "https://github.com/chef-brigade/#{name}-cookbook/issues" if respond_
 license 'Apache 2.0'
 description 'DHCP'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '5.0.2'
+version '5.0.3'
 
 # tested with Ubuntu, assume Debian works similarly
 %w(debian ubuntu centos redhat).each do |os|

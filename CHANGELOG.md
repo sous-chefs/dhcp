@@ -1,3 +1,7 @@
+5.0.3
+-----
+* bug: Load classes before subnets
+
 5.0.2
 -----
 * bug: Include classes.d/list.conf in dhcp.conf
