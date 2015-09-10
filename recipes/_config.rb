@@ -48,7 +48,7 @@ end
 #
 # Create the dirs and stub files for each resource type
 #
-%w(groups.d hosts.d subnets.d shared_networks.d).each do |dir|
+%w(groups.d hosts.d subnets.d shared_networks.d classes.d).each do |dir|
   directory "#{node['dhcp']['dir']}/#{dir}"
   file "#{node['dhcp']['dir']}/#{dir}/list.conf" do
     action :create_if_missing
