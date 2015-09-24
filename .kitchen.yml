@@ -16,8 +16,7 @@ suites:
   run_list:
     - recipe[dhcp_net_setup::default]
     - recipe[dhcp::server]
-    - recipe[testing::dhcp_shared_network]
-    - recipe[testing::dhcp_class]
+    - recipe[testing::default]
   attributes:
     dhcp:
       interfaces:
@@ -32,6 +31,9 @@ suites:
       options:
         domain-name: vm
         domain-name-servers: 192.168.9.1
+      extra_files:
+        - /var/tmp/extra1.conf
+        - /var/tmp/extra2.conf
 
 - name: no_bag
   run_list:

@@ -60,6 +60,7 @@ host/group/network scope these are general defaults for the server.
 |`node[:dhcp][:my_ip]` | `String` | Nil | Set host IP address in failover setup. node[:ipaddress] is used if empty.
 |`node[:dhcp][:masters]` | `Array` | Array of hashes to override node search for masters. Must have :ipaddress key.
 |`node[:dhcp][:slaves]` | `Array` | Array of hashes to override node search for slaves.
+|`node['dhcp']['extra_files']` | `Array` | Array of file paths to also include as configs in `node['dhcp']['config_file']`
 
 #### DHCP Global Options
 | attribute | Type | Default | description |
