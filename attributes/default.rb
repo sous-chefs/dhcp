@@ -19,6 +19,9 @@ default['dhcp']['interfaces'] = []
 # turn bag support on/off
 default['dhcp']['use_bags'] = true
 
+# extra config files
+default['dhcp']['extra_files'] = []
+
 # these are the lookup keys for bag names
 default['dhcp']['hosts_bag'] = 'dhcp_hosts'
 default['dhcp']['groups_bag'] = 'dhcp_groups'
@@ -48,8 +51,8 @@ default['dhcp']['options']['domain-name-servers'] = '8.8.8.8'
 default['dhcp']['options']['host-name'] = " = binary-to-ascii (16, 8, \"-\", substring (hardware, 1, 6))"
 
 default['dhcp']['dir'] = '/etc/dhcp'
-default['dhcp']['init_config']  = '/etc/sysconfig/dhcpd'
-default['dhcp']['dhcpd_leases']  = '/var/lib/dhcpd/dhcpd.leases'
+default['dhcp']['init_config'] = '/etc/sysconfig/dhcpd'
+default['dhcp']['dhcpd_leases'] = '/var/lib/dhcpd/dhcpd.leases'
 case node['platform_family']
 when 'rhel'
   default['dhcp']['package_name'] = 'dhcp'

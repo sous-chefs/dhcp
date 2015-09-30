@@ -6,7 +6,8 @@ group :test do
 end
 
 group :style do
-  gem 'foodcritic'
+  gem 'foodcritic' unless RUBY_VERSION < '2'
+  gem 'foodcritic', '~> 4.0.0' if RUBY_VERSION < '2'
   gem 'rubocop', '0.32.1'
 end
 
