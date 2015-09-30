@@ -1,3 +1,7 @@
+5.1.0
+-----
+* Allow specifying with `node['dhcp']['extra_files']` externally managed configs to load
+
 5.0.3
 -----
 * bug: Load classes before subnets
