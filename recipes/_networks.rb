@@ -23,7 +23,7 @@ node['dhcp']['networks'].each do |net|
       pool do
         range data['range'] if data.key? 'range'
         peer node['domain'] if node['dhcp']['failover']
-        allow data['allow'] if data['allow']
+        allow data['allow'] if data.key? allow
       end
     end
     ddns data['ddns'] if data.key? 'ddns'
@@ -50,7 +50,7 @@ if node['dhcp']['use_bags']
             pool do
               range data['range'] if data.key? 'range'
               peer node['domain'] if node['dhcp']['failover']
-              allow data['allow'] if data['allow']
+              allow data['allow'] if data.key? allow
             end
           end
           ddns data['ddns'] if data.key? 'ddns'
@@ -79,7 +79,7 @@ unless node['dhcp']['use_bags']
             pool do
               range data['range'] if data.key? 'range'
               peer node['domain'] if node['dhcp']['failover']
-              allow data['allow'] if data['allow']
+              allow data['allow'] if data.key? allow
             end
           end
           ddns data['ddns'] if data.key? 'ddns'
