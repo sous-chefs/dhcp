@@ -26,7 +26,7 @@ dhcp_subnet 'overrides' do
     peer '192.168.0.2'
     range '192.168.0.100 192.168.0.200'
     deny 'members of "RegisteredHosts"'
-    allow 'members of "RegisteredHosts"'
+    allow 'members of "UnregisteredHosts"'
   end
   ddns 'test.com'
   evals [%q(
