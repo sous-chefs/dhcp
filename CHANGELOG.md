@@ -1,3 +1,7 @@
+5.2.0
+-----
+* Add `allow` attribute for `pool` in `dhcp_subnet` provider
+
 5.1.0
 -----
 * Allow specifying with `node['dhcp']['extra_files']` externally managed configs to load
