@@ -26,6 +26,6 @@ dhcp_subnet 'allow host from class' do
   routers ['192.168.4.1']
   pool do
     range '192.168.4.20 192.168.4.30'
-    deny 'allow of "RegisteredHosts"'
+    allow 'members of "RegisteredHosts"'
   end
 end
