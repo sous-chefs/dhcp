@@ -9,4 +9,7 @@ pool {
   <% if @deny -%>
   deny <%= @deny %>;
   <% end -%>
+  <% if @allow -%>
+  allow <%= @allow %>;
+  <% end -%>
 }

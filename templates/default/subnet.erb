@@ -1,7 +1,7 @@
 subnet <%= @subnet %> netmask <%= @netmask%> {
 <% unless @pools.nil? || @pools.empty? -%>
 <% @pools.each do |pool| -%>
-<%= render 'subnet_pool.erb', :cookbook => 'dhcp', :variables => { node: @node, peer: pool.peer, range: pool.range, deny: pool.deny } %>
+<%= render 'subnet_pool.erb', :cookbook => 'dhcp', :variables => { node: @node, peer: pool.peer, range: pool.range, deny: pool.deny, allow: pool.allow } %>
 <% end -%>
 <% end -%>
 <% if @ddns -%>
