@@ -8,6 +8,12 @@ dhcp_class 'RegisteredHosts' do
   subclass '1:10:bf:48:42:55:02'
 end
 
+dhcp_class 'UnregisteredHosts' do
+  match 'hardware'
+  subclass '1:10:bf:48:42:55:03'
+  subclass '1:10:bf:48:42:55:04'
+end
+
 dhcp_subnet 'deny host from class' do
   subnet '192.168.4.0'
   broadcast '192.168.4.255'
@@ -16,16 +22,6 @@ dhcp_subnet 'deny host from class' do
   pool do
     range '192.168.4.20 192.168.4.30'
     deny 'members of "RegisteredHosts"'
-  end
-end
-
-dhcp_subnet 'allow host from class' do
-  subnet '192.168.4.0'
-  broadcast '192.168.4.255'
-  netmask '255.255.255.0'
-  routers ['192.168.4.1']
-  pool do
-    range '192.168.4.20 192.168.4.30'
-    allow 'members of "RegisteredHosts"'
+    allow 'members of "UnregisteredHosts"'
   end
 end
