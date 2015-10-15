@@ -17,7 +17,7 @@ namespace :style do
   desc 'Run Chef style checks'
   task :chef do
     sh '/opt/chefdk/embedded/bin/foodcritic --version'
-    sh '/opt/chefdk/embedded/bin/foodcritic -f any . --exclude spec'
+    sh '/opt/chefdk/embedded/bin/foodcritic -f any . --exclude spec -t ~FC003'
   end
 end
 
