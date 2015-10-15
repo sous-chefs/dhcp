@@ -435,6 +435,10 @@ end
 
 If you undefine an entry it will also get removed.
 
+Testing
+=======
+Testing uses ChefDK 0.9.0.  Assuming it's installed and you've initialized your shell with `chef shell-init` you can run `rake` to run testing.
+
 License and Author
 ==================
 
