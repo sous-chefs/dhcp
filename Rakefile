@@ -42,12 +42,14 @@ namespace :integration do
   desc 'Run Test Kitchen integration tests using vagrant'
   task :vagrant do
     ENV.delete('KITCHEN_LOCAL_YAML')
+    sh '/opt/chefdk/embedded/bin/bundle install --with=integration_vagrant'
     run_kitchen
   end
 
   desc 'Run Test Kitchen integration tests using docker'
   task :docker do
     ENV['KITCHEN_LOCAL_YAML'] = '.kitchen.docker.yml'
+    sh '/opt/chefdk/embedded/bin/bundle install --with=integration_docker'
     run_kitchen
   end
 end
