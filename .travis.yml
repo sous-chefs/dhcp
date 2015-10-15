@@ -28,7 +28,7 @@ before_script:
   - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
 
 script:
-  - bundle exec rake $TESTS
+  - /opt/chefdk/embedded/bin/chef exec rake $TESTS
 
 after_failure:
   - cat docker_daemon.log
