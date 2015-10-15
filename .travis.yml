@@ -1,6 +1,10 @@
 sudo: true
-rvm:
-  - 2.1.6
+addons:
+  apt:
+    sources:
+      - chef-current-precise
+    packages:
+      - chefdk
 
 env:
   global:
@@ -8,14 +12,19 @@ env:
   - KITCHEN_LOCAL_YAML=.kitchen.docker.yml
   matrix:
 # CHEF_VERSION is only for unit tests, no for test-kitchen:
-  - TESTS="style unit"  CHEF_VERSION="~> 12.0"
+  - TESTS="style unit"
 # Split up the test-kitchen run to avoid exceeding 50 minutes:
   - TESTS="integration" KITCHEN_REGEXP=centos
   - TESTS="integration" KITCHEN_REGEXP=ubuntu
 
-bundler_args: --without integration_vagrant guard
+install: echo "skip bundle install"
 
+# Ensure we make ChefDK's Ruby the default
 before_script:
+  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+  # We have to install chef-sugar for ChefSpec
+  - /opt/chefdk/embedded/bin/chef gem install chef-sugar
+  # Install/Start docker for integration testing
   - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
 
 script:

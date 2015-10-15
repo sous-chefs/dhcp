@@ -1,11 +1,3 @@
-#!/usr/bin/env rake
-require 'rake'
-require 'rspec/core/rake_task'
-
-cfg_dir = File.expand_path File.dirname(__FILE__)
-ENV['BERKSHELF_PATH'] = cfg_dir + '/.berkshelf'
-cook_dir = cfg_dir + '/.cooks'
-
 # Checks if we are inside Travis CI.
 #
 # @return [Boolean] whether we are inside Travis CI.
@@ -15,58 +7,27 @@ def travis?
   ENV['TRAVIS'] == 'true'
 end
 
-task default: 'test:quick'
-namespace :test do
-  desc 'Run all of the quick tests.'
-  task :quick do
-    Rake::Task['style'].invoke
-    Rake::Task['unit'].invoke
-  end
-
-  desc 'Run _all_ the tests. Go get a coffee.'
-  task :complete do
-    Rake::Task['test:quick'].invoke
-    Rake::Task['integration'].invoke
-  end
-
-  desc 'Run CI tests'
-  task :ci do
-    Rake::Task['test:complete'].invoke
-  end
-end
-
 namespace :style do
-  begin
-    require 'foodcritic/rake_task'
-    require 'foodcritic'
-    task default: [:foodcritic]
-    FoodCritic::Rake::LintTask.new do |t|
-      t.options = { tags: ['~FC003'], fail_tags: ['any'] }
-    end
-  rescue LoadError
-    warn 'Foodcritic Is missing ZOMG'
+  desc 'Run Ruby style checks'
+  task :ruby do
+    sh '/opt/chefdk/embedded/bin/rubocop --version'
+    sh '/opt/chefdk/embedded/bin/rubocop'
   end
 
-  begin
-    require 'rubocop/rake_task'
-    RuboCop::RakeTask.new do |task|
-      task.fail_on_error = true
-      task.options = %w(-D -a)
-    end
-  rescue LoadError
-    warn 'Rubocop gem not installed, now the code will look like crap!'
+  desc 'Run Chef style checks'
+  task :chef do
+    sh '/opt/chefdk/embedded/bin/foodcritic --version'
+    sh '/opt/chefdk/embedded/bin/foodcritic -f any . --exclude spec'
   end
 end
 
 desc 'Run styling tests'
-task style: ['style:foodcritic', 'style:rubocop']
+task style: ['style:ruby', 'style:chef']
 
 namespace :unit do
-  RSpec::Core::RakeTask.new(:spec) do |t|
-    t.pattern = Dir.glob('test/spec/**/*_spec.rb')
-    t.rspec_opts = '--color -f d --fail-fast'
-    system "rm -rf  #{cook_dir}"
-    system "berks vendor #{cook_dir}"
+  desc 'Run ChefSpec'
+  task :spec do
+    sh '/opt/chefdk/embedded/bin/chef exec rspec'
   end
 end
 
@@ -93,11 +54,3 @@ end
 
 desc 'Run Test Kitchen integration tests'
 task integration: travis? ? %w(integration:docker) : %w(integration:vagrant)
-
-namespace :release do
-  task :update_metadata do
-  end
-
-  task :tag_release do
-  end
-end
