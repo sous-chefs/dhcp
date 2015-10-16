@@ -14,16 +14,16 @@ end
 
 describe 'DHCP::DynaDns malformed' do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new do |node|
+    ChefSpec::ServerRunner.new do |node, server|
       node.set[:dns] ||= {}
       node.set[:dns][:zones] ||= []
       node.set[:dns][:zones]  =  %w(192.168.1.0)
       node.set[:dns][:rndc_key] = nil
-    end.converge('dhcp::library')
-  end
 
-  before do
-    file_bags
+      server.create_data_bag('dns_zones',
+                             '192-168-1-0' => parse_data_bag('dns_zones/192-168-1-0'),
+                             'vm' => parse_data_bag('dns_zones/vm'))
+    end.converge('dhcp::library')
   end
 
   it 'should not return masters without keys' do
@@ -34,17 +34,18 @@ end
 
 describe 'DHCP::DynaDns' do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new do |node|
+    ChefSpec::ServerRunner.new do |node, server|
       node.set[:dns] ||= {}
       node.set[:dns][:zones] ||= []
       node.set[:dns][:master] = '192.168.9.9'
       node.set[:dns][:zones]  =  %w(vm 192.168.1.0)
       node.set[:dns][:rndc_key] = 'dhcp-key'
-    end.converge('dhcp::library')
-  end
 
-  before do
-    file_bags
+      server.create_data_bag('dns_zones',
+                             '192-168-1-0' => parse_data_bag('dns_zones/192-168-1-0'),
+                             'vm' => parse_data_bag('dns_zones/vm'))
+      server.create_data_bag('rndc_keys', 'dhcp-key' => parse_data_bag('rndc_keys/dhcp-key'))
+    end.converge('dhcp::library')
   end
 
   it 'should load defined zones' do
@@ -59,6 +60,6 @@ describe 'DHCP::DynaDns' do
 
   it 'should load requested keys' do
     DHCP::DynaDns.load(chef_run.node)
-    expect(DHCP::DynaDns.keys).to eq('dhcp-key' => { 'id' => 'dhcp-key', 'algorithm' => 'hmac-md5', 'secret' => 'L+Jl4+4onU4Wstfi4pdmnQ==' })
+    expect(DHCP::DynaDns.keys).to eq('dhcp-key' => { 'id' => 'dhcp-key', 'algorithm' => 'hmac-md5', 'secret' => 'L+Jl4+4onU4Wstfi4pdmnQ==', 'chef_type' => 'data_bag_item', 'data_bag' => 'rndc_keys' })
   end
 end
