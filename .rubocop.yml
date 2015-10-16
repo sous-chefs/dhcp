@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - Rakefile
     - Berksfile
+    - Policyfile.rb
     - Guardfile
     - bin/**/*
     - test/**/*

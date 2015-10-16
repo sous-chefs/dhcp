@@ -21,3 +21,4 @@ berks.json
 .vagabond
 Berksfile.lock
 Gemfile.lock
+Policyfile.lock.json

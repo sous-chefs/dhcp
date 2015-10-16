@@ -4,7 +4,7 @@ require_relative '../libraries/dynadns'
 
 describe 'DHCP::DyanDns disabled' do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new.converge('dhcp::library')
+    ChefSpec::ServerRunner.new.converge('dhcp::library')
   end
 
   it 'should take no action if we have no zone info' do

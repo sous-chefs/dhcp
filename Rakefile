@@ -36,6 +36,7 @@ task unit: ['unit:spec']
 
 namespace :integration do
   def run_kitchen
+    sh '[ -e Policyfile.lock.json ] || /opt/chefdk/embedded/bin/chef install'
     sh "kitchen test #{ENV['KITCHEN_ARGS']} #{ENV['KITCHEN_REGEXP']}"
   end
 

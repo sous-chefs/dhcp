@@ -2,7 +2,7 @@ require_relative '../helpers/default'
 
 describe 'testing::dhcp_subnet' do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new(platform: 'centos', version: '6.6', step_into: ['dhcp_subnet']).converge(described_recipe)
+    ChefSpec::ServerRunner.new(platform: 'centos', version: '6.6', step_into: ['dhcp_subnet']).converge(described_recipe)
   end
 
   it 'generates a default config' do
