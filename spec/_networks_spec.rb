@@ -13,7 +13,7 @@ end
 
 describe 'dhcp::_networks' do
   context 'driven by node attributes' do
-    let(:chef_run) do
+    cached(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'centos', version: '6.6', step_into: ['dhcp_subnet', 'dhcp_shared_network']) do |node|
         node.set['chef_environment'] = 'production'
         node.set['dhcp']['use_bags'] = false

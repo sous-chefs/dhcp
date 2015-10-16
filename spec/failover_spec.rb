@@ -2,7 +2,7 @@ require 'spec_helper'
 require_relative '../libraries/failover'
 
 describe 'DHCP::Failover' do
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge('dhcp::library')
   end
 
@@ -13,7 +13,7 @@ describe 'DHCP::Failover' do
 end
 
 describe 'DHCP::Failover Master without slaves' do
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node, _server|
       node.set['dhcp'] ||= {}
       node.set['dhcp']['master'] = true
@@ -41,7 +41,7 @@ describe 'DHCP::Failover Master with slaves' do
     end
   end
 
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
       node.set[:dhcp] ||= {}
       node.set[:dhcp][:master] = true
@@ -68,7 +68,7 @@ describe 'DHCP::Failover Master with slaves' do
 end
 
 describe 'DHCP::Failover Slave no master' do
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node|
       node.set['dhcp'] ||= {}
       node.set['dhcp']['slave'] = true
@@ -96,7 +96,7 @@ describe 'DHCP::Failover Slave' do
     end
   end
 
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
       node.set[:dhcp] ||= {}
       node.set[:dhcp][:slave] = true

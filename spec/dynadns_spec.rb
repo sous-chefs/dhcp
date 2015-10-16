@@ -2,7 +2,7 @@ require 'spec_helper'
 require_relative '../libraries/dynadns'
 
 describe 'DHCP::DyanDns disabled' do
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge('dhcp::library')
   end
 
@@ -13,7 +13,7 @@ describe 'DHCP::DyanDns disabled' do
 end
 
 describe 'DHCP::DynaDns malformed' do
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
       node.set[:dns] ||= {}
       node.set[:dns][:zones] ||= []
@@ -33,7 +33,7 @@ describe 'DHCP::DynaDns malformed' do
 end
 
 describe 'DHCP::DynaDns' do
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
       node.set[:dns] ||= {}
       node.set[:dns][:zones] ||= []
