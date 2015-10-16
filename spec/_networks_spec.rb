@@ -1,5 +1,4 @@
-require_relative 'helpers/default'
-require_relative 'helpers/data'
+require 'spec_helper'
 
 describe 'dhcp::_networks Exceptions' do
   before(:each) do

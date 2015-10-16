@@ -1,4 +1,4 @@
-require_relative '../helpers/default'
+require 'spec_helper'
 
 describe 'testing::dhcp_class' do
   let(:chef_run) do

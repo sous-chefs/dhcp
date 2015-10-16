@@ -1,4 +1,19 @@
 require 'chefspec'
+require 'chefspec/policyfile'
+
+RSpec.configure do |config|
+  config.platform = 'ubuntu'
+  config.version = '12.04'
+  config.log_level = :error
+end
+
+# add blank?
+class Object
+  def blank?
+    respond_to?(:empty?) ? empty? : !self
+  end
+end
+
 require 'json'
 
 def load_json(f)
@@ -6,7 +21,7 @@ def load_json(f)
 end
 
 def bag_dir
-  File.expand_path(File.dirname(__FILE__)) + '/../../test/integration/data_bags'
+  File.expand_path(File.dirname(__FILE__)) + '/../test/integration/data_bags'
 end
 
 def blank_bags

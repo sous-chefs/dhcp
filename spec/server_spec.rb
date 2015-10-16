@@ -1,4 +1,4 @@
-require_relative 'helpers/default'
+require 'spec_helper'
 
 recipe = 'dhcp::server'
 

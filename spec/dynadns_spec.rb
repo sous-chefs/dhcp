@@ -1,5 +1,4 @@
-require_relative 'helpers/default'
-require_relative 'helpers/data'
+require 'spec_helper'
 require_relative '../libraries/dynadns'
 
 describe 'DHCP::DyanDns disabled' do
@@ -8,7 +7,7 @@ describe 'DHCP::DyanDns disabled' do
   end
 
   it 'should take no action if we have no zone info' do
-    DHCP::DynaDns.load chef_run.run_context.node
+    DHCP::DynaDns.load chef_run.node
     expect(DHCP::DynaDns.zones).to be_nil
   end
 end
@@ -28,7 +27,7 @@ describe 'DHCP::DynaDns malformed' do
   end
 
   it 'should not return masters without keys' do
-    DHCP::DynaDns.load chef_run.run_context.node
+    DHCP::DynaDns.load chef_run.node
     expect(DHCP::DynaDns.masters).to eq({})
   end
 end
@@ -49,17 +48,17 @@ describe 'DHCP::DynaDns' do
   end
 
   it 'should load defined zones' do
-    DHCP::DynaDns.load(chef_run.run_context.node)
+    DHCP::DynaDns.load(chef_run.node)
     expect(DHCP::DynaDns.load_zones.length).to eq 2
   end
 
   it 'should return masters' do
-    DHCP::DynaDns.load(chef_run.run_context.node)
+    DHCP::DynaDns.load(chef_run.node)
     expect(DHCP::DynaDns.masters).to eq('vm' => { 'master' => '192.168.1.9', 'key' => 'dhcp-key' }, '1.168.192.IN-ADDR.ARPA' => { 'master' => '192.168.9.9', 'key' => 'dhcp-key' })
   end
 
   it 'should load requested keys' do
-    DHCP::DynaDns.load(chef_run.run_context.node)
+    DHCP::DynaDns.load(chef_run.node)
     expect(DHCP::DynaDns.keys).to eq('dhcp-key' => { 'id' => 'dhcp-key', 'algorithm' => 'hmac-md5', 'secret' => 'L+Jl4+4onU4Wstfi4pdmnQ==' })
   end
 end

@@ -1,5 +1,4 @@
-require_relative 'helpers/default'
-require_relative 'helpers/data'
+require 'spec_helper'
 require_relative '../libraries/failover'
 
 describe 'DHCP::Failover' do

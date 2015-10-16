@@ -1,4 +1,4 @@
-require_relative 'helpers/default'
+require 'spec_helper'
 
 describe 'dhcp::_config' do
   context 'when all attributes are default, on rhel 6.x' do
