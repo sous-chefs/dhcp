@@ -1,11 +1,9 @@
 require 'spec_helper'
 
-recipe = 'dhcp::server'
-
-describe recipe do
+describe 'dhcp::server' do
   let(:chef_run) do
     ChefSpec::ServerRunner.new do |node|
-      node.set[:chef_environment] = 'production'
-    end.converge(recipe)
+      node.set['chef_environment'] = 'production'
+    end.converge(described_recipe)
   end
 end
