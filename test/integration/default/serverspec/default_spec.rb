@@ -33,7 +33,7 @@ describe 'dhcp::_config' do
   end
 
   it 'adds extra files to dhcp config file' do
-    expect(file('/etc/dhcp/dhcpd.conf').content).to contain 'include "/var/tmp/extra1.conf";'
-    expect(file('/etc/dhcp/dhcpd.conf').content).to contain 'include "/var/tmp/extra2.conf";'
+    expect(file('/etc/dhcp/dhcpd.conf').content).to contain 'include "/etc/dhcp/extra1.conf";'
+    expect(file('/etc/dhcp/dhcpd.conf').content).to contain 'include "/etc/dhcp/extra2.conf";'
   end
 end
