@@ -107,10 +107,6 @@ module DHCP
       def load_zones
         return nil unless load_zones?
 
-        # unless node['dhcp']['use_bags'] == true && node.key?(:dns) && node['dns'].key?(:zones) && node['dns']['zones'].empty? != true
-        #   return nil
-        # end
-
         @zones = []
         node['dns']['zones'].each do |zone|
           bag_name = node['dns']['bag_name'] || 'dns_zones'
