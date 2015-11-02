@@ -7,7 +7,7 @@ include_recipe 'dhcp::_service'
 
 node['dhcp']['networks'].each do |net|
   if node['dhcp']['use_bags'] == true
-    data = data_bag_item(node['dhcp']['networks_bag'], Helpers::DataBags.escape_bagname(net))
+    data = data_bag_item(node['dhcp']['networks_bag'], Dhcp::Helpers.escape(net))
   else
     data = node['dhcp']['network_data'].fetch net, nil
   end
@@ -38,7 +38,7 @@ end
 # Load databag data
 if node['dhcp']['use_bags']
   node['dhcp']['shared_networks'].each do |shared_net|
-    network_data = data_bag_item(node['dhcp']['networks_bag'], Helpers::DataBags.escape_bagname(shared_net))
+    network_data = data_bag_item(node['dhcp']['networks_bag'], Dhcp::Helpers.escape(shared_net))
     dhcp_shared_network shared_net do
       network_data['subnets'].each do |_net, data|
         subnet data['address'] do

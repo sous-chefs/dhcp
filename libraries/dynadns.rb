@@ -3,8 +3,8 @@
 module DHCP
   # methods for managing rndc key data and dynadns bind masters
   module DynaDns
-    class  << self
-      if  Gem::Version.new(Chef::VERSION) <= Gem::Version.new('10.16.2')
+    class << self
+      if Gem::Version.new(Chef::VERSION) <= Gem::Version.new('10.16.2')
         include Chef::Mixin::Language
       else
         include Chef::DSL::DataQuery
@@ -64,7 +64,7 @@ module DHCP
       def keys # rubocop:disable AbcSize
         k ||= {}
         @zones ||= load_zones
-        return if @zones.blank?
+        return if @zones.nil? || @zones.empty?
 
         # global default keys if they exist
         # TODO: need to work out the namespace on dns stuff here.
@@ -92,17 +92,29 @@ module DHCP
       end
 
       #
+      # Should we load zones?
+      #   We only want to load zones if configured to use databags and node attribute node['dns']['zones'] is populated
+      #
+      def load_zones?
+        return false unless node['dhcp']['use_bags']
+        has_zones_attr = node['dns'] && node['dns']['zones']
+        return true if has_zones_attr && !node['dns']['zones'].empty?
+      end
+
+      #
       # Load all zone bags this node calls out
       #
-      def load_zones # rubocop:disable AbcSize
-        unless node['dhcp']['use_bags'] == true && node.key?(:dns) && node['dns'].key?(:zones) && node['dns']['zones'].blank? != true
-          return nil
-        end
+      def load_zones
+        return nil unless load_zones?
 
-        @zones =  []
+        # unless node['dhcp']['use_bags'] == true && node.key?(:dns) && node['dns'].key?(:zones) && node['dns']['zones'].empty? != true
+        #   return nil
+        # end
+
+        @zones = []
         node['dns']['zones'].each do |zone|
           bag_name = node['dns']['bag_name'] || 'dns_zones'
-          zones << data_bag_item(bag_name, Helpers::DataBags.escape_bagname(zone)).to_hash
+          zones << data_bag_item(bag_name, Dhcp::Helpers.escape(zone)).to_hash
         end
         @zones
       end

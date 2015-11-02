@@ -21,9 +21,6 @@
 # limitations under the License.
 #
 
-include_recipe 'helpers-databags'
-include_recipe 'ruby-helper'
-
 include_recipe 'dhcp::_package'
 include_recipe 'dhcp::_service'
 include_recipe 'dhcp::_config'

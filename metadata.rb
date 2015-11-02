@@ -12,6 +12,3 @@ version '5.2.0'
 %w(debian ubuntu centos redhat).each do |os|
   supports os
 end
-
-depends 'ruby-helper'
-depends 'helpers-databags'

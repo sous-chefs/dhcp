@@ -53,5 +53,18 @@ module Dhcp
       end
       new_resource.updated_by_last_action(t.updated?)
     end
+
+    #
+    # Escape some special characters
+    #
+    # escape  . -> - and / -> _
+    # so 1.1/3 -> 1-1_3
+    #
+    def escape(name)
+      n = name.gsub(/\./, '-')
+      n.gsub(%r{\/}, '_')
+    end
+
+    module_function :escape
   end
 end

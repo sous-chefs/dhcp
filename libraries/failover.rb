@@ -21,9 +21,9 @@ module DHCP
       def enabled?
         case role
         when 'primary'
-          return slaves.blank? ? false : true
+          return slaves.empty? ? false : true
         when 'secondary'
-          return masters.blank? ? false : true
+          return masters.empty? ? false : true
         end
         false
       end
@@ -37,14 +37,17 @@ module DHCP
         nil
       end
 
-      def peer # rubocop:disable AbcSize
+      def peer_node # rubocop:disable AbcSize
         if node['dhcp'].key?(:slave) && node['dhcp']['slave']
-          peer_node = masters.first
+          masters.first
         elsif node['dhcp'].key?(:master) && node['dhcp']['master']
-          peer_node = slaves.first
+          slaves.first
         end
+      end
+
+      def peer
         Chef::Log.info "Dhcp Peer: #{peer_node}"
-        return nil if peer_node.blank?
+        return nil if peer_node.nil? || peer_node.empty?
         peer_node['ipaddress']
       end
 
