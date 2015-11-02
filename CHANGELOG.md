@@ -1,3 +1,7 @@
+5.3.0
+-----
+* Remove dependencies on helper cookbooks
+
 5.2.0
 -----
 * Add `allow` attribute for `pool` in `dhcp_subnet` provider
