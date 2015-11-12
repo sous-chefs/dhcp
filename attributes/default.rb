@@ -65,7 +65,7 @@ when 'rhel'
     default['dhcp']['config_file']  = '/etc/dhcp/dhcpd.conf'
   else
     default['dhcp']['dir'] = '/etc/dhcpd'
-    default['dhcp']['config_file']  = '/etc/dhcpd.conf'
+    default['dhcp']['config_file'] = '/etc/dhcpd.conf'
   end
 
 when 'debian'
@@ -73,6 +73,6 @@ when 'debian'
   default['dhcp']['service_name'] = 'isc-dhcp-server'
   default['dhcp']['config_file']  = '/etc/dhcp/dhcpd.conf'
   default['dhcp']['init_config']  = '/etc/default/isc-dhcp-server'
-  default['dhcp']['dhcpd_leases']  = '/var/lib/dhcp/dhcpd.leases'
+  default['dhcp']['dhcpd_leases'] = '/var/lib/dhcp/dhcpd.leases'
   default['dhcp']['init_iface'] = 'INTERFACES'
 end

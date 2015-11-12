@@ -2,7 +2,7 @@
 # Setup Groups
 #
 unless node['dhcp']['groups'].empty?
-  node['dhcp']['groups'].each do  |group|
+  node['dhcp']['groups'].each do |group|
     if node['dhcp']['use_bags'] == true
       group_data = data_bag_item(node['dhcp']['groups_bag'], group)
     else

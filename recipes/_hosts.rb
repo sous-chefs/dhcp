@@ -26,7 +26,7 @@ unless node['dhcp']['hosts'].empty?
   end
   # rubocop:endable all
 
-  host_list.each do  |host|
+  host_list.each do |host|
     if node['dhcp']['use_bags'] == true
       host_data = data_bag_item(node['dhcp']['hosts_bag'], Helpers::DataBags.escape_bagname(host))
     else

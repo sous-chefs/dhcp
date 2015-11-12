@@ -17,7 +17,7 @@ describe 'DHCP::DynaDns malformed' do
     ChefSpec::ServerRunner.new do |node, server|
       node.set[:dns] ||= {}
       node.set[:dns][:zones] ||= []
-      node.set[:dns][:zones]  =  %w(192.168.1.0)
+      node.set[:dns][:zones] = %w(192.168.1.0)
       node.set[:dns][:rndc_key] = nil
 
       server.create_data_bag('dns_zones',
@@ -38,7 +38,7 @@ describe 'DHCP::DynaDns' do
       node.set[:dns] ||= {}
       node.set[:dns][:zones] ||= []
       node.set[:dns][:master] = '192.168.9.9'
-      node.set[:dns][:zones]  =  %w(vm 192.168.1.0)
+      node.set[:dns][:zones] = %w(vm 192.168.1.0)
       node.set[:dns][:rndc_key] = 'dhcp-key'
 
       server.create_data_bag('dns_zones',
