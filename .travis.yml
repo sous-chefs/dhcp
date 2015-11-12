@@ -27,6 +27,3 @@ before_script:
 
 script:
   - /opt/chefdk/embedded/bin/chef exec rake $TESTS
-
-after_failure:
-  - cat docker_daemon.log
