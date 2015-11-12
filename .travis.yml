@@ -1,4 +1,6 @@
-sudo: true
+sudo: required
+services:
+  - docker
 addons:
   apt:
     sources:
@@ -24,8 +26,6 @@ before_script:
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
   # We have to install chef-sugar for ChefSpec
   - /opt/chefdk/embedded/bin/chef gem install chef-sugar
-  # Install/Start docker for integration testing
-  - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
 
 script:
   - /opt/chefdk/embedded/bin/chef exec rake $TESTS
