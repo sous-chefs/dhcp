@@ -1,3 +1,7 @@
+5.3.1
+-----
+* bug: Update _hosts recipe for `Helpers::DataBags.escape_bagname` change to `Dhcp::Helpers.escape`
+
 5.3.0
 -----
 * Remove dependencies on helper cookbooks
