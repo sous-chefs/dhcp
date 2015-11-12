@@ -24,7 +24,7 @@ unless node['dhcp']['hosts'].empty?
       host_list << host['id']
     end
   end
-  # rubocop:endable all
+  # rubocop:enable all
 
   host_list.each do |host|
     if node['dhcp']['use_bags'] == true
