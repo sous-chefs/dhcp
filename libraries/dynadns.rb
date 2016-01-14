@@ -30,20 +30,20 @@ module DHCP
           masters[name] ||= {}
 
           # set to global master by default
-          if node['dns'].key?(:master) && node['dns']['master'].blank? == false
+          if node['dns'].key?(:master) && !node['dns']['master'].empty?
             masters[name]['master'] = node['dns']['master']
           end
 
-          if node['dns'].key?(:rndc_key) && node['dns']['rndc_key'].blank? == false
+          if node['dns'].key?(:rndc_key) && !node['dns']['rndc_key'].empty?
             masters[name]['key'] = node['dns']['rndc_key']
           end
 
           # use zone bag override if it exists
-          if zone.key?('master_address') && zone['master_address'].blank? == false
+          if zone.key?('master_address') && !zone['master_address'].empty?
             masters[name]['master'] = zone['master_address']
           end
 
-          if zone.key?('rndc_key') && zone['rndc_key'].blank? == false
+          if zone.key?('rndc_key') && !zone['rndc_key'].empty?
             masters[name]['key'] = zone['rndc_key']
           end
 

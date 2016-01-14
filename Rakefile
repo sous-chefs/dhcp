@@ -27,6 +27,7 @@ task style: ['style:ruby', 'style:chef']
 namespace :unit do
   desc 'Run ChefSpec'
   task :spec do
+    sh 'rm -f Policyfile.lock.json'
     sh '/opt/chefdk/embedded/bin/chef exec rspec'
   end
 end
