@@ -1,3 +1,7 @@
+5.3.2
+-----
+* bug #67: Removed blank? from helper libraries but was still calling in code.  Addressed by removing blank? calls from code and using empty? instead.
+
 5.3.1
 -----
 * bug: Update _hosts recipe for `Helpers::DataBags.escape_bagname` change to `Dhcp::Helpers.escape`
