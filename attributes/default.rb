@@ -45,6 +45,7 @@ default['dhcp']['parameters']['authoritative'] = ''
 default['dhcp']['parameters']['ping-check'] = 'true'
 default['dhcp']['parameters']['next-server'] = node['ipaddress']
 default['dhcp']['parameters']['filename'] = '"pxelinux.0"'
+default['dhcp']['parameters']['local-address'] = nil
 
 default['dhcp']['options']['domain-name'] = "\"#{domain}\""
 default['dhcp']['options']['domain-name-servers'] = '8.8.8.8'
