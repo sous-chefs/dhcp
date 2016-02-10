@@ -8,7 +8,9 @@ allow <%= allow %>;
 <% end -%>
 
 <% @parameters.sort.each do |key, value| -%>
+<% if value != nil %>
 <%= key %> <%= value %>;
+<% end -%>
 <% end -%>
 
 <% @options.sort.each do |key, value| -%>
