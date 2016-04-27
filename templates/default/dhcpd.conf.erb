@@ -15,6 +15,16 @@ allow <%= allow %>;
 option <%= key %> <%= value %>;
 <% end -%>
 
+<% unless @hooks.nil? || @hooks.empty?  -%>
+  <% @hooks.each_pair do |key, value| -%>
+  on <%= key %> {
+     <% value.each do |v| -%>
+      <%= v %>;
+     <% end -%>
+  <% end -%>
+    }
+<% end -%>
+
 <% unless @keys.nil? || @keys.empty? -%>
   <% @keys.each do |key, data| -%>
 key "<%= key %>" {
