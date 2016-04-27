@@ -76,3 +76,5 @@ when 'debian'
   default['dhcp']['dhcpd_leases'] = '/var/lib/dhcp/dhcpd.leases'
   default['dhcp']['init_iface'] = 'INTERFACES'
 end
+
+default['dhcp']['hooks'] = []

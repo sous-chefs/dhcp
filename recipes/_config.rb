@@ -17,6 +17,7 @@ template node['dhcp']['config_file'] do
     allows: node['dhcp']['allows'] || [],
     parameters: node['dhcp']['parameters'] || [],
     options: node['dhcp']['options'] || [],
+    hooks: node[:dhcp][:hooks],
     masters: DHCP::DynaDns.masters,
     keys: DHCP::DynaDns.keys,
     my_ip: node['dhcp']['my_ip'] || node['ipaddress'],
