@@ -1,3 +1,7 @@
+5.4.0
+-----
+* Added hooks
+
 5.3.2
 -----
 * bug #67: Removed blank? from helper libraries but was still calling in code.  Addressed by removing blank? calls from code and using empty? instead.
