@@ -61,6 +61,7 @@ host/group/network scope these are general defaults for the server.
 |`node[:dhcp][:masters]` | `Array` | Array of hashes to override node search for masters. Must have :ipaddress key.
 |`node[:dhcp][:slaves]` | `Array` | Array of hashes to override node search for slaves.
 |`node['dhcp']['extra_files']` | `Array` | Array of file paths to also include as configs in `node['dhcp']['config_file']`
+|`node['dhcp']['hooks']` | `Hash` | Ability to run scripts when events occur.  More info @ http://jpmens.net/2011/07/06/execute-a-script-when-isc-dhcp-hands-out-a-new-lease/ and [example](spec/_config_spec.rb)
 
 #### DHCP Global Options
 | attribute | Type | Default | description |
@@ -437,7 +438,7 @@ If you undefine an entry it will also get removed.
 
 Testing
 =======
-Testing uses ChefDK 0.9.0.  Assuming it's installed and you've initialized your shell with `chef shell-init` you can run `rake` to run testing.
+Testing uses ChefDK 0.13.21.  Assuming it's installed and you've initialized your shell with `chef shell-init` you can run `rake` to run testing.
 
 License and Author
 ==================
