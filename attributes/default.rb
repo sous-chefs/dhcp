@@ -40,7 +40,7 @@ default['dhcp']['parameters']['ddns-domainname'] = "\"#{domain}\""
 default['dhcp']['parameters']['ddns-update-style'] = 'interim'
 default['dhcp']['parameters']['max-lease-time'] = '86400'
 default['dhcp']['parameters']['update-static-leases'] = 'true'
-default['dhcp']['parameters']['one-lease-per-client'] =  'true'
+default['dhcp']['parameters']['one-lease-per-client'] = 'true'
 default['dhcp']['parameters']['authoritative'] = ''
 default['dhcp']['parameters']['ping-check'] = 'true'
 default['dhcp']['parameters']['next-server'] = node['ipaddress']
@@ -48,7 +48,7 @@ default['dhcp']['parameters']['filename'] = '"pxelinux.0"'
 
 default['dhcp']['options']['domain-name'] = "\"#{domain}\""
 default['dhcp']['options']['domain-name-servers'] = '8.8.8.8'
-default['dhcp']['options']['host-name'] = " = binary-to-ascii (16, 8, \"-\", substring (hardware, 1, 6))"
+default['dhcp']['options']['host-name'] = ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))'
 
 default['dhcp']['dir'] = '/etc/dhcp'
 default['dhcp']['init_config'] = '/etc/sysconfig/dhcpd'
@@ -59,7 +59,7 @@ when 'rhel'
   default['dhcp']['service_name'] = 'dhcpd'
   default['dhcp']['init_config']  = '/etc/sysconfig/dhcpd'
   default['dhcp']['init_iface'] = 'DHCPDARGS'
-  default['dhcp']['dhcpd_leases']  = '/var/lib/dhcpd/dhcpd.leases'
+  default['dhcp']['dhcpd_leases'] = '/var/lib/dhcpd/dhcpd.leases'
 
   if node['platform_version'].to_i >= 6
     default['dhcp']['config_file']  = '/etc/dhcp/dhcpd.conf'

@@ -5,7 +5,7 @@ class Chef
     module Template
       class TemplateContext < Erubis::Context # rubocop:disable Documentation
         def render(partial_name, options = {})
-          fail 'You cannot render partials in this context' unless @template_finder
+          fail 'You cannot render partials in this context' unless @template_finder # rubocop:disable SignalException
 
           partial_variables = options.delete(:variables) || _public_instance_variables
           partial_variables[:template_finder] = @template_finder

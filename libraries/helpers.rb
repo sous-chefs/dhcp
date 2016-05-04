@@ -61,8 +61,7 @@ module Dhcp
     # so 1.1/3 -> 1-1_3
     #
     def escape(name)
-      n = name.gsub(/\./, '-')
-      n.gsub(%r{\/}, '_')
+      name.tr('.', '-').tr('/', '_')
     end
 
     module_function :escape

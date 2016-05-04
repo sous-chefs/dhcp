@@ -82,13 +82,8 @@ module DHCP
       # Get a key from bag or attributes
       #
       def get_key(name)
-        key = nil
-        if node['dhcp']['use_bags'] == true
-          key = data_bag_item('rndc_keys', name).to_hash
-        else
-          key = node['dhcp']['rndc_keys'].fetch name, ''
-        end
-        key
+        return data_bag_item('rndc_keys', name).to_hash if node['dhcp']['use_bags']
+        node['dhcp']['rndc_keys'].fetch name, ''
       end
 
       #

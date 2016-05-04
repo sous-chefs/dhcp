@@ -64,12 +64,12 @@ describe 'dhcp::_networks' do
 
     it 'generates subnet config for 192.168.9.0' do
       expect(chef_run).to create_template '/etc/dhcp/subnets.d/192.168.9.0.conf'
-      expect(chef_run).to render_file('/etc/dhcp/subnets.d/192.168.9.0.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', '192.168.9.0.conf'))
+      expect(chef_run).to render_file('/etc/dhcp/subnets.d/192.168.9.0.conf').with_content(File.read(File.join(File.dirname(__FILE__), 'fixtures', '192.168.9.0.conf')))
     end
 
     it 'generates blank subnet config for 192.168.11.0' do
       expect(chef_run).to create_template '/etc/dhcp/subnets.d/192.168.11.0.conf'
-      expect(chef_run).to render_file('/etc/dhcp/subnets.d/192.168.11.0.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', '192.168.11.0.conf'))
+      expect(chef_run).to render_file('/etc/dhcp/subnets.d/192.168.11.0.conf').with_content(File.read(File.join(File.dirname(__FILE__), 'fixtures', '192.168.11.0.conf')))
     end
 
     it 'declares shared-network mysharednet' do
@@ -95,7 +95,7 @@ describe 'dhcp::_networks' do
 
     it 'generates a shared network config' do
       expect(chef_run).to create_template '/etc/dhcp/shared_networks.d/mysharednet.conf'
-      expect(chef_run).to render_file('/etc/dhcp/shared_networks.d/mysharednet.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', 'mysharednet.conf'))
+      expect(chef_run).to render_file('/etc/dhcp/shared_networks.d/mysharednet.conf').with_content(File.read(File.join(File.dirname(__FILE__), 'fixtures', 'mysharednet.conf')))
     end
   end
 end

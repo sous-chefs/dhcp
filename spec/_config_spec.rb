@@ -13,7 +13,7 @@ describe 'dhcp::_config' do
         'ddns-update-style' => 'interim',
         'max-lease-time' => '86400',
         'update-static-leases' => 'true',
-        'one-lease-per-client' =>  'true',
+        'one-lease-per-client' => 'true',
         'authoritative' => '',
         'ping-check' => 'true',
         'next-server' => '10.0.0.2',
@@ -25,7 +25,7 @@ describe 'dhcp::_config' do
       {
         'domain-name' => '"local"',
         'domain-name-servers' => '8.8.8.8',
-        'host-name' => " = binary-to-ascii (16, 8, \"-\", substring (hardware, 1, 6))"
+        'host-name' => ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))'
       }
     end
 
@@ -35,7 +35,7 @@ describe 'dhcp::_config' do
                            parameters: params, options: opts, masters: nil,
                            keys: nil, my_ip: '10.0.0.2', role: nil,
                            peer_ip: nil, failover: false })
-      expect(chef_run).to render_file('/etc/dhcp/dhcpd.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', 'dhcpd.conf.default'))
+      expect(chef_run).to render_file('/etc/dhcp/dhcpd.conf').with_content(File.read(File.join(File.dirname(__FILE__), 'fixtures', 'dhcpd.conf.default')))
     end
   end
 
@@ -55,7 +55,7 @@ describe 'dhcp::_config' do
         'ddns-update-style' => 'interim',
         'max-lease-time' => '86400',
         'update-static-leases' => 'true',
-        'one-lease-per-client' =>  'true',
+        'one-lease-per-client' => 'true',
         'authoritative' => '',
         'ping-check' => 'true',
         'next-server' => '10.0.0.2',
@@ -67,7 +67,7 @@ describe 'dhcp::_config' do
       {
         'domain-name' => '"local"',
         'domain-name-servers' => '8.8.8.8',
-        'host-name' => " = binary-to-ascii (16, 8, \"-\", substring (hardware, 1, 6))"
+        'host-name' => ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))'
       }
     end
 
@@ -77,7 +77,7 @@ describe 'dhcp::_config' do
                            parameters: params, options: opts, masters: nil,
                            keys: nil, my_ip: '10.0.0.2', role: nil,
                            peer_ip: nil, failover: false })
-      expect(chef_run).to render_file('/etc/dhcp/dhcpd.conf').with_content(File.read File.join(File.dirname(__FILE__), 'fixtures', 'dhcpd.conf.overrides'))
+      expect(chef_run).to render_file('/etc/dhcp/dhcpd.conf').with_content(File.read(File.join(File.dirname(__FILE__), 'fixtures', 'dhcpd.conf.overrides')))
     end
   end
 end

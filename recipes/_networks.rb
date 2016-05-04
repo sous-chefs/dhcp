@@ -6,11 +6,11 @@
 include_recipe 'dhcp::_service'
 
 node['dhcp']['networks'].each do |net|
-  if node['dhcp']['use_bags'] == true
-    data = data_bag_item(node['dhcp']['networks_bag'], Dhcp::Helpers.escape(net))
-  else
-    data = node['dhcp']['network_data'].fetch net, nil
-  end
+  data = if node['dhcp']['use_bags'] == true
+           data_bag_item(node['dhcp']['networks_bag'], Dhcp::Helpers.escape(net))
+         else
+           node['dhcp']['network_data'].fetch net, nil
+         end
 
   next unless data
   # run the lwrp with the bag data

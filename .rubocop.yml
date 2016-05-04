@@ -17,5 +17,8 @@ Style/Next:
 Style/Encoding:
   Enabled: false
 
+Casecmp:
+  Enabled: false
+
 WordArray:
   MinSize: 3
