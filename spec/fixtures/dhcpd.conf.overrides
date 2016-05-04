@@ -22,6 +22,12 @@ option domain-name "local";
 option domain-name-servers 8.8.8.8;
 option host-name  = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6));
 
+on commit {
+  set clip = binary-to-ascii(10, 8, ".", leased-address);;
+  set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));;
+  execute("/usr/local/sbin/dhcpevent", "commit", clip, clhw, host-decl-name);;
+}
+
 
 
 

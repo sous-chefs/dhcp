@@ -34,7 +34,7 @@ describe 'dhcp::_config' do
         .with(variables: { allows: ['booting', 'bootp', 'unknown-clients'],
                            parameters: params, options: opts, masters: nil,
                            keys: nil, my_ip: '10.0.0.2', role: nil,
-                           peer_ip: nil, failover: false })
+                           peer_ip: nil, failover: false, hooks: [] })
       expect(chef_run).to render_file('/etc/dhcp/dhcpd.conf').with_content(File.read(File.join(File.dirname(__FILE__), 'fixtures', 'dhcpd.conf.default')))
     end
   end
@@ -45,7 +45,16 @@ describe 'dhcp::_config' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'centos', version: '6.6') do |node|
         node.set['dhcp']['extra_files'] = ['/etc/dhcp/my_conf.conf', '/tmp/bad.conf']
+        node.set['dhcp']['hooks'] = hooks
       end.converge(described_recipe)
+    end
+
+    let(:hooks) do
+      {
+        'commit' => ['set clip = binary-to-ascii(10, 8, ".", leased-address);',
+                     'set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));',
+                     'execute("/usr/local/sbin/dhcpevent", "commit", clip, clhw, host-decl-name);']
+      }
     end
 
     let(:params) do
@@ -76,7 +85,7 @@ describe 'dhcp::_config' do
         .with(variables: { allows: ['booting', 'bootp', 'unknown-clients'],
                            parameters: params, options: opts, masters: nil,
                            keys: nil, my_ip: '10.0.0.2', role: nil,
-                           peer_ip: nil, failover: false })
+                           peer_ip: nil, failover: false, hooks: hooks })
       expect(chef_run).to render_file('/etc/dhcp/dhcpd.conf').with_content(File.read(File.join(File.dirname(__FILE__), 'fixtures', 'dhcpd.conf.overrides')))
     end
   end

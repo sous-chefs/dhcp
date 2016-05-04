@@ -25,6 +25,7 @@ option host-name  = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6));
 
 
 
+
 include "/etc/dhcp/classes.d/list.conf";
 include "/etc/dhcp/groups.d/list.conf";
 include "/etc/dhcp/subnets.d/list.conf";
