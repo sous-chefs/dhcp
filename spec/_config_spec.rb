@@ -34,7 +34,7 @@ describe 'dhcp::_config' do
         .with(variables: { allows: ['booting', 'bootp', 'unknown-clients'],
                            parameters: params, options: opts, masters: nil,
                            keys: nil, my_ip: '10.0.0.2', role: nil,
-                           peer_ip: nil, failover: false, hooks: [] })
+                           peer_ip: nil, failover: false, hooks: {} })
       expect(chef_run).to render_file('/etc/dhcp/dhcpd.conf').with_content(File.read(File.join(File.dirname(__FILE__), 'fixtures', 'dhcpd.conf.default')))
     end
   end
