@@ -77,4 +77,4 @@ when 'debian'
   default['dhcp']['init_iface'] = 'INTERFACES'
 end
 
-default['dhcp']['hooks'] = []
+default['dhcp']['hooks'] = {}
