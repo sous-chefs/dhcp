@@ -4,7 +4,7 @@
 def includes
   file_includes = []
   run_context.resource_collection.each do |resource|
-    if resource.is_a?(Chef::Resource::DhcpHost) && resource.action == :add
+    if resource.is_a?(Chef::Resource::DhcpHost) && Array(resource.action).include?(:add)
       file_includes << "#{resource.conf_dir}/hosts.d/#{resource.hostname}.conf"
     end
   end

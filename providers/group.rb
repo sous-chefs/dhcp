@@ -3,7 +3,7 @@
 def includes
   file_includes = []
   run_context.resource_collection.each do |resource|
-    if resource.is_a?(Chef::Resource::DhcpGroup) && resource.action == :add
+    if resource.is_a?(Chef::Resource::DhcpGroup) && Array(resource.action).include?(:add)
       file_includes << "#{resource.conf_dir}/groups.d/#{resource.name}.conf"
     end
   end
