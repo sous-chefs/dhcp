@@ -1,7 +1,9 @@
-[![Build Status](https://secure.travis-ci.org/chef-brigade/dhcp-cookbook.png)](http://travis-ci.org/chef-brigade/dhcp-cookbook)
+# DHCP Cookbook
 
-Description
-===========
+[![Build Status](https://secure.travis-ci.org/sous-chefs/dhcp.png)](http://travis-ci.org/sous-chefs/dhcp)
+
+## Description
+
 Data bag and Attribute driven DHCP server.
 
 * Supports setting up Master/Master isc DHCP failover.
@@ -11,29 +13,29 @@ Data bag and Attribute driven DHCP server.
 
 Large parts were borrowed from  work initially done by Dell, extended by Atalanta Systems and reworked by Matt Ray and Opscode. Big thanks to all of them.
 
-Requirements
-============
+## Requirements
+
 Tested on the following with Chef 11 and Chef 12:
 * `Ubuntu 12.04`
 * `CentOS 6`
 
-Limitations
-===========
+## Limitations
+
 * only setup to handle ipv4
 
-Recipes
-=======
-default
--------
+## Recipes
+
+### default
+
 Stub recipe that does nothing. Good for including LWRP's but not the other recipe stuffs.
 
-server
-------
+### server
+
 The node will install and configure the `dhcp-server` application.
 Configuration is through various dhcp_X bags, and the current role/environment
 
-Node Attributes
-==========
+## Node Attributes
+
 Almost everyone of the parameters and options are able to be overrode in the
 host/group/network scope these are general defaults for the server.
 
@@ -117,8 +119,8 @@ These are all just k/v entries in the global params hash. All values are type: `
 |`node[:dhcp][:init_config]` | `String` | "/etc/default/isc-dhcp-server"
 
 
-Data Bags
-========
+## Data Bags
+
 Data bags drive the lionshare of the dhcp configuration. Beyond the global settings. It is not required to configure
 any bags other than dhcp_networks to get up and running, But if you want to statically map a network or have handy
 Host names provisioned by dhcp you will have to add either `dhcp_groups/dhcp_hosts` bags and items.
@@ -134,8 +136,8 @@ knife data bag from file dhcp_groups examples/data_bags/dhcp_groups
 knife data bag from file dhcp_hosts examples/data_bags/dhcp_hosts
 ```
 
-dhcp_networks
--------------
+### dhcp_networks
+
 Looked up via `node[:dhcp][:networks_bag]`. Describes networks this dhcp server should be configured to provide services for.
 Per-network options can be provided as an array of strings where each string is a dhcp option.
 Make sure you escape `"`'s properly as dhcpd is touchy about the format of values.
@@ -153,8 +155,8 @@ Make sure you escape `"`'s properly as dhcpd is touchy about the format of value
 }
 ```
 
-dhcp_groups
-----------
+### dhcp_groups
+
 Looked up via `node[:dhcp][:grougroups]` Items for this bag are group entries as per the [man page][1].
 Groups are sets of machines that can be configured with common parameters.  A group can be bare. I.e.
 Contains no host or parameters entries whatsover, and just defines options.
@@ -204,8 +206,8 @@ for the host.
 |`"pxe":` |This key is used by my pxe cookbook to figure out what pxe item  you want this group to boot too. That Pxe cookbook should be released soon (hopefully).
 
 
-dhcp_hosts
-----------
+### dhcp_hosts
+
 Dhcp hosts bag is looked up via  `node[:dhcp][:hosts_bag]`, and contains Host Items.
 
 Example Most Basic host:
@@ -231,20 +233,20 @@ Example Complex host:
 }
 ```
 
-Resources/Providers
-===================
-## dhcp_host
+## Resources/Providers
+
+### dhcp_host
 
 Manipulate host entries in dhcpd
 
-### Actions
+#### Actions
 
 | Action | Description |
 |:----------|:---------|
 | `add`    | `_default_` Add this host record
 | `remove` | Delete this host record
 
-### Paramaters
+#### Paramaters
 | Param | Type | Default |
 |:----------|:---------|:-------|
 | `hostname`   | `String`
@@ -254,7 +256,7 @@ Manipulate host entries in dhcpd
 | `parameters` | `Array`  | `[]`
 | `conf_dir`   | `String` | `"/etc/dhcp"`
 
-### Example
+#### Example
 
 Add a Node
 ```ruby
@@ -277,16 +279,16 @@ end
 If you undefine an entry it will also get removed.
 
 
-## dhcp_group
+### dhcp_group
 
-### Actions
+#### Actions
 
 | Action | Description |
 |:----------|:---------|
 | `add`    | `_default_` Add this host record
 | `remove` | Delete this host record
 
-### Paramaters
+#### Paramaters
 
 | Param | Type | Default | Desciption |
 |:----------|:----|:----|:------------|
@@ -296,7 +298,7 @@ If you undefine an entry it will also get removed.
 | `evals`| `Array` |  `[]` | This is an array of multiline strings of eval
 | `conf_dir`  | `String`| `"/etc/dhcp"` | The directory where the config files are stored
 
-### Example
+#### Example
 
 ```ruby
 hosts_data = {
@@ -310,14 +312,14 @@ dhcp_group "some_group" do
 end
 ```
 
-## dhcp_subnet
+### dhcp_subnet
 
 | Action | Description |
 |:----------|:---------|
 | `add`    | `_default_` Add this host record
 | `remove` | Delete this host record
 
-### Paramaters
+#### Paramaters
 
 | Param | Type | Default | Desciption |
 |:----------|:----|:----|:------------|
@@ -334,7 +336,7 @@ end
 | `zones` | `Array` | `[]` | _NOTE: Please help update with a good description_
 | `conf_dir` |`String` | `"/etc/dhcp"` | Main dhcpd config directory
 
-#### Parameters for pool
+##### Parameters for pool
 
 | Param | Type | Default | Desciption |
 |:----------|:----|:----|:------------|
@@ -343,7 +345,7 @@ end
 | `allow` | `String` | `nil` | Only those clients that match any entries on the allow list will be eligible.
 | `deny` | `String` | `nil` | Only those clients that do not match any entries on the deny list will be eligible.
 
-### Example
+#### Example
 ```ruby
 dhcp_subnet "192.168.1.0" do
   pool do
@@ -364,14 +366,14 @@ dhcp_subnet "192.168.1.0" do
 end
 ```
 
-## dhcp_shared_network
+### dhcp_shared_network
 
 | Action | Description |
 |:----------|:---------|
 | `add`    | `_default_` Add this shared network
 | `remove` | Delete this shared network record
 
-### Paramaters
+#### Paramaters
 
 | Param | Type | Default | Desciption |
 |:----------|:----|:----|:------------|
@@ -406,24 +408,24 @@ dhcp_shared_network 'mysharednet' do
 end
 ```
 
-## dhcp_class
+### dhcp_class
 
 Manage dhcp classes
 
-### Actions
+#### Actions
 
 | Action | Description |
 |:----------|:---------|
 | `add`    | `_default_` Add this host record
 
-### Paramaters
+#### Paramaters
 | Param | Type | Default |
 |:----------|:---------|:-------|
 | `match`   | `String` | |
 | `subclass` | `String` | |
 | `subclasses`  | `Array` | `[]` |
 
-### Example
+#### Example
 
 Add a Node
 ```ruby
@@ -436,12 +438,11 @@ end
 
 If you undefine an entry it will also get removed.
 
-Testing
-=======
+## Testing
+
 Testing uses ChefDK 0.13.21.  Assuming it's installed and you've initialized your shell with `chef shell-init` you can run `rake` to run testing.
 
-License and Author
-==================
+## License and Author
 
 ### Originally forked from
 https://github.com/spheromak/dhcp-cook
@@ -450,17 +451,10 @@ https://github.com/spheromak/dhcp-cook
 
 |                      |                                          |
 |:---------------------|:-----------------------------------------|
+| **Maintainer Community** | [Sous Chefs](https://github.com/sous-chefs)
 | **Maintainer**       | [Jacob McCann](https://github.com/jmccann)
 | **Original Author**  | [Jesse Nelson](https://github.com/spheromak)
 | **Author**           | [Matt Ray](https://github.com/mattray)
-| **Contributor**      | [Myles Steinhauser](https://github.com/masteinhauser)
-| **Contributor**      | [Bao Nguyen](https://github.com/sysbot)
-| **Contributor**      | [Chaman Kang](https://github.com/chamankang)
-| **Contributor**      | [Will Reichert](https://github.com/wilreichert)
-| **Contributor**      | [Simon Johansson](https://github.com/simonjohansson)
-| **Contributor**      | [Robert Choi](https://github.com/robertchoi8099)
-| **Contributor**      | [Hippie Hacker](https://github.com/hh)
-| **Contributor**      | [Eric Blevins](https://github.com/e1000)
 | **Copyright** | Copyright (c) 2013 Jesse Nelson
 | **Copyright** | 2011 Atalanta Systems
 | **Copyright** | 2011 Dell, Inc.
