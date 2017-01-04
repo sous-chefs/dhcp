@@ -3,7 +3,7 @@
 # Cookbook Name:: dhcp
 # Provider:: dhcp_shared_subnet
 #
-# Copyright:: 2015, Chef Brigade
+# Copyright:: 2015-2016, Sous Chefs
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ action :add do
     variables name: new_resource.name, subnets: new_resource.subnets
     owner 'root'
     group 'root'
-    mode 0644
+    mode '0644'
     notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)

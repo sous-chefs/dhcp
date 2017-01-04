@@ -47,7 +47,7 @@ module Dhcp
         source 'list.conf.erb'
         owner 'root'
         group 'root'
-        mode 0644
+        mode '0644'
         variables(files: includes(sub_dir))
         notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
       end

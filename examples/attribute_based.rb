@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # Example Attribute driven  wrapper recipe
-# There is more examples here https://github.com/chef-brigade/dhcp-cookbook/blob/master/spec/_networks_spec.rb
+# There is more examples here https://github.com/sous-chefs/dhcp/blob/master/spec/_networks_spec.rb
 
 node.default['dhcp']['options']['domain-name'] = '"dev.f00bar.com"'
 node.default['dhcp']['options']['domain-name-servers'] = '10.33.87.98, 10.33.87.99'
