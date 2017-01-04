@@ -31,7 +31,7 @@ action :add do
     variables name: new_resource.name, subnets: new_resource.subnets
     owner 'root'
     group 'root'
-    mode 0644
+    mode '0644'
     notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)

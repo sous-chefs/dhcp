@@ -15,7 +15,7 @@ end
 template node['dhcp']['init_config'] do
   owner 'root'
   group 'root'
-  mode 0644
+  mode '0644'
   source 'init_config.erb'
   variables(
     interfaces: node['dhcp']['interfaces'],

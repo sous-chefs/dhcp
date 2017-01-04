@@ -30,11 +30,12 @@ module DHCP
 
       def role
         if node['dhcp'].key?(:slave) && node['dhcp']['slave'] == true
-          return 'secondary'
+          'secondary'
         elsif node['dhcp'].key?(:master) && node['dhcp']['master'] == true
-          return 'primary'
+          'primary'
+        else # rubocop:disable Style/EmptyElse
+          nil
         end
-        nil
       end
 
       def peer_node # rubocop:disable AbcSize

@@ -11,7 +11,7 @@ DHCP::DynaDns.load(node)
 template node['dhcp']['config_file'] do
   owner 'root'
   group 'root'
-  mode 0644
+  mode '0644'
   source 'dhcpd.conf.erb'
   variables(
     allows: node['dhcp']['allows'] || [],
@@ -33,7 +33,7 @@ if node['dhcp']['failover_lease_hack']
   template node['dhcp']['dhcpd_leases'] do
     owner 'root'
     group 'root'
-    mode 0644
+    mode '0644'
     source 'dhcpd.leases-hack.erb'
     action :create
     notifies :restart, "service[#{node['dhcp']['service_name']}]"
