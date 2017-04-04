@@ -1,29 +1,42 @@
 sudo: required
+dist: trusty
+
 services:
   - docker
+
 addons:
   apt:
     sources:
-      - chef-current-precise
+      - chef-current-trusty
     packages:
       - chefdk
+
+branches:
+  only:
+    - master
 
 env:
   global:
   - KITCHEN_ARGS="--destroy=always"
-  - KITCHEN_LOCAL_YAML=.kitchen.docker.yml
+  - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
   matrix:
 # CHEF_VERSION is only for unit tests, no for test-kitchen:
   - TESTS="style unit"
 # Split up the test-kitchen run to avoid exceeding 50 minutes:
-  - TESTS="integration" KITCHEN_REGEXP=centos
-  - TESTS="integration" KITCHEN_REGEXP=ubuntu
+  - TESTS="integration" KITCHEN_INSTANCE=default-centos-6
+  - TESTS="integration" KITCHEN_INSTANCE=default-centos-7
+  - TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1404
+  - TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1604
 
 install: echo "skip bundle install"
 
 # Ensure we make ChefDK's Ruby the default
 before_script:
+  - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+  - /opt/chefdk/embedded/bin/chef --version
+  - /opt/chefdk/embedded/bin/cookstyle --version
+  - /opt/chefdk/embedded/bin/foodcritic --version
 
 script:
   - /opt/chefdk/embedded/bin/chef exec rake $TESTS
