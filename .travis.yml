@@ -7,7 +7,7 @@ services:
 addons:
   apt:
     sources:
-      - chef-current-trusty
+      - chef-stable-trusty
     packages:
       - chefdk
 
