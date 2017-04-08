@@ -44,8 +44,8 @@ describe 'dhcp::_config' do
     # Need to add testing for all other attributes used by _config recipe
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'centos', version: '6.6') do |node|
-        node.set['dhcp']['extra_files'] = ['/etc/dhcp/my_conf.conf', '/tmp/bad.conf']
-        node.set['dhcp']['hooks'] = hooks
+        node.override['dhcp']['extra_files'] = ['/etc/dhcp/my_conf.conf', '/tmp/bad.conf']
+        node.override['dhcp']['hooks'] = hooks
       end.converge(described_recipe)
     end
 
