@@ -33,7 +33,7 @@ end
 
 describe 'DHCP::Failover Master with slaves' do
   let(:slave) do
-    stub_node('slave') do |node|
+    stub_node('slave', platform: 'ubuntu', version: '14.04') do |node|
       node.default['dhcp']['slave'] = true
       node.automatic['ipaddress'] = '10.1.1.20'
     end
@@ -85,7 +85,7 @@ end
 
 describe 'DHCP::Failover Slave' do
   let(:master) do
-    stub_node('master') do |node|
+    stub_node('master', platform: 'ubuntu', version: '14.04') do |node|
       node.default['dhcp']['master'] = true
       node.automatic['ipaddress'] = '10.1.1.10'
     end
