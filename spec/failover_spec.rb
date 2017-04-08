@@ -39,7 +39,7 @@ describe 'DHCP::Failover Master with slaves' do
     end
   end
 
-  cached(:chef_run) do
+  let(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
       node.default[:dhcp][:master] = true
       node.automatic[:ipaddress] = '10.1.1.10'
@@ -91,7 +91,7 @@ describe 'DHCP::Failover Slave' do
     end
   end
 
-  cached(:chef_run) do
+  let(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
       node.default[:dhcp][:slave] = true
       node.default[:ipaddress] = '10.1.1.20'
