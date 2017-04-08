@@ -2,6 +2,7 @@
 driver:
   name: dokken
   privileged: true
+  chef_version: 12.19.36
 
 transport:
   name: dokken

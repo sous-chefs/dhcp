@@ -1,6 +1,7 @@
 ---
 driver:
   name: vagrant
+  chef_version: 12.19.36
 
 provisioner:
   name: policyfile_zero
