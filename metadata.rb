@@ -13,3 +13,5 @@ issues_url "https://github.com/sous-chefs/#{name}/issues" if respond_to?(:issues
 %w(debian ubuntu centos redhat).each do |os|
   supports os
 end
+
+chef_version '>= 12.1'
