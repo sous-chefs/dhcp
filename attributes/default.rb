@@ -33,7 +33,7 @@ default['dhcp']['group_data'] = {}
 default['dhcp']['network_data'] = {}
 default['dhcp']['shared_network_data'] = {}
 
-defined?(domain) || default['domain'] = 'local'
+defined?(node['domain']) || default['domain'] = 'local'
 
 default['dhcp']['parameters']['default-lease-time'] = '6400'
 default['dhcp']['parameters']['ddns-domainname'] = "\"#{domain}\""
@@ -46,7 +46,7 @@ default['dhcp']['parameters']['ping-check'] = 'true'
 default['dhcp']['parameters']['next-server'] = node['ipaddress']
 default['dhcp']['parameters']['filename'] = '"pxelinux.0"'
 
-default['dhcp']['options']['domain-name'] = "\"#{domain}\""
+default['dhcp']['options']['domain-name'] = "\"#{node['domain']}\""
 default['dhcp']['options']['domain-name-servers'] = '8.8.8.8'
 default['dhcp']['options']['host-name'] = ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))'
 

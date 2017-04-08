@@ -23,3 +23,6 @@ Casecmp:
 
 WordArray:
   MinSize: 3
+
+Metrics/BlockLength:
+  Enabled: false

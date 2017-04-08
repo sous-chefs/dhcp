@@ -15,7 +15,7 @@ end
 describe 'DHCP::DynaDns malformed' do
   cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
-      node.set[:dns][:zones] = %w(192.168.1.0)
+      node.override['dns']['zones'] = %w(192.168.1.0)
 
       server.create_data_bag('dns_zones',
                              '192-168-1-0' => parse_data_bag('dns_zones/192-168-1-0'),
@@ -30,11 +30,12 @@ describe 'DHCP::DynaDns malformed' do
 end
 
 describe 'DHCP::DynaDns' do
-  cached(:chef_run) do
+  # cached does not appear to be working w/ data bags in chefspec 6+
+  let(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
-      node.set[:dns][:master] = '192.168.9.9'
-      node.set[:dns][:zones] = %w(vm 192.168.1.0)
-      node.set[:dns][:rndc_key] = 'dhcp-key'
+      node.override['dns']['master'] = '192.168.9.9'
+      node.override['dns']['zones'] = %w(vm 192.168.1.0)
+      node.normal['dns']['rndc_key'] = 'dhcp-key'
 
       server.create_data_bag('dns_zones',
                              '192-168-1-0' => parse_data_bag('dns_zones/192-168-1-0'),

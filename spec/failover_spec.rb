@@ -15,8 +15,7 @@ end
 describe 'DHCP::Failover Master without slaves' do
   cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node, _server|
-      node.set['dhcp'] ||= {}
-      node.set['dhcp']['master'] = true
+      node.default['dhcp']['master'] = true
       node.automatic['ipaddress'] = '10.1.1.10'
     end.converge('dhcp::library')
   end
@@ -34,17 +33,15 @@ end
 
 describe 'DHCP::Failover Master with slaves' do
   let(:slave) do
-    stub_node('slave') do |node|
-      node.set['dhcp'] ||= {}
-      node.set['dhcp']['slave'] = true
+    stub_node('slave', platform: 'ubuntu', version: '14.04') do |node|
+      node.default['dhcp']['slave'] = true
       node.automatic['ipaddress'] = '10.1.1.20'
     end
   end
 
-  cached(:chef_run) do
+  let(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
-      node.set[:dhcp] ||= {}
-      node.set[:dhcp][:master] = true
+      node.default[:dhcp][:master] = true
       node.automatic[:ipaddress] = '10.1.1.10'
 
       server.create_node(slave)
@@ -70,8 +67,7 @@ end
 describe 'DHCP::Failover Slave no master' do
   cached(:chef_run) do
     ChefSpec::ServerRunner.new do |node|
-      node.set['dhcp'] ||= {}
-      node.set['dhcp']['slave'] = true
+      node.default['dhcp']['slave'] = true
       node.automatic['ipaddress'] = '10.1.1.20'
     end.converge('dhcp::library')
   end
@@ -89,18 +85,16 @@ end
 
 describe 'DHCP::Failover Slave' do
   let(:master) do
-    stub_node('master') do |node|
-      node.set['dhcp'] ||= {}
-      node.set['dhcp']['master'] = true
+    stub_node('master', platform: 'ubuntu', version: '14.04') do |node|
+      node.default['dhcp']['master'] = true
       node.automatic['ipaddress'] = '10.1.1.10'
     end
   end
 
-  cached(:chef_run) do
+  let(:chef_run) do
     ChefSpec::ServerRunner.new do |node, server|
-      node.set[:dhcp] ||= {}
-      node.set[:dhcp][:slave] = true
-      node.set[:ipaddress] = '10.1.1.20'
+      node.default[:dhcp][:slave] = true
+      node.default[:ipaddress] = '10.1.1.20'
 
       server.create_node(master)
     end.converge('dhcp::library')

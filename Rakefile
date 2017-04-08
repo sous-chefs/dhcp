@@ -38,7 +38,7 @@ task unit: ['unit:spec']
 namespace :integration do
   def run_kitchen
     sh '[ -e Policyfile.lock.json ] || /opt/chefdk/embedded/bin/chef install'
-    sh "kitchen test #{ENV['KITCHEN_ARGS']} #{ENV['KITCHEN_REGEXP']}"
+    sh "kitchen test #{ENV['KITCHEN_ARGS']} #{ENV['KITCHEN_INSTANCE']}"
   end
 
   desc 'Run Test Kitchen integration tests using vagrant'
@@ -47,15 +47,14 @@ namespace :integration do
     run_kitchen
   end
 
-  desc 'Run Test Kitchen integration tests using docker'
-  task :docker do
-    ENV['KITCHEN_LOCAL_YAML'] = '.kitchen.docker.yml'
-    sh '/opt/chefdk/embedded/bin/bundle install'
+  desc 'Run Test Kitchen integration tests using dokken'
+  task :dokken do
+    ENV['KITCHEN_LOCAL_YAML'] = '.kitchen.dokken.yml'
     run_kitchen
   end
 end
 
 desc 'Run Test Kitchen integration tests'
-task integration: travis? ? %w(integration:docker) : %w(integration:vagrant)
+task integration: travis? ? %w(integration:dokken) : %w(integration:vagrant)
 
 task default: [:style, :unit, :integration]
