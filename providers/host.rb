@@ -4,7 +4,9 @@
 include Dhcp::Helpers
 
 action :add do
-  directory "#{new_resource.conf_dir}/hosts.d/"
+  directory "#{new_resource.conf_dir}/hosts.d #{new_resource.name}" do
+    path "#{new_resource.conf_dir}/hosts.d"
+  end
 
   t = template "#{new_resource.conf_dir}/hosts.d/#{new_resource.name}.conf" do
     cookbook 'dhcp'
@@ -23,7 +25,7 @@ action :add do
     notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
   end
   new_resource.updated_by_last_action(t.updated?)
-  write_include 'hosts.d'
+  write_include 'hosts.d', new_resource.name
 end
 
 action :remove do
@@ -33,5 +35,5 @@ action :remove do
   end
   new_resource.updated_by_last_action(f.updated?)
 
-  write_include 'hosts.d'
+  write_include 'hosts.d', new_resource.name
 end

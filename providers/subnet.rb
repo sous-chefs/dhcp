@@ -5,7 +5,9 @@ include Dhcp::Helpers
 action :add do
   run_context.include_recipe 'dhcp::_service'
 
-  directory "#{new_resource.conf_dir}/subnets.d/"
+  directory "#{new_resource.conf_dir}/subnets.d #{new_resource.name}" do
+    path "#{new_resource.conf_dir}/subnets.d"
+  end
 
   t = template "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
     cookbook 'dhcp'
@@ -30,7 +32,7 @@ action :add do
   end
   new_resource.updated_by_last_action(t.updated?)
 
-  write_include 'subnets.d'
+  write_include 'subnets.d', new_resource.name
 end
 
 action :remove do
@@ -40,5 +42,5 @@ action :remove do
     notifies :send_notification, new_resource, :immediately
   end
   new_resource.updated_by_last_action(f.updated?)
-  write_include 'subnets.d'
+  write_include 'subnets.d', new_resource.name
 end
