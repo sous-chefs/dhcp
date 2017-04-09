@@ -3,7 +3,9 @@
 include Dhcp::Helpers
 
 action :add do
-  directory "#{new_resource.conf_dir}/groups.d"
+  directory "#{new_resource.conf_dir}/groups.d #{new_resource.name}" do
+    path "#{new_resource.conf_dir}/groups.d"
+  end
 
   t = template "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
     cookbook 'dhcp'
@@ -21,7 +23,7 @@ action :add do
   end
   new_resource.updated_by_last_action(t.updated?)
 
-  write_include 'groups.d'
+  write_include 'groups.d', new_resource.name
 end
 
 action :remove do
@@ -31,5 +33,5 @@ action :remove do
   end
   new_resource.updated_by_last_action(f.updated?)
 
-  write_include 'groups.d'
+  write_include 'groups.d', new_resource.name
 end

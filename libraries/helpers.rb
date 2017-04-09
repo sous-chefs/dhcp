@@ -41,8 +41,9 @@ module Dhcp
     #
     # @param [String] sub_dir - The subconfig directory for the config
     #
-    def write_include(sub_dir) # rubocop:disable AbcSize
-      t = template "#{new_resource.conf_dir}/#{sub_dir}/list.conf" do
+    def write_include(sub_dir, name) # rubocop:disable AbcSize
+      t = template "#{new_resource.conf_dir}/#{sub_dir}/list.conf #{name}" do
+        path "#{new_resource.conf_dir}/#{sub_dir}/list.conf"
         cookbook 'dhcp'
         source 'list.conf.erb'
         owner 'root'

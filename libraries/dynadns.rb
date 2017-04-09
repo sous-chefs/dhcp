@@ -21,7 +21,7 @@ module DHCP
       #
       # @return [Hash] of zone_name => master_addr
       #
-      def masters # rubocop:disable CyclomaticComplexity, MethodLength, AbcSize, PerceivedComplexity
+      def masters # rubocop:disable CyclomaticComplexity, AbcSize, PerceivedComplexity
         @zones ||= load_zones
         masters ||= {}
         return unless @zones
