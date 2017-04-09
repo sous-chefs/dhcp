@@ -36,7 +36,7 @@ default['dhcp']['shared_network_data'] = {}
 defined?(node['domain']) || default['domain'] = 'local'
 
 default['dhcp']['parameters']['default-lease-time'] = '6400'
-default['dhcp']['parameters']['ddns-domainname'] = "\"#{domain}\""
+default['dhcp']['parameters']['ddns-domainname'] = "\"#{node['domain']}\""
 default['dhcp']['parameters']['ddns-update-style'] = 'interim'
 default['dhcp']['parameters']['max-lease-time'] = '86400'
 default['dhcp']['parameters']['update-static-leases'] = 'true'
