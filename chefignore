@@ -84,8 +84,8 @@ tmp
 
 # Policyfile #
 ##############
-Policyfile.rb
-Policyfile.lock.json
+# Policyfile.rb
+# Policyfile.lock.json
 
 # Cookbooks #
 #############
