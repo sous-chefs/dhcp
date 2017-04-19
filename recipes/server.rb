@@ -1,12 +1,12 @@
 # encoding: UTF-8
 #
 # Author:: Jesse Nelson <spheromak@gmail.com>
-# Author:: Matt Ray <matt@opscode.com>
+# Author:: Matt Ray <matt@chef.io>
 # Cookbook Name:: dhcp
 # Recipe:: server
 #
 # Copyright 2012, Jesse Nelson
-# Copyright 2011, Opscode, Inc
+# Copyright 2011, Chef Software, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
