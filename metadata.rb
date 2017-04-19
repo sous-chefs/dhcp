@@ -10,7 +10,7 @@ source_url "https://github.com/sous-chefs/#{name}" if respond_to?(:source_url)
 issues_url "https://github.com/sous-chefs/#{name}/issues" if respond_to?(:issues_url)
 
 # tested with Ubuntu, assume Debian works similarly
-%w(debian ubuntu centos redhat).each do |os|
+%w(debian ubuntu centos redhat scientific oracle).each do |os|
   supports os
 end
 
