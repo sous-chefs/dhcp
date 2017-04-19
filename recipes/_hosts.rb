@@ -9,7 +9,7 @@ unless node['dhcp']['hosts'].empty?
   # TODO: this should be refactored into libs
   # rubocop:disable BlockNesting
   host_list = node['dhcp']['hosts']
-  if host_list.respond_to?(:downcase) && host_list.downcase == 'all'
+  if host_list.respond_to?(:downcase) && host_list.casecmp('all') == 0
     host_list = node['dhcp']['host_data'].keys
     if node['dhcp']['use_bags'] == true
       begin

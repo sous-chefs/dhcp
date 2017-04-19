@@ -14,7 +14,7 @@ end
 describe 'dhcp::_networks' do
   context 'driven by node attributes' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'centos', version: '6.6', step_into: ['dhcp_subnet', 'dhcp_shared_network']) do |node|
+      ChefSpec::ServerRunner.new(platform: 'centos', version: '6.6', step_into: %w(dhcp_subnet dhcp_shared_network)) do |node|
         node.default['chef_environment'] = 'production'
         node.override['dhcp']['use_bags'] = false
         node.override['dhcp']['networks'] = ['192.168.9.0/24', '192.168.11.0/24']
@@ -25,11 +25,11 @@ describe 'dhcp::_networks' do
           'broadcast'   => '192.168.9.255',
           'range'       => '192.168.9.50 192.168.9.240',
           'options'     => ['time-offset 10'],
-          'next_server' => '192.168.9.11'
+          'next_server' => '192.168.9.11',
         }
         node.override['dhcp']['network_data']['192.168.11.0/24'] = {
           'address'     => '192.168.11.0',
-          'netmask'     => '255.255.255.0'
+          'netmask'     => '255.255.255.0',
         }
         node.override['dhcp']['shared_network_data']['mysharednet']['subnets']['192.168.10.0/24'] = {
           'routers'   => ['192.168.10.1'],
@@ -37,11 +37,11 @@ describe 'dhcp::_networks' do
           'netmask'   => '255.255.255.0',
           'broadcast' => '192.168.10.255',
           'range'     => '192.168.10.50 192.168.10.240',
-          'next_server' => '192.168.10.11'
+          'next_server' => '192.168.10.11',
         }
         node.override['dhcp']['shared_network_data']['mysharednet']['subnets']['10.0.2.0/24'] = {
           'address' => '10.0.2.0',
-          'netmask' => '255.255.255.0'
+          'netmask' => '255.255.255.0',
         }
       end.converge(described_recipe)
     end

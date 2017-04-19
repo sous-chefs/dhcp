@@ -29,12 +29,12 @@ dhcp_subnet 'overrides' do
     allow 'members of "UnregisteredHosts"'
   end
   ddns 'test.com'
-  evals [%q(
+  evals ['
     if exists user-class and option user-class = "iPXE" {
       filename "bootstrap.ipxe";
     } else {
       filename "undionly.kpxe";
-    })]
+    }']
   key 'name' => 'test_key', 'algorithm' => 'test_algo', 'secret' => 'test_secret'
   zones [{ 'zone' => 'test', 'primary' => 'test_pri', 'key' => 'test_key' }]
   conf_dir '/etc/dhcp_override'

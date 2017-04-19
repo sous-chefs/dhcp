@@ -21,7 +21,7 @@ module DHCP
       #
       # @return [Hash] of zone_name => master_addr
       #
-      def masters # rubocop:disable CyclomaticComplexity, AbcSize, PerceivedComplexity
+      def masters
         @zones ||= load_zones
         masters ||= {}
         return unless @zones
@@ -61,7 +61,7 @@ module DHCP
       #
       # @return [Hash] of key-names containing bag data for each key
       #
-      def keys # rubocop:disable AbcSize
+      def keys
         k ||= {}
         @zones ||= load_zones
         return if @zones.nil? || @zones.empty?

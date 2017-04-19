@@ -21,7 +21,7 @@ cookbook 'testing', path: 'test/cookbooks/testing'
 cookbook 'ubuntu'
 
 # Attributes for testing
-default['dhcp']['interfaces'] = ['eth0', 'eth1']
+default['dhcp']['interfaces'] = %w(eth0 eth1)
 default['dhcp']['groups'] = []
 default['dhcp']['hosts'] = []
 default['dhcp']['networks'] = ['192.168.9.0/24']
