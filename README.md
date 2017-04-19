@@ -6,22 +6,21 @@
 
 Data bag and Attribute driven DHCP server.
 
-* Supports setting up Master/Master isc DHCP failover.
-* Includes Support for ddns
-* Includes LWRPs for managing hosts, groups and subnets.
-* Use databags or attributes + wrapper cooks to manage dhcp server [Example](examples/attribute_based.rb)
+- Supports setting up Master/Master isc DHCP failover.
+- Includes Support for ddns
+- Includes LWRPs for managing hosts, groups and subnets.
+- Use databags or attributes + wrapper cooks to manage dhcp server [Example](examples/attribute_based.rb)
 
-Large parts were borrowed from  work initially done by Dell, extended by Atalanta Systems and reworked by Matt Ray and Opscode. Big thanks to all of them.
+Large parts were borrowed from work initially done by Dell, extended by Atalanta Systems and reworked by Matt Ray and Chef. Big thanks to all of them.
 
 ## Requirements
 
-Tested on the following with Chef 11 and Chef 12:
-* `Ubuntu 12.04`
-* `CentOS 6`
+- Debian / Ubuntu
+- CentOS and derivatives
 
 ## Limitations
 
-* only setup to handle ipv4
+- only setup to handle ipv4
 
 ## Recipes
 
@@ -31,8 +30,7 @@ Stub recipe that does nothing. Good for including LWRP's but not the other recip
 
 ### server
 
-The node will install and configure the `dhcp-server` application.
-Configuration is through various dhcp_X bags, and the current role/environment
+The node will install and configure the `dhcp-server` application. Configuration is through various dhcp_X bags, and the current role/environment
 
 ## Node Attributes
 

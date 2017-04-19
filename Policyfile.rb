@@ -1,7 +1,7 @@
 # Policyfile.rb - Describe how you want Chef to build your system.
 #
 # For more information on the Policyfile feature, visit
-# https://github.com/opscode/chef-dk/blob/master/POLICYFILE_README.md
+# https://github.com/chef/chef-dk/blob/master/POLICYFILE_README.md
 
 # A name that describes what the system you're building with Chef does.
 name 'dhcp'
@@ -21,7 +21,7 @@ cookbook 'testing', path: 'test/cookbooks/testing'
 cookbook 'ubuntu'
 
 # Attributes for testing
-default['dhcp']['interfaces'] = ['eth0', 'eth1']
+default['dhcp']['interfaces'] = %w(eth0 eth1)
 default['dhcp']['groups'] = []
 default['dhcp']['hosts'] = []
 default['dhcp']['networks'] = ['192.168.9.0/24']

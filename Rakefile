@@ -10,14 +10,14 @@ end
 namespace :style do
   desc 'Run Ruby style checks'
   task :ruby do
-    sh '/opt/chefdk/embedded/bin/rubocop --version'
-    sh '/opt/chefdk/embedded/bin/rubocop'
+    sh '/opt/chefdk/embedded/bin/cookstyle --version'
+    sh '/opt/chefdk/embedded/bin/cookstyle'
   end
 
   desc 'Run Chef style checks'
   task :chef do
     sh '/opt/chefdk/embedded/bin/foodcritic --version'
-    sh '/opt/chefdk/embedded/bin/foodcritic -f any . --exclude spec -t ~FC003 -t ~FC059'
+    sh '/opt/chefdk/embedded/bin/foodcritic -f any . --exclude spec -t ~FC059'
   end
 end
 

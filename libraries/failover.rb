@@ -38,7 +38,7 @@ module DHCP
         end
       end
 
-      def peer_node # rubocop:disable AbcSize
+      def peer_node
         if node['dhcp'].key?(:slave) && node['dhcp']['slave']
           masters.first
         elsif node['dhcp'].key?(:master) && node['dhcp']['master']

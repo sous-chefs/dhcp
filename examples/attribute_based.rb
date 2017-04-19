@@ -14,20 +14,20 @@ include_recipe 'dhcp::_config'
 rndc_key = {
   'name' => 'dev.f00bar.com',
   'algorithm' => 'hmac-md5',
-  'secret' => 'CHANGETHISYOURSELF'
+  'secret' => 'CHANGETHISYOURSELF',
 }
 
 dns_zones = [
   {
     'zone' => 'dev.f00bar.com',
     'primary' => 'ns01.dev.f00bar.com',
-    'key' => 'dev.f00bar.com'
+    'key' => 'dev.f00bar.com',
   },
   {
     'zone' => '0.87.33.10.in-addr.arpa.',
     'primary' => 'ns01.dev.f00bar.com',
-    'key' => 'dev.f00bar.com'
-  }
+    'key' => 'dev.f00bar.com',
+  },
 ]
 
 dhcp_subnet '10.33.87.0' do

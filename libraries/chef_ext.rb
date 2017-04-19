@@ -3,7 +3,7 @@
 class Chef
   module Mixin
     module Template
-      class TemplateContext < Erubis::Context # rubocop:disable Documentation
+      class TemplateContext < Erubis::Context
         def render(partial_name, options = {})
           fail 'You cannot render partials in this context' unless @template_finder # rubocop:disable SignalException
 

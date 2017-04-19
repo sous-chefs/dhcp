@@ -17,7 +17,7 @@ describe 'dhcp::_config' do
         'authoritative' => '',
         'ping-check' => 'true',
         'next-server' => '10.0.0.2',
-        'filename' => '"pxelinux.0"'
+        'filename' => '"pxelinux.0"',
       }
     end
 
@@ -25,7 +25,7 @@ describe 'dhcp::_config' do
       {
         'domain-name' => '"local"',
         'domain-name-servers' => '8.8.8.8',
-        'host-name' => ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))'
+        'host-name' => ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))',
       }
     end
 
@@ -53,7 +53,7 @@ describe 'dhcp::_config' do
       {
         'commit' => ['set clip = binary-to-ascii(10, 8, ".", leased-address);',
                      'set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));',
-                     'execute("/usr/local/sbin/dhcpevent", "commit", clip, clhw, host-decl-name);']
+                     'execute("/usr/local/sbin/dhcpevent", "commit", clip, clhw, host-decl-name);'],
       }
     end
 
@@ -68,7 +68,7 @@ describe 'dhcp::_config' do
         'authoritative' => '',
         'ping-check' => 'true',
         'next-server' => '10.0.0.2',
-        'filename' => '"pxelinux.0"'
+        'filename' => '"pxelinux.0"',
       }
     end
 
@@ -76,7 +76,7 @@ describe 'dhcp::_config' do
       {
         'domain-name' => '"local"',
         'domain-name-servers' => '8.8.8.8',
-        'host-name' => ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))'
+        'host-name' => ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))',
       }
     end
 
