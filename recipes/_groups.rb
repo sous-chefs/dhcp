@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # Setup Groups
 #
 unless node['dhcp']['groups'].empty?

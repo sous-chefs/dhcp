@@ -1,6 +1,6 @@
 # DHCP Cookbook
 
-[![Build Status](https://secure.travis-ci.org/sous-chefs/dhcp.svg)](http://travis-ci.org/sous-chefs/dhcp)
+[![Build Status](https://secure.travis-ci.org/sous-chefs/dhcp.svg?branch=master)](http://travis-ci.org/sous-chefs/dhcp) [![Cookbook Version](https://img.shields.io/cookbook/v/dhcp.svg)](https://supermarket.chef.io/cookbooks/dhcp)
 
 ## Description
 
@@ -23,10 +23,6 @@ Large parts were borrowed from work initially done by Dell, extended by Atalanta
 - only setup to handle ipv4
 
 ## Recipes
-
-### default
-
-Stub recipe that does nothing. Good for including LWRP's but not the other recipe stuffs.
 
 ### server
 
@@ -219,6 +215,7 @@ Example Most Basic host:
 ```
 
 Example Complex host:
+
 ```json
 {
   "id": "pxe_test-vm",
@@ -231,7 +228,7 @@ Example Complex host:
 }
 ```
 
-## Resources/Providers
+## Resources
 
 ### dhcp_host
 
@@ -239,24 +236,26 @@ Manipulate host entries in dhcpd
 
 #### Actions
 
-| Action | Description |
-|:----------|:---------|
-| `add`    | `_default_` Add this host record
-| `remove` | Delete this host record
+Action   | Description
+:------- | :-------------------------------
+`add`    | `_default_` Add this host record
+`remove` | Delete this host record
 
 #### Paramaters
-| Param | Type | Default |
-|:----------|:---------|:-------|
-| `hostname`   | `String`
-| `macaddress` | `String`
-| `ipaddress`  | `String` |
-| `options`    | `Array`  | `[]`
-| `parameters` | `Array`  | `[]`
-| `conf_dir`   | `String` | `"/etc/dhcp"`
+
+Param        | Type     | Default
+:----------- | :------- | :------------
+`hostname`   | `String`
+`macaddress` | `String`
+`ipaddress`  | `String`
+`options`    | `Array`  | `[]`
+`parameters` | `Array`  | `[]`
+`conf_dir`   | `String` | `"/etc/dhcp"`
 
 #### Example
 
 Add a Node
+
 ```ruby
 dhcp_host "myhost" do
   hostname   "somebox.foobar.com"
@@ -267,6 +266,7 @@ end
 ```
 
 Remove a node
+
 ```ruby
 dhcp_host "myhost" do
   action :remove
@@ -276,25 +276,24 @@ end
 
 If you undefine an entry it will also get removed.
 
-
 ### dhcp_group
 
 #### Actions
 
-| Action | Description |
-|:----------|:---------|
-| `add`    | `_default_` Add this host record
-| `remove` | Delete this host record
+Action   | Description
+:------- | :-------------------------------
+`add`    | `_default_` Add this host record
+`remove` | Delete this host record
 
 #### Paramaters
 
-| Param | Type | Default | Desciption |
-|:----------|:----|:----|:------------|
-| `name`      | `String`| `:name_attribute`
-| `hosts`     | `Hash`  | `{}` | This is a hash of host entries that follow the host-databag format. See the example entry in examples directory
-| `parameters`| `Array` |  `[]`
-| `evals`| `Array` |  `[]` | This is an array of multiline strings of eval
-| `conf_dir`  | `String`| `"/etc/dhcp"` | The directory where the config files are stored
+Param        | Type     | Default           | Desciption
+:----------- | :------- | :---------------- | :--------------------------------------------------------------------------------------------------------------
+`name`       | `String` | `:name_attribute`
+`hosts`      | `Hash`   | `{}`              | This is a hash of host entries that follow the host-databag format. See the example entry in examples directory
+`parameters` | `Array`  | `[]`
+`evals`      | `Array`  | `[]`              | This is an array of multiline strings of eval
+`conf_dir`   | `String` | `"/etc/dhcp"`     | The directory where the config files are stored
 
 #### Example
 
@@ -312,38 +311,39 @@ end
 
 ### dhcp_subnet
 
-| Action | Description |
-|:----------|:---------|
-| `add`    | `_default_` Add this host record
-| `remove` | Delete this host record
+Action   | Description
+:------- | :-------------------------------
+`add`    | `_default_` Add this host record
+`remove` | Delete this host record
 
 #### Paramaters
 
-| Param | Type | Default | Desciption |
-|:----------|:----|:----|:------------|
-| `subnet` | `String` | `:name_attribute` | The network subnet
-| `broadcast`| `String` | `nil` | The broadcast address for the subnet
-| `netmask` | `String` | `nil` | The netmask address for the subnet
-| `routers` | `Array`| `[]` | Gateways for the subnet
-| `options` | `Array`| `[]` | DHCP options to set for the subnet
-| `pool`    | `block` | `nil` | Define a pool block for a `dhcp_subnet`.  See 'Parameters for pool' below.
-| `next_server` | `String` | `nil` | Next server for TFTP/PXE
-| `evals` | `Array` |  `[]` | This is an array of multiline strings of eval
-| `ddns` | `String` | `nil` | Domain name that will be appended to the client's hostname to form a fully-qualified domain-name (FQDN)
-| `key` | `Hash` | `{}` | Shared secret key for DDNS
-| `zones` | `Array` | `[]` | _NOTE: Please help update with a good description_
-| `conf_dir` |`String` | `"/etc/dhcp"` | Main dhcpd config directory
+Param         | Type     | Default           | Desciption
+:------------ | :------- | :---------------- | :------------------------------------------------------------------------------------------------------
+`subnet`      | `String` | `:name_attribute` | The network subnet
+`broadcast`   | `String` | `nil`             | The broadcast address for the subnet
+`netmask`     | `String` | `nil`             | The netmask address for the subnet
+`routers`     | `Array`  | `[]`              | Gateways for the subnet
+`options`     | `Array`  | `[]`              | DHCP options to set for the subnet
+`pool`        | `block`  | `nil`             | Define a pool block for a `dhcp_subnet`. See 'Parameters for pool' below.
+`next_server` | `String` | `nil`             | Next server for TFTP/PXE
+`evals`       | `Array`  | `[]`              | This is an array of multiline strings of eval
+`ddns`        | `String` | `nil`             | Domain name that will be appended to the client's hostname to form a fully-qualified domain-name (FQDN)
+`key`         | `Hash`   | `{}`              | Shared secret key for DDNS
+`zones`       | `Array`  | `[]`              | _NOTE: Please help update with a good description_
+`conf_dir`    | `String` | `"/etc/dhcp"`     | Main dhcpd config directory
 
 ##### Parameters for pool
 
-| Param | Type | Default | Desciption |
-|:----------|:----|:----|:------------|
-| `peer` | `String` | `nil` | Peer server for this segment
-| `range` | `String` or `Array` | `[]` | Range of IPs to make available for DHCP in the subnet
-| `allow` | `String` | `nil` | Only those clients that match any entries on the allow list will be eligible.
-| `deny` | `String` | `nil` | Only those clients that do not match any entries on the deny list will be eligible.
+Param   | Type                | Default | Desciption
+:------ | :------------------ | :------ | :----------------------------------------------------------------------------------
+`peer`  | `String`            | `nil`   | Peer server for this segment
+`range` | `String` or `Array` | `[]`    | Range of IPs to make available for DHCP in the subnet
+`allow` | `String`            | `nil`   | Only those clients that match any entries on the allow list will be eligible.
+`deny`  | `String`            | `nil`   | Only those clients that do not match any entries on the deny list will be eligible.
 
 #### Example
+
 ```ruby
 dhcp_subnet "192.168.1.0" do
   pool do
@@ -366,18 +366,19 @@ end
 
 ### dhcp_shared_network
 
-| Action | Description |
-|:----------|:---------|
-| `add`    | `_default_` Add this shared network
-| `remove` | Delete this shared network record
+Action   | Description
+:------- | :----------------------------------
+`add`    | `_default_` Add this shared network
+`remove` | Delete this shared network record
 
 #### Paramaters
 
-| Param | Type | Default | Desciption |
-|:----------|:----|:----|:------------|
-| `subnet` | `dhcp_subnet` |  `nil` | The network subnet to define inside the shared network.  Can define multiple.
+Param    | Type          | Default | Desciption
+:------- | :------------ | :------ | :---------------------------------------------------------------------------
+`subnet` | `dhcp_subnet` | `nil`   | The network subnet to define inside the shared network. Can define multiple.
 
 ### Example
+
 ```ruby
 dhcp_shared_network 'mysharednet' do
   subnet '192.168.1.0' do
@@ -412,20 +413,22 @@ Manage dhcp classes
 
 #### Actions
 
-| Action | Description |
-|:----------|:---------|
-| `add`    | `_default_` Add this host record
+Action | Description
+:----- | :-------------------------------
+`add`  | `_default_` Add this host record
 
 #### Paramaters
-| Param | Type | Default |
-|:----------|:---------|:-------|
-| `match`   | `String` | |
-| `subclass` | `String` | |
-| `subclasses`  | `Array` | `[]` |
+
+Param        | Type     | Default
+:----------- | :------- | :------
+`match`      | `String` |
+`subclass`   | `String` |
+`subclasses` | `Array`  | `[]`
 
 #### Example
 
 Add a Node
+
 ```ruby
 dhcp_class 'ignorehosts' do
   match 'hardware'
