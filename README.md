@@ -1,6 +1,6 @@
 # DHCP Cookbook
 
-[![Build Status](https://secure.travis-ci.org/sous-chefs/dhcp.svg)](http://travis-ci.org/sous-chefs/dhcp)
+[![Build Status](https://secure.travis-ci.org/sous-chefs/dhcp.svg?branch=master)](http://travis-ci.org/sous-chefs/dhcp) [![Cookbook Version](https://img.shields.io/cookbook/v/dhcp.svg)](https://supermarket.chef.io/cookbooks/dhcp)
 
 ## Description
 
