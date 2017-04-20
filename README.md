@@ -24,10 +24,6 @@ Large parts were borrowed from work initially done by Dell, extended by Atalanta
 
 ## Recipes
 
-### default
-
-Stub recipe that does nothing. Good for including LWRP's but not the other recipe stuffs.
-
 ### server
 
 The node will install and configure the `dhcp-server` application. Configuration is through various dhcp_X bags, and the current role/environment
