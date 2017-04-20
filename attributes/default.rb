@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 default['dhcp']['failover'] = nil
 default['dhcp']['failover_lease_hack'] = false
 default['dhcp']['failover_params']['mclt'] = 3600

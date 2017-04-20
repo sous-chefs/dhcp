@@ -1,5 +1,3 @@
-# encoding: UTF-8
-#
 # Hosts
 #
 unless node['dhcp']['hosts'].empty?

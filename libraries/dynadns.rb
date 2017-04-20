@@ -1,5 +1,3 @@
-# encoding: UTF-8
-#
 module DHCP
   # methods for managing rndc key data and dynadns bind masters
   module DynaDns

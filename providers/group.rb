@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 include Dhcp::Helpers
 
 action :add do

@@ -2,11 +2,11 @@
 #
 # Author:: Jesse Nelson <spheromak@gmail.com>
 # Author:: Matt Ray <matt@chef.io>
-# Cookbook Name:: dhcp
+# Cookbook:: dhcp
 # Recipe:: server
 #
-# Copyright 2012, Jesse Nelson
-# Copyright 2011, Chef Software, Inc
+# Copyright:: 2012-2017, Jesse Nelson
+# Copyright:: 2011-2017, Chef Software, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

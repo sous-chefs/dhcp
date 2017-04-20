@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 include_recipe 'dhcp::_service'
 
 DHCP::Failover.load(node)

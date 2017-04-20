@@ -1,9 +1,8 @@
-# encoding: UTF-8
 # Author:: Matt Ray <matt@chef.io>
-# Cookbook Name:: dhcp
+# Cookbook:: dhcp
 # Recipe:: default
 #
-# Copyright 2011, Chef Software, Inc
+# Copyright:: 2011-2017, Chef Software, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,3 +16,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+Chef::Log.warn('The dhcp::default recipe is empty and should not be applied to a node')
