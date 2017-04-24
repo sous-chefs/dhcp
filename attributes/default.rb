@@ -9,6 +9,7 @@ default['dhcp']['allows'] = ['booting', 'bootp', 'unknown-clients']
 
 # these are the arrays that dispatch to bags or attributes for actual data
 default['dhcp']['hosts'] = []
+default['dhcp']['hosts_files'] = []
 default['dhcp']['groups'] = []
 default['dhcp']['networks'] = []
 default['dhcp']['shared_networks'] = []
