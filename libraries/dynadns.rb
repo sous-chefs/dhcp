@@ -68,7 +68,8 @@ module DHCP
         # TODO: need to work out the namespace on dns stuff here.
         # TODO: be good to support knife-vault/encrypted bags for keys
         if node.key?(:dns) && node['dns'].key?(:rndc_key)
-          k[node.normal['dns']['rndc_key']] = get_key node['dns']['rndc_key']
+          default_key = node['dns']['rndc_key']
+          k[default_key] = get_key(default_key)
         end
 
         @zones.each { |zone| k[zone['rndc_key']] = get_key zone['rndc_key'] if zone.key? 'rndc_key' }
