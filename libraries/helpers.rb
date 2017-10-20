@@ -40,7 +40,7 @@ module Dhcp
     # @param [String] sub_dir - The subconfig directory for the config
     #
     def write_include(sub_dir, name)
-      t = template "#{new_resource.conf_dir}/#{sub_dir}/list.conf #{name}" do
+      template "#{new_resource.conf_dir}/#{sub_dir}/list.conf #{name}" do
         path "#{new_resource.conf_dir}/#{sub_dir}/list.conf"
         cookbook 'dhcp'
         source 'list.conf.erb'
@@ -50,7 +50,6 @@ module Dhcp
         variables(files: includes(sub_dir))
         notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
       end
-      new_resource.updated_by_last_action(t.updated?)
     end
 
     #
