@@ -1,37 +1,33 @@
 include Dhcp::Helpers
 
 action :add do
-  converge_by("Add #{new_resource.name}") do
-    directory "#{new_resource.conf_dir}/groups.d #{new_resource.name}" do
-      path "#{new_resource.conf_dir}/groups.d"
-    end
-
-    template "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
-      cookbook 'dhcp'
-      source 'group.conf.erb'
-      variables(
-        name: new_resource.name,
-        parameters: new_resource.parameters,
-        evals: new_resource.evals,
-        hosts: new_resource.hosts
-      )
-      owner 'root'
-      group 'root'
-      mode '0644'
-      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-    end
-
-    write_include 'groups.d', new_resource.name
+  directory "#{new_resource.conf_dir}/groups.d #{new_resource.name}" do
+    path "#{new_resource.conf_dir}/groups.d"
   end
+
+  template "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
+    cookbook 'dhcp'
+    source 'group.conf.erb'
+    variables(
+      name: new_resource.name,
+      parameters: new_resource.parameters,
+      evals: new_resource.evals,
+      hosts: new_resource.hosts
+    )
+    owner 'root'
+    group 'root'
+    mode '0644'
+    notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+  end
+
+  write_include 'groups.d', new_resource.name
 end
 
 action :remove do
-  converge_by("Remove #{new_resource.name}") do
-    file "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
-      action :delete
-      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-    end
-
-    write_include 'groups.d', new_resource.name
+  file "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
+    action :delete
+    notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
   end
+
+  write_include 'groups.d', new_resource.name
 end
