@@ -19,32 +19,37 @@
 #
 
 include Dhcp::Helpers
+use_inline_resources
 
 action :add do
-  run_context.include_recipe 'dhcp::_service'
+  with_run_context :root do
+    run_context.include_recipe 'dhcp::_service'
 
-  directory "#{new_resource.conf_dir}/shared_networks.d #{new_resource.name}" do
-    path "#{new_resource.conf_dir}/shared_networks.d"
+    directory "#{new_resource.conf_dir}/shared_networks.d #{new_resource.name}" do
+      path "#{new_resource.conf_dir}/shared_networks.d"
+    end
+
+    template "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
+      cookbook 'dhcp'
+      source 'shared_network.conf.erb'
+      variables name: new_resource.name, subnets: new_resource.subnets
+      owner 'root'
+      group 'root'
+      mode '0644'
+      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+    end
+
+    write_include 'shared_networks.d', new_resource.name
   end
-
-  template "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
-    cookbook 'dhcp'
-    source 'shared_network.conf.erb'
-    variables name: new_resource.name, subnets: new_resource.subnets
-    owner 'root'
-    group 'root'
-    mode '0644'
-    notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-  end
-
-  write_include 'shared_networks.d', new_resource.name
 end
 
 action :remove do
-  file "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
-    action :delete
-    notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-    notifies :send_notification, new_resource, :immediately
+  with_run_context :root do
+    file "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
+      action :delete
+      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+      notifies :send_notification, new_resource, :immediately
+    end
+    write_include 'shared_networks.d', new_resource.name
   end
-  write_include 'shared_networks.d', new_resource.name
 end

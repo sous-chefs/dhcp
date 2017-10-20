@@ -2,7 +2,7 @@
 driver:
   name: dokken
   privileged: true
-  chef_version: 12.19.36
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
 
 transport:
   name: dokken

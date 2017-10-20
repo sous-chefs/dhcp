@@ -27,11 +27,13 @@ module Dhcp
     #
     # @return [Array<String>] An array of config files for the subconfig
     def includes(sub_dir)
-      run_context.resource_collection.map do |resource|
-        next unless resource_match? resource
-        next unless resource.action == :add || resource.action.include?(:add)
-        "#{resource.conf_dir}/#{sub_dir}/#{resource.name}.conf"
-      end.compact
+      with_run_context :root do
+        run_context.resource_collection.map do |resource|
+          next unless resource_match? resource
+          next unless resource.action == :add || resource.action.include?(:add)
+          "#{resource.conf_dir}/#{sub_dir}/#{resource.name}.conf"
+        end.compact
+      end
     end
 
     #
