@@ -17,20 +17,19 @@ branches:
 
 env:
   global:
-  - KITCHEN_ARGS="--destroy=always"
-  - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
+    - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
   matrix:
-# CHEF_VERSION is only for unit tests, no for test-kitchen:
-  - TESTS="style unit"
-# Split up the test-kitchen run to avoid exceeding 50 minutes:
-  - CHEF_VERSION=12 TESTS="integration" KITCHEN_INSTANCE=default-centos-6
-  - CHEF_VERSION=12 TESTS="integration" KITCHEN_INSTANCE=default-centos-7
-  - CHEF_VERSION=12 TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1404
-  - CHEF_VERSION=12 TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1604
-  - CHEF_VERSION=13 TESTS="integration" KITCHEN_INSTANCE=default-centos-6
-  - CHEF_VERSION=13 TESTS="integration" KITCHEN_INSTANCE=default-centos-7
-  - CHEF_VERSION=13 TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1404
-  - CHEF_VERSION=13 TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1604
+    # CHEF_VERSION is only for unit tests, not for test-kitchen:
+    - TESTS="style unit"
+    # Split up the test-kitchen run to avoid exceeding 50 minutes:
+    - CHEF_VERSION=12 TESTS="integration" KITCHEN_INSTANCE=default-centos-6
+    - CHEF_VERSION=12 TESTS="integration" KITCHEN_INSTANCE=default-centos-7
+    - CHEF_VERSION=12 TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1404
+    - CHEF_VERSION=12 TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1604
+    - CHEF_VERSION=13 TESTS="integration" KITCHEN_INSTANCE=default-centos-6
+    - CHEF_VERSION=13 TESTS="integration" KITCHEN_INSTANCE=default-centos-7
+    - CHEF_VERSION=13 TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1404
+    - CHEF_VERSION=13 TESTS="integration" KITCHEN_INSTANCE=default-ubuntu-1604
 
 install: echo "skip bundle install"
 

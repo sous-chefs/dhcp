@@ -31,7 +31,7 @@ default['dhcp']['group_data'] = {}
 default['dhcp']['network_data'] = {}
 default['dhcp']['shared_network_data'] = {}
 
-defined?(node['domain']) || default['domain'] = 'local'
+default['domain'] = 'local'
 
 default['dhcp']['parameters']['default-lease-time'] = '6400'
 default['dhcp']['parameters']['ddns-domainname'] = "\"#{node['domain']}\""
