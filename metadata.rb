@@ -7,7 +7,7 @@ long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 chef_version      '>= 12.1' if respond_to?(:chef_version)
 source_url        'https://github.com/sous-chefs/dhcp'
 issues_url        'https://github.com/sous-chefs/dhcp/issues'
-version           '5.4.0'
+version           '5.4.1'
 
 %w(debian ubuntu centos redhat scientific oracle).each do |os|
   supports os
