@@ -27,3 +27,8 @@ default['dhcp']['shared_network_data']['mysharedattrnetwork']['subnets']['192.16
   'range'       => '192.168.14.50 192.168.14.240',
   'next_server' => '192.168.14.11',
 }
+
+default['dhcp']['hooks'] = {
+  'commit' => ['use-host-decl-names on'],
+  'release' => ['use-host-decl-names on'],
+}
