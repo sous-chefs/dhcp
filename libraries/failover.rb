@@ -2,9 +2,6 @@ module DHCP
   # methods for detecthing and reporting on failover role/peers
   module Failover
     class << self
-      if  Gem::Version.new(Chef::VERSION) <= Gem::Version.new('11.0.0')
-        include Chef::DSL::PlatformIntrospection
-      end
       include Chef::DSL::DataQuery
 
       attr_reader :node
