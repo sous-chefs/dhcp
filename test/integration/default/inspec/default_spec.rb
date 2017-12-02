@@ -27,4 +27,6 @@ describe file('/etc/dhcp/dhcpd.conf') do
   it { should be_file }
   its(:content) { should match %r{^include "/etc/dhcp/extra1.conf";} }
   its(:content) { should match %r{^include "/etc/dhcp/extra2.conf";} }
+  its(:content) { should match "on commit {\n  use-host-decl-names on;\n}" }
+  its(:content) { should match "on release {\n  use-host-decl-names on;\n}" }
 end
