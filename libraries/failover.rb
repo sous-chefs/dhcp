@@ -3,10 +3,9 @@ module DHCP
   module Failover
     class << self
       if  Gem::Version.new(Chef::VERSION) <= Gem::Version.new('11.0.0')
-        include Chef::Mixin::Language
-      else
-        include Chef::DSL::DataQuery
+        include Chef::DSL::PlatformIntrospection
       end
+      include Chef::DSL::DataQuery
 
       attr_reader :node
 
