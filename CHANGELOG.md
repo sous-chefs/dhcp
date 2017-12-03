@@ -1,5 +1,10 @@
 # dhcp Cookbook CHANGELOG
 
+## 5.4.2 (2017-12-02)
+
+- Remove Chef 10/11 compatibility code that resulted in Foodcritic deprecation warnings
+- Fix misplaced closing brace for dhcpd hooks in template file
+
 ## 5.4.1
 
 - Fix: attribute breaking Chef 13 runs.
