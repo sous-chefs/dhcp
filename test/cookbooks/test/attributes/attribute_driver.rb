@@ -32,3 +32,12 @@ default['dhcp']['hooks'] = {
   'commit' => ['use-host-decl-names on'],
   'release' => ['use-host-decl-names on'],
 }
+
+default['dhcp']['interfaces'] = %w(eth0 eth1)
+default['dhcp']['groups'] = []
+default['dhcp']['hosts'] = []
+default['dhcp']['networks'] = ['192.168.9.0/24']
+default['dhcp']['shared_networks'] = ['mysharednet']
+default['dhcp']['options']['domain-name'] = 'vm'
+default['dhcp']['options']['domain-name-servers'] = '192.168.9.1'
+default['dhcp']['extra_files'] = ['/etc/dhcp/extra1.conf', '/etc/dhcp/extra2.conf']

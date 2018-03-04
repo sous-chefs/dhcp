@@ -1,3 +1,3 @@
-name 'testing'
+name 'test'
 
 depends 'dhcp'
