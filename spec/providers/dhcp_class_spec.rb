@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'testing::dhcp_class' do
+describe 'test::dhcp_class' do
   cached(:chef_run) do
     ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8', step_into: ['dhcp_class']).converge(described_recipe)
   end
