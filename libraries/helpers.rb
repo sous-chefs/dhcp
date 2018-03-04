@@ -14,9 +14,6 @@ module Dhcp
       # Check for >= Chef 12
       return true if Gem::Version.new(Chef::VERSION) >= Gem::Version.new('12.0.0') && resource.declared_type == new_resource.declared_type
 
-      # Check for <= Chef 11
-      return true if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12.0.0') && resource.resource_name == new_resource.resource_name
-
       false
     end
 

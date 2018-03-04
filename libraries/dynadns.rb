@@ -71,7 +71,6 @@ module DHCP
         @zones.each { |zone| k[zone['rndc_key']] = get_key zone['rndc_key'] if zone.key? 'rndc_key' }
         k
       end
-      # rubocop:enable MethodLength
 
       #
       # Get a key from bag or attributes
