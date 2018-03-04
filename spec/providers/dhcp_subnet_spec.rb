@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'testing::dhcp_subnet' do
+describe 'test::dhcp_subnet' do
   cached(:chef_run) do
     ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8', step_into: ['dhcp_subnet']).converge(described_recipe)
   end
