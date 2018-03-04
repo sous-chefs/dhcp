@@ -9,6 +9,9 @@ source_url        'https://github.com/sous-chefs/dhcp'
 issues_url        'https://github.com/sous-chefs/dhcp/issues'
 version           '5.4.3'
 
-%w(debian ubuntu centos redhat scientific oracle).each do |os|
-  supports os
-end
+supports 'debian'
+supports 'ubuntu'
+supports 'centos'
+supports 'redhat'
+supports 'scientific'
+supports 'oracle'

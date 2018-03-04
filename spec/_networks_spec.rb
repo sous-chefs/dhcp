@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'dhcp::_networks Exceptions' do
   before(:each) do
-    Fauxhai.mock(platform: 'ubuntu', version: '12.04')
+    Fauxhai.mock(platform: 'ubuntu', version: '14.04')
     @chef_run = ChefSpec::ServerRunner.new
   end
 
@@ -14,7 +14,7 @@ end
 describe 'dhcp::_networks' do
   context 'driven by node attributes' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'centos', version: '6.6', step_into: %w(dhcp_subnet dhcp_shared_network)) do |node|
+      ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8', step_into: %w(dhcp_subnet dhcp_shared_network)) do |node|
         node.default['chef_environment'] = 'production'
         node.override['dhcp']['use_bags'] = false
         node.override['dhcp']['networks'] = ['192.168.9.0/24', '192.168.11.0/24']

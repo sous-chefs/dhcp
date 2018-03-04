@@ -6,11 +6,9 @@ module DHCP
 
       attr_reader :node
 
-      # TODO: depricate this for initialize/node accessor
       def load(node)
         @node = node
       end
-      # rubocop:enable
 
       def enabled?
         case role
@@ -27,8 +25,6 @@ module DHCP
           'secondary'
         elsif node['dhcp'].key?(:master) && node['dhcp']['master'] == true
           'primary'
-        else # rubocop:disable Style/EmptyElse
-          nil
         end
       end
 
