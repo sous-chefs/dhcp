@@ -1,5 +1,10 @@
 # dhcp Cookbook CHANGELOG
 
+## 5.5.0 (2018-03-04)
+
+- Use Berkshelf instead of Policyfiles
+- Remove support for RHEL5
+
 ## 5.4.4 (2018-03-04)
 
 - Use dokken images for travis testing
