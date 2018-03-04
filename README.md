@@ -99,13 +99,13 @@ attribute                                            |   Type   | Default | desc
 
 _RHEL_ Platforms*
 
-attribute                    |   Type   |                                 Default
-:--------------------------- | :------: | :----------------------------------------------------------------------:
-`node[:dhcp][:dir]`          | `String` |                              `"/etc/dhcpd"`
-`node[:dhcp][:package_name]` | `String` |                                 `"dhcp"`
-`node[:dhcp][:service_name]` | `String` |                                `"dhcpd"`
-`node[:dhcp][:config_file]`  | `String` | `"/etc/dhcp/dhcpd.conf"` on `RHEL < 6` it defaults to `"/etc/dhcpd.conf`
-`node[:dhcp][:init_config]`  | `String` |                         `"/etc/sysconfig/dhcpd"`
+attribute                    |   Type   |         Default
+:--------------------------- | :------: | :----------------------:
+`node[:dhcp][:dir]`          | `String` |      `"/etc/dhcpd"`
+`node[:dhcp][:package_name]` | `String` |         `"dhcp"`
+`node[:dhcp][:service_name]` | `String` |        `"dhcpd"`
+`node[:dhcp][:config_file]`  | `String` | `"/etc/dhcp/dhcpd.conf"`
+`node[:dhcp][:init_config]`  | `String` | `"/etc/sysconfig/dhcpd"`
 
 _Debian Platforms_
 

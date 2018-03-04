@@ -51,6 +51,8 @@ default['dhcp']['options']['host-name'] = ' = binary-to-ascii (16, 8, "-", subst
 default['dhcp']['dir'] = '/etc/dhcp'
 default['dhcp']['init_config'] = '/etc/sysconfig/dhcpd'
 default['dhcp']['dhcpd_leases'] = '/var/lib/dhcpd/dhcpd.leases'
+default['dhcp']['config_file']  = '/etc/dhcp/dhcpd.conf'
+
 case node['platform_family']
 when 'rhel'
   default['dhcp']['package_name'] = 'dhcp'
@@ -59,17 +61,10 @@ when 'rhel'
   default['dhcp']['init_iface'] = 'DHCPDARGS'
   default['dhcp']['dhcpd_leases'] = '/var/lib/dhcpd/dhcpd.leases'
 
-  if node['platform_version'].to_i >= 6
-    default['dhcp']['config_file']  = '/etc/dhcp/dhcpd.conf'
-  else
-    default['dhcp']['dir'] = '/etc/dhcpd'
-    default['dhcp']['config_file'] = '/etc/dhcpd.conf'
-  end
-
 when 'debian'
   default['dhcp']['package_name'] = 'isc-dhcp-server'
   default['dhcp']['service_name'] = 'isc-dhcp-server'
-  default['dhcp']['config_file']  = '/etc/dhcp/dhcpd.conf'
+
   default['dhcp']['init_config']  = '/etc/default/isc-dhcp-server'
   default['dhcp']['dhcpd_leases'] = '/var/lib/dhcp/dhcpd.leases'
   default['dhcp']['init_iface'] = 'INTERFACES'
