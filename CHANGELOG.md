@@ -1,5 +1,9 @@
 # dhcp Cookbook CHANGELOG
 
+## 6.0.0 (2018-03-04)
+
+- Remove matchers. Breaking change. This requires ChefDK 2.0+
+
 ## 5.5.0 (2018-03-04)
 
 - Use Berkshelf instead of Policyfiles

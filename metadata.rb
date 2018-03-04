@@ -7,7 +7,7 @@ long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 chef_version      '>= 12.7' if respond_to?(:chef_version)
 source_url        'https://github.com/sous-chefs/dhcp'
 issues_url        'https://github.com/sous-chefs/dhcp/issues'
-version           '5.5.0'
+version           '6.0.0'
 
 supports 'debian'
 supports 'ubuntu'
