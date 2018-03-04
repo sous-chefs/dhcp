@@ -1,5 +1,9 @@
 # dhcp Cookbook CHANGELOG
 
+## 5.4.4 (2018-03-04)
+
+- Use dokken images for travis testing
+
 ## 5.4.3 (2018-03-04)
 
 - Require Chef 12.7+ for `apt_update` fix
@@ -44,7 +48,7 @@
 ## 5.0.2
 
 - bug: Include classes.d/list.conf in dhcp.conf
-- bug: Make dhcp_subnet names declared in dhcp_shared_network more unique
+- bug: Make `dhcp_subnet` names declared in `dhcp_shared_network` more unique
 
 ## 5.0.1
 
