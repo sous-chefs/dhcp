@@ -1,5 +1,9 @@
 # dhcp Cookbook CHANGELOG
 
+## 5.4.3 (2018-03-04)
+
+- Require Chef 12.7+ for `apt_update` fix
+
 ## 5.4.2 (2017-12-02)
 
 - Remove Chef 10/11 compatibility code that resulted in Foodcritic deprecation warnings
