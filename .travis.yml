@@ -37,9 +37,9 @@ install: echo "skip bundle install"
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - /opt/chefdk/embedded/bin/chef --version
-  - /opt/chefdk/embedded/bin/cookstyle --version
-  - /opt/chefdk/embedded/bin/foodcritic --version
+  - chef --version
+  - cookstyle --version
+  - foodcritic --version
 
 script:
-  - /opt/chefdk/embedded/bin/chef exec rake $TESTS
+  - chef exec rake $TESTS
