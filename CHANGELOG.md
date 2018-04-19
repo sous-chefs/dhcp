@@ -1,5 +1,7 @@
 # dhcp Cookbook CHANGELOG
 
+- Allow specifying array of `allow` and `deny` declarations in `dhcp_subnet` `pool`
+
 ## 6.0.0 (2018-03-04)
 
 - Remove matchers. Breaking change. This requires ChefDK 2.0+
