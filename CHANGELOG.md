@@ -1,5 +1,8 @@
 # dhcp Cookbook CHANGELOG
 
+- Convert to custom resources
+- Drop support for Chef 12 https://www.chef.io/eol-chef12-and-chefdk1/
+
 ## 6.0.0 (2018-03-04)
 
 - Remove matchers. Breaking change. This requires ChefDK 2.0+
