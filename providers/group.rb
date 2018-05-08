@@ -1,5 +1,4 @@
 include Dhcp::Helpers
-use_inline_resources
 
 action :add do
   with_run_context :root do

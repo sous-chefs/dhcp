@@ -1,6 +1,5 @@
 include Dhcp::Helpers
 
-use_inline_resources
 action :add do
   with_run_context :root do
     directory "#{new_resource.conf_dir}/hosts.d #{new_resource.name}" do

@@ -1,6 +1,5 @@
 include Dhcp::Helpers
 
-use_inline_resources
 action :add do
   with_run_context :root do
     run_context.include_recipe 'dhcp::_service'
