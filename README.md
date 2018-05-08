@@ -20,9 +20,7 @@ Large parts were borrowed from work initially done by Dell, extended by Atalanta
 
 ## Chef-client
 
-- 12.7+
-
-## Limitations
+- 13+
 
 - only setup to handle ipv4
 
