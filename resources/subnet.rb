@@ -18,7 +18,7 @@
 
 default_action :add
 
-property :subnet, String, name_attribute: true
+property :subnet, String, name_property: true
 property :broadcast, String
 property :netmask, String, required: true
 property :routers, Array, default: []
