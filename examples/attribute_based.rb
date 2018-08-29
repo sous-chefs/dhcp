@@ -4,7 +4,6 @@
 node.default['dhcp']['options']['domain-name'] = '"dev.f00bar.com"'
 node.default['dhcp']['options']['domain-name-servers'] = '10.33.87.98, 10.33.87.99'
 node.default['dhcp']['options']['domain-search'] = '"dev.f00bar.com","f00bar.com"'
-# rubocop:enable All
 
 include_recipe 'dhcp::_package'
 include_recipe 'dhcp::_service'
