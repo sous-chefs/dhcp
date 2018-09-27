@@ -17,7 +17,7 @@ node['dhcp']['networks'].each do |net|
     netmask data['netmask'] if data.key? 'netmask'
     routers data['routers'] || []
     options data['options'] || []
-    if data.key?('range') || node['dhcp']['failover']
+    if data.key?('range')
       pool do
         range data['range'] if data.key? 'range'
         peer node['domain'] if node['dhcp']['failover']
@@ -44,7 +44,7 @@ if node['dhcp']['use_bags']
           netmask data['netmask'] if data.key? 'netmask'
           routers data['routers'] || []
           options data['options'] || []
-          if data.key?('range') || node['dhcp']['failover']
+          if data.key?('range')
             pool do
               range data['range'] if data.key? 'range'
               peer node['domain'] if node['dhcp']['failover']
