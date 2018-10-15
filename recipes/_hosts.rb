@@ -22,7 +22,7 @@ unless node['dhcp']['hosts'].empty?
       host_list << host['id']
     end
   end
-  # rubocop:enable all
+  # rubocop:enable BlockNesting
 
   host_list.each do |host|
     host_data = if node['dhcp']['use_bags'] == true
