@@ -1,17 +1,34 @@
-actions :add, :remove
+# frozen_string_literal: true
+#
+# Cookbook:: dhcp
+# Resource:: subnet
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 default_action :add
 
-attribute :subnet, kind_of: String, name_attribute: true
-attribute :broadcast, kind_of: String
-attribute :netmask, kind_of: String, required: true
-attribute :routers, kind_of: Array, default: []
-attribute :options, kind_of: Array, default: []
-attribute :ddns, kind_of: String, default: nil
-attribute :evals, kind_of: Array, default: []
-attribute :key, kind_of: Hash, default: {}
-attribute :zones, kind_of: Array, default: []
-attribute :conf_dir, kind_of: String, default: '/etc/dhcp'
-attribute :next_server, kind_of: String
+property :subnet, String, name_property: true
+property :broadcast, String
+property :netmask, String, required: true
+property :routers, Array, default: []
+property :options, Array, default: []
+property :ddns, String
+property :evals, Array, default: []
+property :key, Hash, default: {}
+property :zones, Array, default: []
+property :conf_dir, String, default: '/etc/dhcp'
+property :next_server, String
 
 include Chef::DSL::Recipe
 
@@ -23,4 +40,54 @@ def pool(&block)
   p.action :nothing
   @pools << p
   p
+end
+
+action_class do
+  include Dhcp::Helpers
+end
+
+action :add do
+  with_run_context :root do
+    run_context.include_recipe 'dhcp::_service'
+
+    directory "#{new_resource.conf_dir}/subnets.d #{new_resource.name}" do
+      path "#{new_resource.conf_dir}/subnets.d"
+    end
+
+    template "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
+      cookbook 'dhcp'
+      source 'subnet.conf.erb'
+      variables(
+        subnet: new_resource.subnet,
+        netmask: new_resource.netmask,
+        broadcast: new_resource.broadcast,
+        pools: new_resource.pools,
+        routers: new_resource.routers,
+        options: new_resource.options,
+        evals: new_resource.evals,
+        key: new_resource.key,
+        zones: new_resource.zones,
+        ddns: new_resource.ddns,
+        next_server: new_resource.next_server
+      )
+      owner 'root'
+      group 'root'
+      mode '0644'
+      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+    end
+
+    write_include 'subnets.d', new_resource.name
+  end
+end
+
+action :remove do
+  with_run_context :root do
+    file "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
+      action :delete
+      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+      notifies :send_notification, new_resource, :immediately
+    end
+
+    write_include 'subnets.d', new_resource.name
+  end
 end

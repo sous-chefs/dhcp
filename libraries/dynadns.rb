@@ -5,7 +5,7 @@ module DHCP
       include Chef::DSL::DataQuery
 
       attr_accessor :node
-      attr_accessor :zones, :keys
+      attr_accessor :zones
 
       def load(node)
         @node = node
