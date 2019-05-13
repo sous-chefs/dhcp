@@ -6,10 +6,10 @@ pool {
   <% @range.each do |range| -%>
   range <%= range %>;
   <% end -%>
-  <% if @deny -%>
-  deny <%= @deny %>;
+  <% @deny.each do |denied| -%>
+  deny <%= denied %>;
   <% end -%>
-  <% if @allow -%>
-  allow <%= @allow %>;
+  <% @allow.each do |allowed| -%>
+  allow <%= allowed %>;
   <% end -%>
 }
