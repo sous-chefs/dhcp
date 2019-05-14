@@ -18,10 +18,14 @@
 
 default_action :nothing
 
-property :range, [Array, String]
-property :peer, String
-property :deny, String
-property :allow, String
+attribute :range, kind_of: [Array, String]
+attribute :peer, kind_of: String, default: nil
+attribute :deny, kind_of: [Array, String], default: [], coerce: proc { |prop|
+  Array(prop).flatten
+}
+attribute :allow, kind_of: [Array, String], default: [], coerce: proc { |prop|
+  Array(prop).flatten
+}
 
 # This resource has no actions, and is only used to verify properties
 # for the dhcp_subnet pool subresource.

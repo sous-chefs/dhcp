@@ -338,8 +338,8 @@ Param   | Type                | Default | Desciption
 :------ | :------------------ | :------ | :----------------------------------------------------------------------------------
 `peer`  | `String`            | `nil`   | Peer server for this segment
 `range` | `String` or `Array` | `[]`    | Range of IPs to make available for DHCP in the subnet
-`allow` | `String`            | `nil`   | Only those clients that match any entries on the allow list will be eligible.
-`deny`  | `String`            | `nil`   | Only those clients that do not match any entries on the deny list will be eligible.
+`allow` | `String` or `Array` | `[]`    | Only those clients that match any entries on the allow list will be eligible.
+`deny`  | `String` or `Array` | `[]`    | Only those clients that do not match any entries on the deny list will be eligible.
 
 #### Example
 
