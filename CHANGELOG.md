@@ -1,5 +1,6 @@
 # dhcp Cookbook CHANGELOG
 
+- Allow specifying array of `allow` and `deny` declarations in `dhcp_subnet` `pool`
 - Convert to custom resources
 - Drop support for Chef 12 https://www.chef.io/eol-chef12-and-chefdk1/
 
