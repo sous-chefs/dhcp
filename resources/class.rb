@@ -20,6 +20,8 @@ default_action :add
 
 property :match, String, required: true
 property :conf_dir, String, default: '/etc/dhcp'
+property :vendor_option_space, String
+property :options, Array
 
 attr_accessor :subclasses
 
@@ -43,7 +45,7 @@ action :add do
     template "#{new_resource.conf_dir}/classes.d/#{new_resource.name}.conf" do
       cookbook 'dhcp'
       source 'class.conf.erb'
-      variables name: new_resource.name, match: new_resource.match, subclasses: new_resource.subclasses
+      variables name: new_resource.name, match: new_resource.match, options: new_resource.options, vendor_option_space: new_resource.vendor_option_space, subclasses: new_resource.subclasses
       owner 'root'
       group 'root'
       mode '0644'
