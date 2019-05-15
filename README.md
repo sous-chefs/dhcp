@@ -25,6 +25,7 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 - Debian / Ubuntu
 - CentOS and derivatives
+- Fedora and derivatives
 
 ## Chef-client
 

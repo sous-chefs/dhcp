@@ -10,6 +10,7 @@
 - Allow specifying array of `allow` and `deny` declarations in `dhcp_subnet` `pool`
 - Convert to custom resources
 - Drop support for Chef 12
+- Add support for Fedora
 
 ## 5.5.0 (2018-03-04)
 
