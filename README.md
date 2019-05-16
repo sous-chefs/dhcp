@@ -84,7 +84,7 @@ These are all just k/v entries in the global params hash. All values are type: `
 attribute                                          |   Type   |     Default      | description
 :------------------------------------------------- | :------: | :--------------: | :----------------------------------------------------------------------------------------------------------
 `node[:dhcp][:parameters]["default-lease-time"]`   | `String` |      "6400"      | Set the default lease time in the global scope
-`node[:dhcp][:parameters]["ddns-domainname"]`      | `String` | "\"#{domain}\""` | Set the ddns domain to this nodes domain
+`node[:dhcp][:parameters]["ddns-domainname"]`      | `String` | `"#{domain}"`    | Set the ddns domain to this nodes domain
 `node[:dhcp][:parameters]["ddns-update-style"]`    | `String` |    "interim"     | ddns Update style
 `node[:dhcp][:parameters]["max-lease-time"]`       | `String` |     "86400"      | Max Lease time
 `node[:dhcp][:parameters]["update-static-leases"]` | `String` |      "true"      | Make sure we push static ip adresses defined in groups/hosts to the dns server
@@ -105,7 +105,7 @@ attribute                                            |   Type   | Default | desc
 
 ### Platform Default Attributes
 
-_RHEL_ Platforms*
+#### RHEL Platforms
 
 attribute                    |   Type   |         Default
 :--------------------------- | :------: | :----------------------:
@@ -115,7 +115,7 @@ attribute                    |   Type   |         Default
 `node[:dhcp][:config_file]`  | `String` | `"/etc/dhcp/dhcpd.conf"`
 `node[:dhcp][:init_config]`  | `String` | `"/etc/sysconfig/dhcpd"`
 
-_Debian Platforms_
+#### Debian Platforms
 
 attribute                    |   Type   |            Default
 :--------------------------- | :------: | :----------------------------:
