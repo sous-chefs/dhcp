@@ -1,12 +1,15 @@
 # dhcp Cookbook CHANGELOG
 
-- Allow specifying array of `allow` and `deny` declarations in `dhcp_subnet` `pool`
-- Convert to custom resources
-- Drop support for Chef 12 https://www.chef.io/eol-chef12-and-chefdk1/
+## Unreleased
+
+- Migrated testing to circleci
 
 ## 6.0.0 (2018-03-04)
 
 - Remove matchers. Breaking change. This requires ChefDK 2.0+
+- Allow specifying array of `allow` and `deny` declarations in `dhcp_subnet` `pool`
+- Convert to custom resources
+- Drop support for Chef 12
 
 ## 5.5.0 (2018-03-04)
 
@@ -103,8 +106,6 @@
 
 ## 3.0.0
 
-_Breaking Changes_
-
 - feature: allow setting multiple ranges in subnets. The range param now HAS to be an array, existing cooks will not work.
 - improve: hostname in group configs is no long forced instead you can specify this in paramaters you pass.
 
@@ -116,13 +117,13 @@ _Breaking Changes_
 - feature: Allow setting slaves and masters in attributes.
 - feature: Added ability to pass eval into subnets
 
-## 2.2.1:
+## 2.2.1
 
 - support attribute driven mode, where no databags are needed to operate
 - feature: add evals to groups
 - fix error in subnet provider caused by mis-merged comma :(
 
-## 2.1.2:
+## 2.1.2
 
 - change write_config to write_include, write_config doesn't work on ubuntu 12.04
 - allow you to set ddns-domainname for each subnet
@@ -130,7 +131,7 @@ _Breaking Changes_
 - Cleanup Readme for readability and attribution
 - update contributors
 
-## 2.1.1:
+## 2.1.1
 
 - add tailor cane, kitchen testing
 - chef specs for chefspec 3.0
@@ -139,7 +140,7 @@ _Breaking Changes_
 - fix version check in DSL condition
 - update service notifications to new format
 
-## 2.0.0:
+## 2.0.0
 
 - Initial public release
 - Restructure entire cookbook for better reusability
