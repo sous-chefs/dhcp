@@ -7,6 +7,7 @@ driver:
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
+  chef_license: accept
 
 verifier:
   name: inspec
@@ -15,6 +16,7 @@ platforms:
   - name: centos-7
   - name: debian-8
   - name: ubuntu-16.04
+  - name: fedora-30
 
 suites:
   - name: default
