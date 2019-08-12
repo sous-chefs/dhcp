@@ -54,7 +54,7 @@ default['dhcp']['dhcpd_leases'] = '/var/lib/dhcpd/dhcpd.leases'
 default['dhcp']['config_file']  = '/etc/dhcp/dhcpd.conf'
 
 case node['platform_family']
-when 'rhel'
+when 'rhel', 'fedora'
   default['dhcp']['package_name'] = 'dhcp'
   default['dhcp']['service_name'] = 'dhcpd'
   default['dhcp']['init_config']  = '/etc/sysconfig/dhcpd'

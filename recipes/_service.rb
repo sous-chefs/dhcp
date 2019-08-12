@@ -12,4 +12,5 @@ template node['dhcp']['init_config'] do
     interfaces: node['dhcp']['interfaces'],
     var: node['dhcp']['init_iface']
   )
+  not_if { platform_family?('fedora') }
 end
