@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added ability to add extra custom lines to pool config https://github.com/sous-chefs/dhcp/issues/117
 - Migrated testing to circleci
 
 ## 6.0.0 (2018-03-04)

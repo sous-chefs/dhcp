@@ -26,6 +26,10 @@ attribute :deny, kind_of: [Array, String], default: [], coerce: proc { |prop|
 attribute :allow, kind_of: [Array, String], default: [], coerce: proc { |prop|
   Array(prop).flatten
 }
+attribute :extra_pool_lines, kind_of: [Array, String], default: [], coerce: proc { |prop|
+  Array(prop).flatten
+}
+
 
 # This resource has no actions, and is only used to verify properties
 # for the dhcp_subnet pool subresource.
