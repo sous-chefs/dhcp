@@ -51,6 +51,8 @@ module Dhcp
       end
     end
 
+    module_function
+
     #
     # Escape some special characters
     #
@@ -60,7 +62,5 @@ module Dhcp
     def escape(name)
       name.tr('.', '-').tr('/', '_')
     end
-
-    module_function :escape
   end
 end

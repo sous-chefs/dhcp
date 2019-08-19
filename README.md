@@ -1,6 +1,10 @@
 # DHCP Cookbook
 
-[![Build Status](https://secure.travis-ci.org/sous-chefs/dhcp.svg?branch=master)](http://travis-ci.org/sous-chefs/dhcp) [![Cookbook Version](https://img.shields.io/cookbook/v/dhcp.svg)](https://supermarket.chef.io/cookbooks/dhcp)
+[![Cookbook Version](https://img.shields.io/cookbook/v/dhcp.svg)](https://supermarket.chef.io/cookbooks/dhcp)
+[![Build Status](https://img.shields.io/circleci/project/github/sous-chefs/dhcp/master.svg)](https://circleci.com/gh/sous-chefs/dhcp)
+[![OpenCollective](https://opencollective.com/sous-chefs/backers/badge.svg)](#backers)
+[![OpenCollective](https://opencollective.com/sous-chefs/sponsors/badge.svg)](#sponsors)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Description
 
@@ -13,14 +17,19 @@ Data bag and Attribute driven DHCP server.
 
 Large parts were borrowed from work initially done by Dell, extended by Atalanta Systems and reworked by Matt Ray and Chef. Big thanks to all of them.
 
+## Maintainers
+
+This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of Chef cookbook maintainers working together to maintain important cookbooks. If you’d like to know more please visit [sous-chefs.org](https://sous-chefs.org/) or come chat with us on the Chef Community Slack in [#sous-chefs](https://chefcommunity.slack.com/messages/C2V7B88SF).
+
 ## Requirements
 
 - Debian / Ubuntu
 - CentOS and derivatives
+- Fedora and derivatives
 
 ## Chef-client
 
-- 12.7+
+- 13+
 
 ## Limitations
 
@@ -76,7 +85,7 @@ These are all just k/v entries in the global params hash. All values are type: `
 attribute                                          |   Type   |     Default      | description
 :------------------------------------------------- | :------: | :--------------: | :----------------------------------------------------------------------------------------------------------
 `node[:dhcp][:parameters]["default-lease-time"]`   | `String` |      "6400"      | Set the default lease time in the global scope
-`node[:dhcp][:parameters]["ddns-domainname"]`      | `String` | "\"#{domain}\""` | Set the ddns domain to this nodes domain
+`node[:dhcp][:parameters]["ddns-domainname"]`      | `String` | `"#{domain}"`    | Set the ddns domain to this nodes domain
 `node[:dhcp][:parameters]["ddns-update-style"]`    | `String` |    "interim"     | ddns Update style
 `node[:dhcp][:parameters]["max-lease-time"]`       | `String` |     "86400"      | Max Lease time
 `node[:dhcp][:parameters]["update-static-leases"]` | `String` |      "true"      | Make sure we push static ip adresses defined in groups/hosts to the dns server
@@ -97,7 +106,7 @@ attribute                                            |   Type   | Default | desc
 
 ### Platform Default Attributes
 
-_RHEL_ Platforms*
+#### RHEL Platforms
 
 attribute                    |   Type   |         Default
 :--------------------------- | :------: | :----------------------:
@@ -107,7 +116,7 @@ attribute                    |   Type   |         Default
 `node[:dhcp][:config_file]`  | `String` | `"/etc/dhcp/dhcpd.conf"`
 `node[:dhcp][:init_config]`  | `String` | `"/etc/sysconfig/dhcpd"`
 
-_Debian Platforms_
+#### Debian Platforms
 
 attribute                    |   Type   |            Default
 :--------------------------- | :------: | :----------------------------:
@@ -123,7 +132,7 @@ Data bags drive the lionshare of the dhcp configuration. Beyond the global setti
 
 You can generate example bags by using these handy commands
 
-```
+```bash
 knife data bag create dhcp_networks
 knife data bag create dhcp_groups
 knife data bag create dhcp_hosts
@@ -334,8 +343,8 @@ Param   | Type                | Default | Desciption
 :------ | :------------------ | :------ | :----------------------------------------------------------------------------------
 `peer`  | `String`            | `nil`   | Peer server for this segment
 `range` | `String` or `Array` | `[]`    | Range of IPs to make available for DHCP in the subnet
-`allow` | `String`            | `nil`   | Only those clients that match any entries on the allow list will be eligible.
-`deny`  | `String`            | `nil`   | Only those clients that do not match any entries on the deny list will be eligible.
+`allow` | `String` or `Array` | `[]`    | Only those clients that match any entries on the allow list will be eligible.
+`deny`  | `String` or `Array` | `[]`    | Only those clients that do not match any entries on the deny list will be eligible.
 
 #### Example
 
@@ -436,33 +445,29 @@ If you undefine an entry it will also get removed.
 
 ## Testing
 
-Testing uses ChefDK 0.13.21\. Assuming it's installed and you've initialized your shell with `chef shell-init` you can run `rake` to run testing.
+Testing uses Chef Workstation
 
-## License and Author
+## Contributors
 
-### Originally forked from
+This project exists thanks to all the people who [contribute.](https://opencollective.com/sous-chefs/contributors.svg?width=890&button=false)
 
-<https://github.com/spheromak/dhcp-cook>
+### Backers
 
-### Maintainer, Authors and Contributors
+Thank you to all our backers!
 
-- [Jacob McCann](https://github.com/jmccann)
-- [Jesse Nelson](https://github.com/spheromak)
-- [Matt Ray](https://github.com/mattray)
+![https://opencollective.com/sous-chefs#backers](https://opencollective.com/sous-chefs/backers.svg?width=600&avatarHeight=40)
 
-### Copyright
+### Sponsors
 
-- 2013 Jesse Nelson
-- 2011 Atalanta Systems
-- 2011 Dell, Inc.
-- 2011 Opscode, Inc.
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-```
-http://www.apache.org/licenses/LICENSE-2.0
-```
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
-[1]: http://www.daemon-systems.org/man/dhcpd.conf.5.html "dhcpd.conf man page"
+![https://opencollective.com/sous-chefs/sponsor/0/website](https://opencollective.com/sous-chefs/sponsor/0/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/1/website](https://opencollective.com/sous-chefs/sponsor/1/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/2/website](https://opencollective.com/sous-chefs/sponsor/2/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/3/website](https://opencollective.com/sous-chefs/sponsor/3/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/4/website](https://opencollective.com/sous-chefs/sponsor/4/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/5/website](https://opencollective.com/sous-chefs/sponsor/5/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/6/website](https://opencollective.com/sous-chefs/sponsor/6/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/7/website](https://opencollective.com/sous-chefs/sponsor/7/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/8/website](https://opencollective.com/sous-chefs/sponsor/8/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/9/website](https://opencollective.com/sous-chefs/sponsor/9/avatar.svg?avatarHeight=100)

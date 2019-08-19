@@ -2,21 +2,23 @@
 driver:
   name: vagrant
   chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+  env: [CHEF_LICENSE=accept]
 
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
+  chef_license: accept
 
 verifier:
   name: inspec
 
 platforms:
-  - name: centos-6
   - name: centos-7
-  - name: ubuntu-14.04
+  - name: debian-8
   - name: ubuntu-16.04
+  - name: fedora-30
 
 suites:
   - name: default
     run_list:
-    - recipe[test::default]
+      - recipe[test::default]
