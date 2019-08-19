@@ -30,6 +30,5 @@ attribute :extra_pool_lines, kind_of: [Array, String], default: [], coerce: proc
   Array(prop).flatten
 }
 
-
 # This resource has no actions, and is only used to verify properties
 # for the dhcp_subnet pool subresource.
