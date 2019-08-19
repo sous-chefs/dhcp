@@ -2,7 +2,7 @@ pool {
   <% if @extra_pool_lines -%>
   <% @extra_pool_lines = [@extra_pool_lines] if @extra_pool_lines.is_a?(String) -%>
   <% @extra_pool_lines.each do |line| -%>
-    line
+  <%= line %>
   <% end -%>
   <% end -%>
   <% if @peer -%>
