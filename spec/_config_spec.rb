@@ -31,7 +31,7 @@ describe 'dhcp::_config' do
 
     it 'generates a config file' do
       expect(chef_run).to create_template('/etc/dhcp/dhcpd.conf')
-        .with(variables: { allows: ['booting', 'bootp', 'unknown-clients'],
+        .with(variables: { allows: %w(booting bootp unknown-clients),
                            parameters: params, options: opts, masters: nil,
                            keys: nil, my_ip: '10.0.0.2', role: nil,
                            peer_ip: nil, failover: false, hooks: {} })
@@ -82,7 +82,7 @@ describe 'dhcp::_config' do
 
     it 'generates config file with noextra config files' do
       expect(chef_run).to create_template('/etc/dhcp/dhcpd.conf')
-        .with(variables: { allows: ['booting', 'bootp', 'unknown-clients'],
+        .with(variables: { allows: %w(booting bootp unknown-clients),
                            parameters: params, options: opts, masters: nil,
                            keys: nil, my_ip: '10.0.0.2', role: nil,
                            peer_ip: nil, failover: false, hooks: hooks })
