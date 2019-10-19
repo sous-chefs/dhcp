@@ -1,7 +1,9 @@
-# dhcp Cookbook CHANGELOG
+# CHANGELOG
 
-## Unreleased
+## 6.1.0 (2019-10-19)
 
+- Converted all LWRPs to Custom Resources
+- Ran latest cookstyle fixes
 - Migrated testing to circleci
 
 ## 6.0.0 (2018-03-04)
