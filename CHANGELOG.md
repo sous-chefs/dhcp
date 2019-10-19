@@ -2,6 +2,7 @@
 
 ## 6.1.0 (2019-10-19)
 
+- Added ability to add extra custom lines to pool config <https://github.com/sous-chefs/dhcp/issues/117>
 - Converted all LWRPs to Custom Resources
 - Ran latest cookstyle fixes
 - Migrated testing to circleci
