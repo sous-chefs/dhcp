@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+- Migrated to github actions
+
 ## 6.1.0 (2019-10-19)
 
 - Added ability to add extra custom lines to pool config <https://github.com/sous-chefs/dhcp/issues/117>
