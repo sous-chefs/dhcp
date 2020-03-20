@@ -6,7 +6,7 @@ description       'Installs and configures DHCP'
 chef_version      '>= 13.0'
 source_url        'https://github.com/sous-chefs/dhcp'
 issues_url        'https://github.com/sous-chefs/dhcp/issues'
-version           '6.1.0'
+version           '7.0.0'
 
 supports 'debian'
 supports 'ubuntu'
