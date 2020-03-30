@@ -18,11 +18,7 @@
 # limitations under the License.
 #
 
-default_action :add
-
 property :conf_dir, String, default: '/etc/dhcp'
-
-include Chef::DSL::Recipe
 
 attr_accessor :subnets
 
@@ -35,39 +31,25 @@ def subnet(name, &block)
   s
 end
 
-action_class do
-  include Dhcp::Helpers
-end
 
 action :add do
-  with_run_context :root do
-    run_context.include_recipe 'dhcp::_service'
-
-    directory "#{new_resource.conf_dir}/shared_networks.d #{new_resource.name}" do
-      path "#{new_resource.conf_dir}/shared_networks.d"
-    end
-
-    template "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
-      cookbook 'dhcp'
-      source 'shared_network.conf.erb'
-      variables name: new_resource.name, subnets: new_resource.subnets
-      owner 'root'
-      group 'root'
-      mode '0644'
-      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-    end
-
-    write_include 'shared_networks.d', new_resource.name
+  template "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
+    cookbook 'dhcp'
+    source 'shared_network.conf.erb'
+    variables name: new_resource.name, subnets: new_resource.subnets
+    owner 'root'
+    group 'root'
+    mode '0644'
   end
 end
 
-action :remove do
-  with_run_context :root do
-    file "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
-      action :delete
-      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-      notifies :send_notification, new_resource, :immediately
-    end
-    write_include 'shared_networks.d', new_resource.name
-  end
-end
+# action :remove do
+#   with_run_context :root do
+#     file "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
+#       action :delete
+#       notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+#       notifies :send_notification, new_resource, :immediately
+#     end
+#     write_include 'shared_networks.d', new_resource.name
+#   end
+# end

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 #
 # Cookbook:: dhcp
 # Resource:: host
@@ -16,8 +16,6 @@
 # limitations under the License.
 #
 
-default_action :add
-
 property :hostname, String
 property :macaddress, String
 property :ipaddress, String
@@ -25,33 +23,21 @@ property :options, Array, default: []
 property :parameters, Array, default: []
 property :conf_dir, String, default: '/etc/dhcp'
 
-action_class do
-  include Dhcp::Helpers
-end
-
 action :add do
-  with_run_context :root do
-    directory "#{new_resource.conf_dir}/hosts.d #{new_resource.name}" do
-      path "#{new_resource.conf_dir}/hosts.d"
-    end
-
-    template "#{new_resource.conf_dir}/hosts.d/#{new_resource.name}.conf" do
-      cookbook 'dhcp'
-      source 'host.conf.erb'
-      variables(
-        name: new_resource.name,
-        hostname: new_resource.hostname,
-        macaddress: new_resource.macaddress,
-        ipaddress: new_resource.ipaddress,
-        options: new_resource.options,
-        parameters: new_resource.parameters
-      )
-      owner 'root'
-      group 'root'
-      mode '0644'
-      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-    end
-    write_include 'hosts.d', new_resource.name
+  template "#{new_resource.conf_dir}/hosts.d/#{new_resource.name}.conf" do
+    cookbook 'dhcp'
+    source 'host.conf.erb'
+    variables(
+      name: new_resource.name,
+      hostname: new_resource.hostname,
+      macaddress: new_resource.macaddress,
+      ipaddress: new_resource.ipaddress,
+      options: new_resource.options,
+      parameters: new_resource.parameters
+    )
+    owner 'root'
+    group 'root'
+    mode '0644'
   end
 end
 

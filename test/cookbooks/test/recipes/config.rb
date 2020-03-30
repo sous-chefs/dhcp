@@ -1,8 +1,6 @@
-# Author:: Matt Ray <matt@chef.io>
-# Cookbook:: dhcp
-# Recipe:: default
 #
-# Copyright:: 2011-2017, Chef Software, Inc
+# Cookbook:: dhcp_test
+# Recipe:: config
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,4 +15,6 @@
 # limitations under the License.
 #
 
-Chef::Log.warn('The dhcp::default recipe is empty and should not be applied to a node')
+dhcp_config '/etc/dhcp/dhcpd.conf' do
+  action :create
+end

@@ -1,12 +1,7 @@
-# encoding: UTF-8
+
 #
-# Author:: Jesse Nelson <spheromak@gmail.com>
-# Author:: Matt Ray <matt@chef.io>
 # Cookbook:: dhcp
-# Recipe:: server
-#
-# Copyright:: 2012-2017, Jesse Nelson
-# Copyright:: 2011-2017, Chef Software, Inc
+# Resource:: service
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,9 +16,28 @@
 # limitations under the License.
 #
 
-include_recipe 'dhcp::_package'
-include_recipe 'dhcp::_service'
-include_recipe 'dhcp::_config'
-include_recipe 'dhcp::_networks'
-include_recipe 'dhcp::_groups'
-include_recipe 'dhcp::_hosts'
+property :service_name, String, default: 'dhcp'
+
+action_class do
+  def do_action(service_action)
+    service new_resource.service_name do
+      action service_action
+    end
+  end
+end
+
+action :start do
+  do_action(action)
+end
+
+action :stop do
+  do_action(action)
+end
+
+action :enable do
+  do_action(action)
+end
+
+action :disable do
+  do_action(action)
+end

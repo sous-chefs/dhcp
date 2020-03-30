@@ -6,63 +6,55 @@
 # set this to store vendor strings.
 set vendor-string = option vendor-class-identifier;
 
-<% @allows.each do |allow| -%>
+<% if @failover -%>
+# DHCP failover configuration include
+include "/etc/dhcp/dhcpd.failover.conf";
+<% end -%>
+
+<% unless @allow.empty? && @deny.empty? && @ignore.empty? -%>
+# Request control
+<% @allow.each do |allow| -%>
 allow <%= allow %>;
 <% end -%>
 
+<% @deny.each do |deny| -%>
+deny <%= allow %>;
+<% end -%>
+
+<% @ignore.each do |ignore| -%>
+ignore <%= allow %>;
+<% end -%>
+<% end -%>
+
+# Global Parameters
 <% @parameters.sort.each do |key, value| -%>
 <%= key %> <%= value %>;
 <% end -%>
 
+# Global Options
 <% @options.sort.each do |key, value| -%>
 option <%= key %> <%= value %>;
 <% end -%>
 
-<% unless @hooks.nil? || @hooks.empty?  -%>
-<% @hooks.each do |key, value| -%>
-on <%= key %> {
-<% value.each do |v| -%>
-  <%= v %>;
-<% end -%>
-}
-<% end -%>
-<% end -%>
-
-<% unless @keys.nil? || @keys.empty? -%>
-  <% @keys.each do |key, data| -%>
+<% unless @keys.empty? -%>
+# TSIG Keys
+<% @keys.each do |key, data| -%>
 key "<%= key %>" {
   algorithm <%= data['algorithm'] %>;
   secret "<%= data['secret'] %>";
 };
-  <%end -%>
+<%end -%>
 <%end -%>
 
-<% unless @masters.nil? || @masters.empty? -%>
-<% @masters.each do |zone, data| -%>
+<% unless @zones.empty? -%>
+# Dynamic DNS Zones
+<% @zones.each do |zone, data| -%>
 zone <%= zone %>. {
   primary <%= data["master"] %>;
   key "<%= data["key"] %>";
 }
-  <% end -%>
 <% end -%>
-
-<% if @failover %>
-failover peer "<%= node['domain'] %>" {
-  <%= @role %>;
-  address <%= @my_ip %>;
-  port <%= node['dhcp']['failover_params']['port'] %>;
-  peer address <%= @peer_ip %>;
-  peer port <%= node['dhcp']['failover_params']['peer_port'] %>;
-  max-response-delay 60;
-  max-unacked-updates 10;
-  mclt <%= node['dhcp']['failover_params']['mclt'] %>;
-  auto-partner-down <%= node['dhcp']['failover_params']['auto_partner_down'] %> ;
-  <% if @role =~ /primary/i -%>
-  split 128;
-  load balance max seconds 3;
-  <% end -%>
-}
-<% end %>
+<% end -%>
 
 include "<%= node['dhcp']['dir'] %>/classes.d/list.conf";
 include "<%= node['dhcp']['dir'] %>/groups.d/list.conf";

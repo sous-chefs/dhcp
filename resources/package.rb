@@ -1,7 +1,7 @@
 
 #
 # Cookbook:: dhcp
-# Resource:: pool
+# Resource:: package
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,19 +16,25 @@
 # limitations under the License.
 #
 
-default_action :nothing
+include Dhcp::Cookbook::Helpers
 
-attribute :range, kind_of: [Array, String]
-attribute :peer, kind_of: String, default: nil
-attribute :deny, kind_of: [Array, String], default: [], coerce: proc { |prop|
-  Array(prop).flatten
-}
-attribute :allow, kind_of: [Array, String], default: [], coerce: proc { |prop|
-  Array(prop).flatten
-}
-attribute :extra_pool_lines, kind_of: [Array, String], default: [], coerce: proc { |prop|
-  Array(prop).flatten
-}
+property :packages, [String, Array],
+          default: lazy { dhcp_packages }
 
-# This resource has no actions, and is only used to verify properties
-# for the dhcp_subnet pool subresource.
+action_class do
+  def do_action(package_action)
+    package 'ISC DHCPd' do
+      package_name new_resource.packages
+
+      action package_action
+    end
+  end
+end
+
+action :install do
+  do_action(action)
+end
+
+action :remove do
+  do_action(action)
+end

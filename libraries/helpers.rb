@@ -1,66 +1,83 @@
 module Dhcp
-  #
-  # Helper methods that are used in multiple providers
-  #
-  module Helpers
-    #
-    # Determine if the resource matches this resource's type
-    #
-    # @param resource the resource to check
-    #
-    # @return [TrueClass, FalseClass] wether or not the resource matches
-    #
-    def resource_match?(resource)
-      # Check for >= Chef 12
-      return true if Gem::Version.new(Chef::VERSION) >= Gem::Version.new('12.0.0') && resource.declared_type == new_resource.declared_type
-
-      false
-    end
-
-    #
-    # List of files to include in list.conf for a collection of subconfigs (e.g. hosts, subnets, groups)
-    #
-    # @param [String] sub_dir - The subconfig directory for the config
-    #
-    # @return [Array<String>] An array of config files for the subconfig
-    def includes(sub_dir)
-      with_run_context :root do
-        run_context.resource_collection.map do |resource|
-          next unless resource_match? resource
-          next unless resource.action == :add || resource.action.include?(:add)
-          "#{resource.conf_dir}/#{sub_dir}/#{resource.name}.conf"
-        end.compact
+  module Cookbook
+    module Helpers
+      def dhcp_packages
+        case node['platform_family']
+        when 'rhel'
+          if platform_version.to_i < 8
+            %w(dhcp)
+          else
+            %w(dhcp-server)
+          end
+        when 'fedora'
+          %w(dhcp-server)
+        when 'debian'
+          %w(isc-dhcp-server)
+        end
       end
-    end
 
-    #
-    # Defined resource for list.conf to include all subconfig files
-    #
-    # @param [String] sub_dir - The subconfig directory for the config
-    #
-    def write_include(sub_dir, name)
-      template "#{new_resource.conf_dir}/#{sub_dir}/list.conf #{name}" do
-        path "#{new_resource.conf_dir}/#{sub_dir}/list.conf"
-        cookbook 'dhcp'
-        source 'list.conf.erb'
-        owner 'root'
-        group 'root'
-        mode '0644'
-        variables(files: includes(sub_dir))
-        notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+      def dhcp_service_name
+        case node['platform_family']
+        when 'rhel', 'fedora'
+          'dhcpd'
+        when 'debian'
+          'isc-dhcp-server'
+        end
       end
-    end
 
-    module_function
+      def dhcp_config_dir
+        '/etc/dhcp'
+      end
 
-    #
-    # Escape some special characters
-    #
-    # escape  . -> - and / -> _
-    # so 1.1/3 -> 1-1_3
-    #
-    def escape(name)
-      name.tr('.', '-').tr('/', '_')
+      def dhcpd_config_file(ip_version)
+        case ip_version
+        when :ipv4
+          '/etc/dhcp/dhcpd.conf'
+        when :ipv6
+          '/etc/dhcp/dhcpd6.conf'
+        else
+          raise "#{ip_version} is unknown."
+        end
+      end
+
+      def dhcpd_failover_config_file(ip_version)
+        case ip_version
+        when :ipv4
+          '/etc/dhcp/dhcpd.failover.conf'
+        when :ipv6
+          raise 'DHCPD failover is not supported for IPv6'
+        else
+          raise "#{ip_version} is unknown."
+        end
+      end
+
+      def dhcpd_config_includes_directory(ip_version)
+        case ip_version
+        when :ipv4
+          "#{dhcp_config_dir}/dhcpd.conf.d"
+        when :ipv6
+          "#{dhcp_config_dir}/dhcpd6.conf.d"
+        else
+          raise "#{ip_version} is unknown."
+        end
+      end
+
+      def dhcpd_lease_file(ip_version)
+        var_dir = if platform_family?('debian')
+                    '/var/lib/dhcp'
+                  else
+                    '/var/lib/dhcpd'
+                  end
+
+        case ip_version
+        when :ipv4
+          "#{var_dir}/dhcpd.leases"
+        when :ipv6
+          "#{var_dir}/dhcpd6.leases"
+        else
+          raise "#{ip_version} is unknown."
+        end
+      end
     end
   end
 end
