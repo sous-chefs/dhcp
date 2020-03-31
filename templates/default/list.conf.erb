@@ -3,7 +3,11 @@
 # Do NOT modify this file by hand, changes will be overwritten.
 #
 
+<% if @files.empty? -%>
+# No files to include
+<% else -%>
 # Include files
 <% @files.sort.each do |file| -%>
 include "<%= file %>";
+<% end -%>
 <% end -%>

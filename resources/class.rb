@@ -41,7 +41,7 @@ action :add do
       options: new_resource.options,
       vendor_option_space: new_resource.vendor_option_space,
       subclasses: new_resource.subclasses
-    ) 
+    )
     owner 'root'
     group 'root'
     mode '0644'

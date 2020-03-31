@@ -1,6 +1,6 @@
 #
 # Cookbook:: dhcp_test
-# Recipe:: default
+# Recipe:: service
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,8 +15,12 @@
 # limitations under the License.
 #
 
-include_recipe '::package'
-include_recipe '::config'
-include_recipe '::service'
+dhcp_service 'dhcpd' do
+  ip_version :ipv4
+  action :enable
+end
 
-include_recipe '::dhcp_subnet'
+dhcp_service 'dhcpd6' do
+  ip_version :ipv6
+  action :enable
+end

@@ -6,37 +6,48 @@
 # set this to store vendor strings.
 set vendor-string = option vendor-class-identifier;
 
-<% if @failover -%>
+<% unless nil_or_empty?(@failover) -%>
 # DHCP failover configuration include
 include "/etc/dhcp/dhcpd.failover.conf";
-<% end -%>
 
-<% unless @allow.empty? && @deny.empty? && @ignore.empty? -%>
-# Request control
+<% end -%>
+<% unless nil_or_empty?(@allow) && nil_or_empty?(@deny) && nil_or_empty?(@ignore) -%>
+# Request Control
+<% unless nil_or_empty?(@allow) -%>
+# Allow
 <% @allow.each do |allow| -%>
 allow <%= allow %>;
 <% end -%>
-
+<% end -%>
+<% unless nil_or_empty?(@deny) -%>
+# Deny
 <% @deny.each do |deny| -%>
-deny <%= allow %>;
+deny <%= deny %>;
 <% end -%>
-
+<% end -%>
+<% unless nil_or_empty?(@ignore) -%>
+# Ignore
 <% @ignore.each do |ignore| -%>
-ignore <%= allow %>;
+ignore <%= ignore %>;
 <% end -%>
 <% end -%>
 
+<% end -%>
+<% unless nil_or_empty?(@parameters) -%>
 # Global Parameters
 <% @parameters.sort.each do |key, value| -%>
 <%= key %> <%= value %>;
 <% end -%>
 
+<% end -%>
+<% unless nil_or_empty?(@options) -%>
 # Global Options
 <% @options.sort.each do |key, value| -%>
 option <%= key %> <%= value %>;
 <% end -%>
 
-<% unless @keys.empty? -%>
+<% end -%>
+<% unless nil_or_empty?(@keys) -%>
 # TSIG Keys
 <% @keys.each do |key, data| -%>
 key "<%= key %>" {
@@ -44,9 +55,9 @@ key "<%= key %>" {
   secret "<%= data['secret'] %>";
 };
 <%end -%>
-<%end -%>
 
-<% unless @zones.empty? -%>
+<%end -%>
+<% unless nil_or_empty?(@zones) -%>
 # Dynamic DNS Zones
 <% @zones.each do |zone, data| -%>
 zone <%= zone %>. {
@@ -54,14 +65,26 @@ zone <%= zone %>. {
   key "<%= data["key"] %>";
 }
 <% end -%>
+
+<% end -%>
+# Includes
+include "<%= @includes_dir %>/classes.d/list.conf";
+include "<%= @includes_dir %>/groups.d/list.conf";
+include "<%= @includes_dir %>/subnets.d/list.conf";
+include "<%= @includes_dir %>/shared_networks.d/list.conf";
+include "<%= @includes_dir %>/hosts.d/list.conf";
+
+<% unless nil_or_empty?(@include_files) -%>
+# Custom Includes
+<% @include_files.each do |file| -%>
+include "<%= file %>";
 <% end -%>
 
-include "<%= node['dhcp']['dir'] %>/classes.d/list.conf";
-include "<%= node['dhcp']['dir'] %>/groups.d/list.conf";
-include "<%= node['dhcp']['dir'] %>/subnets.d/list.conf";
-include "<%= node['dhcp']['dir'] %>/shared_networks.d/list.conf";
-include "<%= node['dhcp']['dir'] %>/hosts.d/list.conf";
+<% end -%>
+<% unless @extra_lines.nil? || @extra_lines.empty? -%>
+# User specified extra lines
+<% property_array(@extra_lines).each do |line| -%>
+<%= line %>
+<% end -%>
 
-<% node['dhcp']['extra_files'].each do |file| -%>
-include "<%= file %>";
 <% end -%>

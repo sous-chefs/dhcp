@@ -15,12 +15,42 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include Dhcp::Cookbook::Helpers
 
-property :service_name, String, default: 'dhcp'
+property :service_name, String,
+          coerce: proc { |s| "#{s}.service" },
+          description: 'Override the default service names'
+
+property :ip_version, Symbol,
+          equal_to: %i(ipv4 ipv6),
+          default: :ipv4,
+          description: 'The IP version, 4 or 6'
+
+property :systemd_unit_content, Hash,
+          default: lazy { dhcpd_systemd_unit_content(ip_version) },
+          description: 'Override the systemd unit file contents'
 
 action_class do
   def do_action(service_action)
-    service new_resource.service_name do
+    service_name = if new_resource.service_name
+                     new_resource.service_name
+                   elsif new_resource.ip_version.eql?(:ipv4)
+                     'dhcpd'
+                   elsif new_resource.ip_version.eql?(:ipv6)
+                     'dhcpd6'
+                   end
+
+    if dhcpd_use_systemd?
+      systemd_unit "#{service_name}.service" do
+        content new_resource.dhcpd_systemd_unit_content(new_resource.ip_version)
+        triggers_reload true
+        verify false
+
+        action :create
+      end
+    end
+
+    service service_name do
       action service_action
     end
   end

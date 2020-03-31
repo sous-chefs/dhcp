@@ -1,13 +1,15 @@
 ---
 driver:
   name: vagrant
-  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
-  env: [CHEF_LICENSE=accept]
 
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
   chef_license: accept
+  product_name: chef
+  product_version: <%= ENV['CHEF_VERSION'] || '14' %>
+  install_strategy: always
+  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
 
 verifier:
   name: inspec

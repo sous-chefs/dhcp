@@ -31,7 +31,6 @@ def subnet(name, &block)
   s
 end
 
-
 action :add do
   template "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
     cookbook 'dhcp'

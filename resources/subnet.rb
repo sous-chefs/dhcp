@@ -16,59 +16,116 @@
 # limitations under the License.
 #
 
-property :subnet, String, name_property: true
-property :broadcast, String
-property :netmask, String, required: true
-property :routers, Array, default: []
-property :options, Array, default: []
-property :ddns, String
-property :evals, Array, default: []
-property :key, Hash, default: {}
-property :zones, Array, default: []
-property :conf_dir, String, default: '/etc/dhcp'
-property :next_server, String
+include Dhcp::Cookbook::Helpers
 
-attr_accessor :pools
+property :comment, String,
+          description: 'Unparsed comment to add to the configuration file'
 
-def pool(&block)
-  @pools ||= []
-  p = dhcp_pool("#{@name}-pool#{@pools.count}", &block)
-  p.action :nothing
-  @pools << p
-  p
-end
+property :ip_version, Symbol,
+          equal_to: %i(ipv4 ipv6),
+          default: :ipv4,
+          description: 'The IP version, 4 or 6'
 
-action :add do
-  template "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
-    cookbook 'dhcp'
-    source 'subnet.conf.erb'
-    variables(
-      subnet: new_resource.subnet,
-      netmask: new_resource.netmask,
-      broadcast: new_resource.broadcast,
-      pools: new_resource.pools,
-      routers: new_resource.routers,
-      options: new_resource.options,
-      evals: new_resource.evals,
-      key: new_resource.key,
-      zones: new_resource.zones,
-      ddns: new_resource.ddns,
-      next_server: new_resource.next_server
-    )
+property :conf_dir, String,
+          default: lazy { "#{dhcpd_config_includes_directory(ip_version)}/subnets.d" }
+
+property :cookbook, String,
+          default: 'dhcp'
+
+property :template, String,
+          default: lazy {
+            case ip_version
+            when :ipv4
+              'dhcpd/subnet.conf.erb'
+            when :ipv6
+              'dhcpd6/subnet6.conf.erb'
+            end
+          }
+
+property :subnet, String,
+          required: true,
+          description: 'Subnet network address'
+
+property :netmask, String,
+          description: 'Subnet network mask, required for IPv4'
+
+property :prefix, Integer,
+          description: 'Subnet network prefix, required for IPv6'
+
+property :options, [Hash, Array],
+          description: 'Subnet options'
+
+property :parameters, Hash,
+          description: 'Subnet configuration parameters'
+
+property :evals, Array
+property :key, Hash
+property :zones, Array
+
+property :allow, Array
+
+property :deny, Array
+
+property :extra_lines, Hash,
+          description: 'Subnet additional configuration lines'
+
+property :pool, [Hash, Array],
+          callbacks: {
+            'Pool requires range be specified' => proc { |p| p.key?('range') },
+            'Pool options should be an Array' => proc { |p| p['options'].is_a?(Array) || !p.key?('options') },
+            'Pool parameters should be a Hash' => proc { |p| p['parameters'].is_a?(Hash) || !p.key?('parameters') },
+          }
+
+property :range, [String, Array]
+
+action :create do
+  case new_resource.ip_version
+  when :ipv4
+    raise 'netmask is a required property for IPv4' unless new_resource.netmask
+  when :ipv6
+    raise 'prefix is a required property for IPv6' unless new_resource.prefix
+    raise 'range is a required property for IPv6' unless new_resource.range
+  end
+
+  template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
+    cookbook new_resource.cookbook
+    source new_resource.template
+
     owner 'root'
     group 'root'
     mode '0644'
+
+    variables(
+      name: new_resource.name,
+      comment: new_resource.comment,
+      subnet: new_resource.subnet,
+      netmask: new_resource.netmask,
+      prefix: new_resource.prefix,
+      options: new_resource.options,
+      parameters: new_resource.parameters,
+      evals: new_resource.evals,
+      key: new_resource.key,
+      zones: new_resource.zones,
+      allow: new_resource.allow,
+      deny: new_resource.deny,
+      extra_lines: new_resource.extra_lines,
+      pool: new_resource.pool,
+      range: new_resource.range
+    )
+    helpers(Dhcp::Template::Helpers)
+
+    action :create
+  end
+
+  with_run_context :root do
+    edit_resource!(:template, "#{new_resource.conf_dir}/list.conf") do |new_resource|
+      variables['files'].push("#{new_resource.conf_dir}/#{new_resource.name}.conf")
+    end
   end
 end
 
-# action :remove do
-#   with_run_context :root do
-#     file "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
-#       action :delete
-#       notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-#       notifies :send_notification, new_resource, :immediately
-#     end
-
-#     write_include 'subnets.d', new_resource.name
-#   end
-# end
+action :delete do
+  file "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
+    action :delete
+  end
+end
