@@ -3,94 +3,24 @@
 # Do NOT modify this file by hand, changes will be overwritten.
 #
 
-# <%= @name -%><% if @comment -%><%= - @comment -%><% end -%>
-subnet <%= @subnet %> netmask <%= @netmask%> {
-<% unless nil_or_empty?(@options) -%>
-  # Options
-  <% @options.sort.each do |option, value| -%>
-  option <%= option %> <%= value %>;
-  <% end -%>
-<% end -%>
-<% unless nil_or_empty?(@parameters) -%>
-
-  # Parameters
-  <% @parameters.each do |parameter, value| -%>
-  <%= parameter %> <%= value %>;
-  <% end -%>
-<% end -%>
-<% unless nil_or_empty?(@extra_lines) -%>
-
-  # Extra Lines
-  <% @extra_lines.each do |line| -%>
-  <%= line %>
-  <% end -%>
-<% end -%>
-<% unless nil_or_empty?(@evals) -%>
-
-  # Evals
-  <% @evals.sort.each do |eval| -%>
-  <%= eval %>
-  <% end -%>
-<% end -%>
-<% unless nil_or_empty?(@key) -%>
-
-  # Keys
-  key <%= @key['name'] %> {
-    algorithm <%= @key['algorithm'] %>;
-    secret "<%= @key['secret'] %>";
-  };
-<% end -%>
-<% unless nil_or_empty?(@zones) -%>
-
-  # Zones
-  <% @zones.each do |zone| -%>
-  zone <%= zone['zone'] %> {
-    primary <%= zone['primary'] %>;
-    key <%= zone['key'] %>;
+<%= render 'subnet', 
+  :cookbook => 'dhcp', 
+  :source => 'subnet.erb',
+  :variables => {
+    name: @name,
+    comment: @comment,
+    subnet: @subnet,
+    netmask: @netmask,
+    prefix: @prefix,
+    options: @options,
+    parameters: @parameters,
+    evals: @evals,
+    key: @key,
+    zones: @zones,
+    allow: @allow,
+    deny: @deny,
+    extra_lines: @extra_lines,
+    pool: @pool,
+    range: @range
   }
-  <% end -%>
-<% end -%>
-<% unless nil_or_empty?(@pool) -%>
-  
-  # Pools
-<% property_array(@pool).each do |pool| -%>
-  pool {
-    <% if pool['failover_peer'] -%>
-    failover peer "<%= pool['failover_peer'] %>";
-
-    <% end -%>
-    <% unless nil_or_empty?(pool['options']) -%>
-    # Options
-    <% pool['options'].sort.each do |option| -%>
-    option <%= option %>;
-    <% end -%>
-
-    <% end -%>
-    <% unless nil_or_empty?(pool['parameters']) -%>
-    # Parameters
-    <% pool['parameters'].each do |parameter, value| -%>
-    <%= parameter %> <%= value %>;
-    <% end -%>
-
-    <% end -%>
-    <% unless nil_or_empty?(pool['range']) -%>
-    <% property_array(pool['range']).each do |range| -%>
-    range <%= range %>;
-    <% end -%>
-
-    <% end -%>
-    <% unless nil_or_empty?(pool['deny']) -%>
-    <% property_array(pool['deny']).each do |denied| -%>
-    deny <%= denied %>;
-    <% end -%>
-
-    <% end -%>
-    <% unless nil_or_empty?(pool['allow']) -%>
-    <% property_array(pool['allow']).each do |allowed| -%>
-    allow <%= allowed %>;
-    <% end -%>
-    <% end -%>
-  }
-<% end -%>
-<% end -%>
-}
+%>

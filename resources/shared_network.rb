@@ -1,9 +1,6 @@
 #
-# Author:: Jacob McCann (<jacob.mccann2@target.com>)
 # Cookbook:: dhcp
 # Resource:: shared_network
-#
-# Copyright:: 2015-2018, Sous Chefs
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,45 +26,49 @@ property :ip_version, Symbol,
           description: 'The IP version, 4 or 6'
 
 property :conf_dir, String,
-          default: lazy { "#{dhcpd_config_includes_directory(ip_version)}/hosts.d" }
+          default: lazy { "#{dhcpd_config_includes_directory(ip_version)}/shared_networks.d" }
 
 property :cookbook, String,
           default: 'dhcp'
 
 property :template, String,
-          default: 'class.conf.erb'
+          default: 'shared_network.conf.erb'
 
 property :owner, String,
           default: 'root'
 
 property :group, String,
-          default: 'root'
+          default: 'dhcpd'
 
 property :mode, String,
           default: '0640'
 
 property :subnets, Hash
 
-# attr_accessor :subnets
-
-# def subnet(name, &block)
-#   @subnets ||= []
-#   s = dhcp_subnet("#{@name}-#{name}", &block)
-#   s.action :nothing
-#   s.subnet name
-#   @subnets << s
-#   s
-# end
+action_class do
+  include Dhcp::Cookbook::ResourceHelpers
+end
 
 action :create do
-  template "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
-    cookbook 'dhcp'
-    source 'shared_network.conf.erb'
-    variables name: new_resource.name, subnets: new_resource.subnets
-    owner 'root'
-    group 'root'
-    mode '0644'
+  template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
+    cookbook new_resource.cookbook
+    source new_resource.template
+
+    owner new_resource.owner
+    group new_resource.group
+    mode new_resource.mode
+
+    variables(
+      name: new_resource.name,
+      comment: new_resource.comment,
+      subnets: new_resource.subnets
+    )
+    helpers(Dhcp::Cookbook::TemplateHelpers)
+
+    action :create
   end
+
+  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
 end
 
 action :delete do

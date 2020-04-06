@@ -1,4 +1,3 @@
-
 #
 # Cookbook:: dhcp
 # Resource:: service

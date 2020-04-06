@@ -1,4 +1,3 @@
-
 #
 # Cookbook:: dhcp
 # Resource:: host
@@ -39,7 +38,7 @@ property :owner, String,
           default: 'root'
 
 property :group, String,
-          default: 'root'
+          default: 'dhcpd'
 
 property :mode, String,
           default: '0640'
@@ -53,6 +52,10 @@ property :address, String
 property :options, Array
 
 property :parameters, Hash
+
+action_class do
+  include Dhcp::Cookbook::ResourceHelpers
+end
 
 action :create do
   template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
@@ -73,10 +76,12 @@ action :create do
       options: new_resource.options,
       parameters: new_resource.parameters
     )
-    helpers(Dhcp::Template::Helpers)
+    helpers(Dhcp::Cookbook::TemplateHelpers)
 
     action :create
   end
+
+  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
 end
 
 action :delete do

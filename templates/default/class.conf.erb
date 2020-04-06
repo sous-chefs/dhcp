@@ -7,14 +7,18 @@
 class "<%= @name %>" {
   match <%= @match %>;
   <% unless nil_or_empty?(@vendor_option_space) -%>
+
   vendor-option-space <%= @vendor_option_space %>;
   <% end -%>
   <% unless nil_or_empty?(@options) -%>
+
   <% @options.each do |value| -%>
   option "<%= @name %>" <%= value %>;
   <% end -%>
+  <% end -%>
 }
 <% unless nil_or_empty?(@subclasses) -%>
+
 <% @subclasses.each do |value| -%>
 subclass "<%= @name %>" <%= value %>;
 <% end -%>

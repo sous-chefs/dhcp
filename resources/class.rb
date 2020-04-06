@@ -38,7 +38,7 @@ property :owner, String,
           default: 'root'
 
 property :group, String,
-          default: 'root'
+          default: 'dhcpd'
 
 property :mode, String,
           default: '0640'
@@ -49,13 +49,13 @@ property :vendor_option_space, String
 
 property :options, Array
 
-property :subclass, Hash
+property :subclass, Array
+
+action_class do
+  include Dhcp::Cookbook::ResourceHelpers
+end
 
 action :create do
-  directory "#{new_resource.conf_dir}/classes.d #{new_resource.name}" do
-    path "#{new_resource.conf_dir}/classes.d"
-  end
-
   template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
     cookbook new_resource.cookbook
     source new_resource.template
@@ -70,12 +70,14 @@ action :create do
       match: new_resource.match,
       options: new_resource.options,
       vendor_option_space: new_resource.vendor_option_space,
-      subclasses: new_resource.subclasses
+      subclasses: new_resource.subclass
     )
-    helpers(Dhcp::Template::Helpers)
+    helpers(Dhcp::Cookbook::TemplateHelpers)
 
     action :create
   end
+
+  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
 end
 
 action :delete do

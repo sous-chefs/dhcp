@@ -63,6 +63,10 @@ module Dhcp
         end
       end
 
+      def dhcpd_config_includes_directories
+        %w(groups.d hosts.d subnets.d shared_networks.d classes.d)
+      end
+
       def dhcpd_lib_dir
         if platform_family?('debian')
           '/var/lib/dhcp'

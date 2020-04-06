@@ -1,6 +1,6 @@
 module Dhcp
-  module Template
-    module Helpers
+  module Cookbook
+    module TemplateHelpers
       def nil_or_empty?(property)
         return true if property.nil? || property.empty?
 

@@ -16,7 +16,6 @@
 #
 
 include Dhcp::Cookbook::Helpers
-include Dhcp::Template::Helpers
 
 property :ip_version, Symbol,
           equal_to: %i(ipv4 ipv6),
@@ -37,7 +36,7 @@ property :owner, String,
           default: 'root'
 
 property :group, String,
-          default: 'root'
+          default: 'dhcpd'
 
 property :mode, String,
           default: '0640'
@@ -84,6 +83,11 @@ property :include_files, Array,
 property :extra_lines, [String, Array],
           description: 'Extra lines to append to the main configuration file'
 
+action_class do
+  include Dhcp::Cookbook::ResourceHelpers
+  include Dhcp::Cookbook::TemplateHelpers
+end
+
 action :create do
   case new_resource.ip_version
   # when :ipv4
@@ -94,26 +98,12 @@ action :create do
 
   directory new_resource.config_includes_directory
 
-  %w(groups.d hosts.d subnets.d shared_networks.d classes.d).each do |dir|
+  dhcpd_config_includes_directories.each do |dir|
     directory "#{new_resource.config_includes_directory}/#{dir}" do
       action :create
     end
 
-    with_run_context(:root) do
-      edit_resource(:template, "#{new_resource.config_includes_directory}/#{dir}/list.conf") do
-        cookbook 'dhcp'
-        source 'list.conf.erb'
-
-        owner new_resource.owner
-        group new_resource.group
-        mode new_resource.mode
-
-        variables['files'] ||= []
-
-        action :nothing
-        delayed_action :create
-      end
-    end
+    create_list_resource("#{new_resource.config_includes_directory}/#{dir}")
   end
 
   # Pre-condition DHCPd lib directory and lease file for distros that don't take care of this
@@ -141,7 +131,7 @@ action :create do
       include_files: new_resource.include_files,
       extra_lines: new_resource.extra_lines
     )
-    helpers(Dhcp::Template::Helpers)
+    helpers(Dhcp::Cookbook::TemplateHelpers)
 
     action :create
   end
@@ -158,7 +148,7 @@ action :create do
       variables(
         failover: new_resource.failover
       )
-      helpers(Dhcp::Template::Helpers)
+      helpers(Dhcp::Cookbook::TemplateHelpers)
 
       action :create
     end

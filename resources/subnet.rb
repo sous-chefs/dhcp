@@ -1,4 +1,3 @@
-
 #
 # Cookbook:: dhcp
 # Resource:: subnet
@@ -42,6 +41,15 @@ property :template, String,
             end
           }
 
+property :owner, String,
+          default: 'root'
+
+property :group, String,
+          default: 'dhcpd'
+
+property :mode, String,
+          default: '0640'
+
 property :subnet, String,
           required: true,
           description: 'Subnet network address'
@@ -59,17 +67,19 @@ property :parameters, Hash,
           description: 'Subnet configuration parameters'
 
 property :evals, Array
+
 property :key, Hash
+
 property :zones, Array
 
 property :allow, Array
 
 property :deny, Array
 
-property :extra_lines, Hash,
+property :extra_lines, Array,
           description: 'Subnet additional configuration lines'
 
-property :pool, [Hash, Array],
+property :pool, Hash,
           callbacks: {
             'Pool requires range be specified' => proc { |p| p.key?('range') },
             'Pool options should be an Array' => proc { |p| p['options'].is_a?(Array) || !p.key?('options') },
@@ -77,6 +87,10 @@ property :pool, [Hash, Array],
           }
 
 property :range, [String, Array]
+
+action_class do
+  include Dhcp::Cookbook::ResourceHelpers
+end
 
 action :create do
   case new_resource.ip_version
@@ -91,9 +105,9 @@ action :create do
     cookbook new_resource.cookbook
     source new_resource.template
 
-    owner 'root'
-    group 'root'
-    mode '0644'
+    owner new_resource.owner
+    group new_resource.group
+    mode new_resource.mode
 
     variables(
       name: new_resource.name,
@@ -112,16 +126,12 @@ action :create do
       pool: new_resource.pool,
       range: new_resource.range
     )
-    helpers(Dhcp::Template::Helpers)
+    helpers(Dhcp::Cookbook::TemplateHelpers)
 
     action :create
   end
 
-  with_run_context :root do
-    edit_resource!(:template, "#{new_resource.conf_dir}/list.conf") do |new_resource|
-      variables['files'].push("#{new_resource.conf_dir}/#{new_resource.name}.conf")
-    end
-  end
+  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
 end
 
 action :delete do
