@@ -5,27 +5,7 @@
 
 # <%= @name -%><% if @comment -%> - <%= @comment -%><% end -%>
 shared-network <%= @name %> {
-  <% @subnets.each do |subnet, properties| -%>
-  <%= render 'subnet', 
-    :cookbook => 'dhcp', 
-    :source => 'subnet.erb',
-    :variables => {
-      name: subnet,
-      comment: properties['comment'],
-      subnet: properties['subnet'],
-      netmask: properties['netmask'],
-      prefix: properties['prefix'],
-      options: properties['options'],
-      parameters: properties['parameters'],
-      evals: properties['evals'],
-      key: properties['key'],
-      zones: properties['zones'],
-      allow: properties['allow'],
-      deny: properties['deny'],
-      extra_lines: properties['extra_lines'],
-      pool: properties['pool'],
-      range: properties['range']
-    }
-  %>
+  <% @subnets.each do |subnet| -%>
+  include "<%= subnet %>";
   <% end -%>
 }

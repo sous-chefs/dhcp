@@ -47,6 +47,17 @@ ignore <%= ignore %>;
 <% end -%>
 <% end -%>
 <% end -%>
+<% unless nil_or_empty?(@hooks) -%>
+
+# Events
+<% @hooks.each do |key, value| -%>
+on <%= key %> {
+<% value.each do |v| -%>
+  <%= v %>;
+<% end -%>
+}
+<% end -%>
+<% end -%>
 <% unless nil_or_empty?(@keys) -%>
 
 # TSIG Keys

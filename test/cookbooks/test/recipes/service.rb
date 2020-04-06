@@ -17,10 +17,8 @@
 
 dhcp_service 'dhcpd' do
   ip_version :ipv4
-  action :enable
 end
 
 dhcp_service 'dhcpd6' do
   ip_version :ipv6
-  action :enable
 end

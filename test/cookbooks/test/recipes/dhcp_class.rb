@@ -18,6 +18,14 @@ dhcp_class 'UnregisteredHosts' do
   ]
 end
 
+dhcp_class 'OtherHosts' do
+  match 'hardware'
+  subclass [
+    '1:10:bf:48:42:55:05',
+    '1:10:bf:48:42:55:06',
+  ]
+end
+
 dhcp_subnet 'deny host from class' do
   subnet '192.168.4.0'
   netmask '255.255.255.0'

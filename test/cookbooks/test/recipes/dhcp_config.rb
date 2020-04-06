@@ -27,10 +27,19 @@ dhcp_config '/etc/dhcp/dhcpd.conf' do
     'ping-check' => true
   )
   options(
-    'domain-name' => 'test.domain.local',
+    'domain-name' => '"test.domain.local"',
     'domain-name-servers' => '8.8.8.8',
     'host-name' => ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))'
   )
+  hooks(
+    'commit' => ['use-host-decl-names on'],
+    'release' => ['use-host-decl-names on']
+  )
+  include_files [
+    '/etc/dhcp/extra1.conf',
+    '/etc/dhcp/extra2.conf',
+    '/etc/dhcp_override/list.conf',
+  ]
   action :create
 end
 

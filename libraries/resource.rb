@@ -11,7 +11,6 @@ module Dhcp
             owner new_resource.owner
             group new_resource.group
             mode new_resource.mode
-            atomic_update true
 
             variables['files'] ||= []
 

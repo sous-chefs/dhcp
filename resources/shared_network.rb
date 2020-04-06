@@ -35,10 +35,10 @@ property :template, String,
           default: 'shared_network.conf.erb'
 
 property :owner, String,
-          default: 'root'
+          default: lazy { dhcpd_user }
 
 property :group, String,
-          default: 'dhcpd'
+          default: lazy { dhcpd_group }
 
 property :mode, String,
           default: '0640'
@@ -50,6 +50,26 @@ action_class do
 end
 
 action :create do
+  subnets_include = []
+
+  new_resource.subnets.each do |subnet, properties|
+    sr = dhcp_subnet "#{new_resource.name}_sharedsubnet_#{subnet}" do
+      owner new_resource.owner
+      group new_resource.group
+      mode new_resource.mode
+
+      ip_version new_resource.ip_version
+      conf_dir new_resource.conf_dir
+      shared_network true
+    end
+
+    properties.each do |property, value|
+      sr.send(property, value)
+    end
+
+    subnets_include.push("#{new_resource.conf_dir}/#{new_resource.name}_sharedsubnet_#{subnet}.conf")
+  end
+
   template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
     cookbook new_resource.cookbook
     source new_resource.template
@@ -61,7 +81,7 @@ action :create do
     variables(
       name: new_resource.name,
       comment: new_resource.comment,
-      subnets: new_resource.subnets
+      subnets: subnets_include
     )
     helpers(Dhcp::Cookbook::TemplateHelpers)
 

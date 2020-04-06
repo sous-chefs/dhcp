@@ -18,9 +18,12 @@
 include_recipe '::net_setup'
 
 include_recipe '::package'
-include_recipe '::config'
-include_recipe '::service'
+include_recipe '::include_files'
 
+include_recipe '::dhcp_config'
 include_recipe '::dhcp_subnet'
+include_recipe '::dhcp_host'
 include_recipe '::dhcp_class'
 include_recipe '::dhcp_shared_network'
+
+include_recipe '::service'

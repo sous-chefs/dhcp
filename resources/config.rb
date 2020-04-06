@@ -33,10 +33,10 @@ property :template, String,
           default: 'dhcpd.conf.erb'
 
 property :owner, String,
-          default: 'root'
+          default: lazy { dhcpd_user }
 
 property :group, String,
-          default: 'dhcpd'
+          default: lazy { dhcpd_group }
 
 property :mode, String,
           default: '0640'
@@ -74,6 +74,9 @@ property :keys, Hash,
 property :zones, Hash,
           description: 'Dynamic DNS zone configuration'
 
+property :hooks, Hash,
+          description: 'Server event configuration statements'
+
 property :failover, Hash,
           description: 'DHCP failover configuration'
 
@@ -89,17 +92,22 @@ action_class do
 end
 
 action :create do
-  case new_resource.ip_version
-  # when :ipv4
-  #   raise 'netmask is a required property for IPv4' unless new_resource.netmask
-  when :ipv6
-    raise 'DHCP failover is only supported for IPv4' if new_resource.failover
+  if new_resource.failover && new_resource.ip_version.eql?(:ipv6)
+    raise 'DHCP failover is only supported for IPv4'
   end
 
-  directory new_resource.config_includes_directory
+  directory new_resource.config_includes_directory do
+    owner new_resource.owner
+    group new_resource.group
+
+    action :create
+  end
 
   dhcpd_config_includes_directories.each do |dir|
     directory "#{new_resource.config_includes_directory}/#{dir}" do
+      owner new_resource.owner
+      group new_resource.group
+
       action :create
     end
 
@@ -127,6 +135,7 @@ action :create do
       options: new_resource.options,
       keys: new_resource.keys,
       zones: new_resource.zones,
+      hooks: new_resource.hooks,
       failover: new_resource.failover,
       include_files: new_resource.include_files,
       extra_lines: new_resource.extra_lines
@@ -141,9 +150,9 @@ action :create do
       cookbook 'dhcp'
       source 'dhcpd.failover.conf.erb'
 
-      owner 'root'
-      group 'root'
-      mode '0640'
+      owner new_resource.owner
+      group new_resource.group
+      mode new_resource.mode
 
       variables(
         failover: new_resource.failover

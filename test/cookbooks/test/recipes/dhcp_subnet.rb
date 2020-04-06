@@ -1,8 +1,8 @@
 # Define using defaults
-dhcp_subnet '10.0.2.0' do
+dhcp_subnet '192.168.9.0' do
   comment 'Listen Subnet Declaration'
-  subnet '10.0.2.0'
-  netmask '255.255.254.0'
+  subnet '192.168.9.0'
+  netmask '255.255.255.0'
 end
 
 # Basic definition
@@ -36,18 +36,25 @@ dhcp_subnet 'overrides' do
     'allow' => ['members of "UnregisteredHosts"', 'members of "OtherHosts"']
   )
   parameters(
-    'ddns-domainname' => 'test.com',
+    'ddns-domainname' => '"test.com"',
     'next-server' => '192.168.0.3'
   )
-  evals ['
-    if exists user-class and option user-class = "iPXE" {
-      filename "bootstrap.ipxe";
-    } else {
-      filename "undionly.kpxe";
-    }']
-  key 'name' => 'test_key', 'algorithm' => 'hmac-sha256', 'secret' => 'test_secret'
+  evals [ 'if exists user-class and option user-class = "iPXE" {
+    filename "bootstrap.ipxe";
+  } else {
+    filename "undionly.kpxe";
+  }' ]
+  key 'name' => 'test_key', 'algorithm' => 'hmac-sha256', 'secret' => 'c7nBOcB2rbJh7lYCI65/PGrS6QdlLMCPe2xunZ4dij8='
   zones [{ 'zone' => 'test', 'primary' => 'test_pri', 'key' => 'test_key' }]
   conf_dir '/etc/dhcp_override'
+end
+
+# DHCPv6 listen subnet
+dhcp_subnet 'dhcpv6_listen' do
+  ip_version :ipv6
+  comment 'Testing DHCPv6 Basic Subnet'
+  subnet '2001:db8:2::'
+  prefix 64
 end
 
 # DHCPv6 basic subnet

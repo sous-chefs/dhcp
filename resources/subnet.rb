@@ -42,13 +42,17 @@ property :template, String,
           }
 
 property :owner, String,
-          default: 'root'
+          default: lazy { dhcpd_user }
 
 property :group, String,
-          default: 'dhcpd'
+          default: lazy { dhcpd_group }
 
 property :mode, String,
           default: '0640'
+
+property :shared_network, [true, false],
+          default: false,
+          description: 'Flag to indicate subnet is used inside a shared_network resource and should not be added to list.conf'
 
 property :subnet, String,
           required: true,
@@ -98,7 +102,6 @@ action :create do
     raise 'netmask is a required property for IPv4' unless new_resource.netmask
   when :ipv6
     raise 'prefix is a required property for IPv6' unless new_resource.prefix
-    raise 'range is a required property for IPv6' unless new_resource.range
   end
 
   template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
@@ -131,7 +134,7 @@ action :create do
     action :create
   end
 
-  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
+  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf") unless new_resource.shared_network
 end
 
 action :delete do

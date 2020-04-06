@@ -32,13 +32,13 @@ property :cookbook, String,
           default: 'dhcp'
 
 property :template, String,
-          default: 'class.conf.erb'
+          default: 'host.conf.erb'
 
 property :owner, String,
-          default: 'root'
+          default: lazy { dhcpd_user }
 
 property :group, String,
-          default: 'dhcpd'
+          default: lazy { dhcpd_group }
 
 property :mode, String,
           default: '0640'

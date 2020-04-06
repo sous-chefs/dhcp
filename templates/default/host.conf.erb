@@ -9,9 +9,9 @@ host <%= @name %> {
   <%= @identifier %>; 
 <% end -%>
 <% if @address -%>  
-  <%= @ip_version.eql?(:ipv6) ? 'fixed-address6' : 'fixed-address' %> <%= @ipaddress %>;
+  <%= @ip_version.eql?(:ipv6) ? 'fixed-address6' : 'fixed-address' %> <%= @address %>;
 <% end -%>
-<% unless nil_or_empty(@parameters) -%>
+<% unless nil_or_empty?(@parameters) -%>
 
   # Parameters
   <% @parameters.sort.each do |parameter, value| -%>
@@ -21,7 +21,7 @@ host <%= @name %> {
 <% if @hostname -%>
   option host-name "<%= @hostname %>";
 <% end -%>
-<% unless nil_or_empty(@options) -%>
+<% unless nil_or_empty?(@options) -%>
 
   # Options
   <% @options.sort.each do |option| -%>

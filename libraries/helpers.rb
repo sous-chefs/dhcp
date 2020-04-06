@@ -7,40 +7,56 @@ module Dhcp
         [property]
       end
 
-      def dhcp_packages
+      def dhcpd_user
+        'root'
+      end
+
+      def dhcpd_group
+        return 'root' if node['platform'].eql?('debian')
+
+        'dhcpd'
+      end
+
+      def dhcpd_packages
         case node['platform_family']
         when 'rhel'
-          if platform_version.to_i < 8
-            %w(dhcp)
-          else
-            %w(dhcp-server)
-          end
+          return %w(dhcp) if node['platform_version'].to_i < 8
+
+          %w(dhcp-server)
         when 'fedora'
           %w(dhcp-server)
         when 'debian'
-          %w(isc-dhcp-server)
+          %w(isc-dhcp-server isc-dhcp-server-ldap)
         end
       end
 
-      def dhcp_service_name
-        case node['platform_family']
-        when 'rhel', 'fedora'
-          'dhcpd'
-        when 'debian'
-          'isc-dhcp-server'
-        end
+      def dhcpd_service_name(ip_version)
+        {
+          'rhel' => {
+            ipv4: 'dhcpd',
+            ipv6: 'dhcpd6',
+          },
+          'fedora' => {
+            ipv4: 'dhcpd',
+            ipv6: 'dhcpd6',
+          },
+          'debian' => {
+            ipv4: 'isc-dhcp-server',
+            ipv6: 'isc-dhcp-server6',
+          },
+        }.fetch(node['platform_family']).fetch(ip_version)
       end
 
-      def dhcp_config_dir
+      def dhcpd_config_dir
         '/etc/dhcp'
       end
 
       def dhcpd_config_file(ip_version)
         case ip_version
         when :ipv4
-          "#{dhcp_config_dir}/dhcpd.conf"
+          "#{dhcpd_config_dir}/dhcpd.conf"
         when :ipv6
-          "#{dhcp_config_dir}/dhcpd6.conf"
+          "#{dhcpd_config_dir}/dhcpd6.conf"
         else
           raise "IP version #{ip_version} is unknown."
         end
@@ -55,9 +71,9 @@ module Dhcp
       def dhcpd_config_includes_directory(ip_version)
         case ip_version
         when :ipv4
-          "#{dhcp_config_dir}/dhcpd.conf.d"
+          "#{dhcpd_config_dir}/dhcpd.conf.d"
         when :ipv6
-          "#{dhcp_config_dir}/dhcpd6.conf.d"
+          "#{dhcpd_config_dir}/dhcpd6.conf.d"
         else
           raise "IP version #{ip_version} is unknown."
         end
@@ -76,18 +92,24 @@ module Dhcp
       end
 
       def dhcpd_lib_dir_options
-        case node['platform_family']
-        when 'rhel', 'fedora'
+        case node['platform']
+        when 'amazon', 'centos', 'fedora', 'rhel'
           {
             'owner' => 'dhcpd',
             'group' => 'dhcpd',
             'mode' => '0755',
           }
-        when 'debian'
+        when 'ubuntu'
           {
             'owner' => 'root',
             'group' => 'dhcpd',
             'mode' => '0775',
+          }
+        when 'debian'
+          {
+            'owner' => 'root',
+            'group' => 'root',
+            'mode' => '0755',
           }
         end
       end
@@ -105,27 +127,34 @@ module Dhcp
 
       def dhcpd_lease_file_options
         case node['platform_family']
-        when 'rhel', 'fedora'
+        when 'amazon', 'centos', 'fedora', 'rhel'
           {
             'owner' => 'dhcpd',
             'group' => 'dhcpd',
             'mode' => '0644',
             'action' => :create_if_missing,
           }
-        when 'debian'
+        when 'ubuntu'
           {
             'owner' => 'root',
             'group' => 'dhcpd',
             'mode' => '0664',
             'action' => :create_if_missing,
           }
+        when 'debian'
+          {
+            'owner' => 'root',
+            'group' => 'root',
+            'mode' => '0644',
+            'action' => :create_if_missing,
+          }
         end
       end
 
       def dhcpd_use_systemd?
-        if (platform_family?('rhel') && platform_version.to_i < 7) ||
-           (platform?('ubuntu') && platform_version.to_i < 14) ||
-           (platform_family?('amazon') && platform_version.to_i < 2)
+        if (platform_family?('rhel') && node['platform_version'].to_i < 7) ||
+           (platform?('ubuntu') && node['platform_version'].to_i < 14) ||
+           (platform_family?('amazon') && node['platform_version'].to_i < 2)
           false
         else
           true
@@ -136,8 +165,8 @@ module Dhcp
         raise 'Invalid ip_version' unless ip_version.is_a?(Symbol) && %i(ipv4 ipv6).include?(ip_version)
         dhcp6 = ip_version.eql?(:ipv6)
 
-        case node['platform_family']
-        when 'rhel', 'fedora'
+        case node['platform']
+        when 'amazon', 'centos', 'fedora', 'rhel'
           {
             'Unit' => {
               'Description' => "DHCP#{dhcp6 ? 'v6' : 'v4'} Server Daemon",
@@ -155,7 +184,7 @@ module Dhcp
             'Service' => {
               'Type' => 'notify',
               'EnvironmentFile' => '-/etc/sysconfig/dhcpd',
-              'ExecStart' => "/usr/sbin/dhcpd -f -cf /etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS",
+              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf /etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS",
               'StandardError' => 'null',
             },
             'Install' => {
@@ -180,14 +209,38 @@ module Dhcp
             'Service' => {
               'EnvironmentFile' => '/etc/default/isc-dhcp-server',
               'RuntimeDirectory' => 'dhcp-server',
-              'ExecStart' => "/usr/sbin/dhcpd -f -cf /etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf -user dhcpd -group dhcpd -pf /run/dhcp-server/dhcpd.pid $INTERFACES",
+              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf /etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf -pf /run/dhcp-server/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.pid $INTERFACES",
+            },
+            'Install' => {
+              'WantedBy' => 'multi-user.target',
+            },
+          }
+        when 'ubuntu'
+          {
+            'Unit' => {
+              'Description' => "ISC DHCP IP#{dhcp6 ? 'v6' : 'v4'} Server",
+              'Documentation' => 'man:dhcpd(8) man:dhcpd.conf(5)',
+              'Wants' => 'network-online.target',
+              'After' => [
+                'network-online.target',
+                'time-sync.target',
+              ],
+              'ConditionPathExists' => [
+                '/etc/default/isc-dhcp-server',
+                "|/etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf",
+              ],
+            },
+            'Service' => {
+              'EnvironmentFile' => '/etc/default/isc-dhcp-server',
+              'RuntimeDirectory' => 'dhcp-server',
+              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf /etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf -user dhcpd -group dhcpd -pf /run/dhcp-server/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.pid $INTERFACES",
             },
             'Install' => {
               'WantedBy' => 'multi-user.target',
             },
           }
         else
-          raise "#{node['platform_family']} is not a supported systemd OS."
+          raise "Platform #{node['platform']} is not a supported systemd OS."
         end
       end
     end

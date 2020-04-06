@@ -35,10 +35,10 @@ property :template, String,
           default: 'group.conf.erb'
 
 property :owner, String,
-          default: 'root'
+          default: lazy { dhcpd_user }
 
 property :group, String,
-          default: 'dhcpd'
+          default: lazy { dhcpd_group }
 
 property :mode, String,
           default: '0640'

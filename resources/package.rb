@@ -18,11 +18,11 @@
 include Dhcp::Cookbook::Helpers
 
 property :packages, [String, Array],
-          default: lazy { dhcp_packages }
+          default: lazy { dhcpd_packages }
 
 action_class do
   def do_action(package_action)
-    package 'ISC DHCPd' do
+    package 'ISC DHCPD' do
       package_name new_resource.packages
 
       action package_action

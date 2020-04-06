@@ -25,20 +25,26 @@ property :ip_version, Symbol,
           default: :ipv4,
           description: 'The IP version, 4 or 6'
 
-property :systemd_unit_content, Hash,
+property :systemd_unit_content, [String, Hash],
           default: lazy { dhcpd_systemd_unit_content(ip_version) },
           description: 'Override the systemd unit file contents'
 
 action_class do
-  def do_action(service_action)
-    service_name = if new_resource.service_name
-                     new_resource.service_name
-                   elsif new_resource.ip_version.eql?(:ipv4)
-                     'dhcpd'
-                   elsif new_resource.ip_version.eql?(:ipv6)
-                     'dhcpd6'
-                   end
+  def service_name
+    if new_resource.service_name
+      new_resource.service_name
+    else
+      dhcpd_service_name(new_resource.ip_version)
+    end
+  end
 
+  def do_service_action(action)
+    with_run_context(:root) { find_resource(:service, service_name).run_action(action) }
+  end
+end
+
+action :create do
+  with_run_context :root do
     if dhcpd_use_systemd?
       systemd_unit "#{service_name}.service" do
         content new_resource.dhcpd_systemd_unit_content(new_resource.ip_version)
@@ -50,23 +56,41 @@ action_class do
     end
 
     service service_name do
-      action service_action
+      delayed_action [ :enable, :start ]
+    end
+  end
+end
+
+action :delete do
+  with_run_context :root do
+    service service_name do
+      action [ :stop, :disable ]
+    end
+
+    if dhcpd_use_systemd?
+      systemd_unit "#{service_name}.service" do
+        action :delete
+      end
     end
   end
 end
 
 action :start do
-  do_action(action)
+  do_service_action(action)
 end
 
 action :stop do
-  do_action(action)
+  do_service_action(action)
+end
+
+action :reload do
+  do_service_action(action)
 end
 
 action :enable do
-  do_action(action)
+  do_service_action(action)
 end
 
 action :disable do
-  do_action(action)
+  do_service_action(action)
 end

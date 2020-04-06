@@ -2,9 +2,9 @@ dhcp_shared_network 'single' do
   subnets(
     '192.168.1.0' => {
       'subnet' => '192.168.1.0',
-      'broadcast' => '192.168.1.255',
       'netmask' => '255.255.255.0',
       'options' => {
+        'broadcast-address' => '192.168.1.255',
         'routers' => '192.168.1.1',
       },
       'pool' => {
@@ -18,9 +18,9 @@ dhcp_shared_network 'multiple' do
   subnets(
     '192.168.2.0' => {
       'subnet' => '192.168.2.0',
-      'broadcast' => '192.168.2.255',
       'netmask' => '255.255.255.0',
       'options' => {
+        'broadcast-address' => '192.168.2.255',
         'routers' => '192.168.2.1',
       },
       'pool' => {
@@ -29,9 +29,9 @@ dhcp_shared_network 'multiple' do
     },
     '192.168.3.0' => {
       'subnet' => '192.168.3.0',
-      'broadcast' => '192.168.3.255',
       'netmask' => '255.255.255.0',
       'options' => {
+        'broadcast-address' => '192.168.3.255',
         'routers' => '192.168.3.1',
       },
       'pool' => {

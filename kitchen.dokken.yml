@@ -2,6 +2,7 @@
 driver:
   name: dokken
   privileged: true
+  chef_version: <%= ENV['CHEF_VERSION'] || '14' %>
 
 transport:
   name: dokken
@@ -18,12 +19,20 @@ platforms:
     driver:
       image: dokken/centos-7
       pid_one_command: /usr/lib/systemd/systemd
+  - name: centos-8
+    driver:
+      image: dokken/centos-8
+      pid_one_command: /usr/lib/systemd/systemd
   - name: fedora-31
     driver:
       image: dokken/fedora-31
       pid_one_command: /usr/lib/systemd/systemd
+  - name: debian-8
+    driver:
+      image: dokken/debian-8
+      pid_one_command: /bin/systemd
       intermediate_instructions:
-        - RUN /usr/bin/yum install libselinux-utils -y
+        - RUN /usr/bin/apt-get update
   - name: debian-10
     driver:
       image: dokken/debian-10
