@@ -3,15 +3,30 @@
 # Do NOT modify this file by hand, changes will be overwritten.
 #
 
-# set this to store vendor strings.
+# The following line populates the lease file with the Vendor Class 
+# Identifier that the client sends.
 set vendor-string = option vendor-class-identifier;
-
 <% unless nil_or_empty?(@failover) -%>
+
 # DHCP failover configuration include
 include "/etc/dhcp/dhcpd.failover.conf";
+<% end -%>
+<% end -%>
+<% unless nil_or_empty?(@parameters) -%>
 
+# Global Parameters
+<% @parameters.sort.each do |key, value| -%>
+<%= key %> <%= value %>;
+<% end -%>
+<% end -%>
+<% unless nil_or_empty?(@options) -%>
+
+# Global Options
+<% @options.sort.each do |key, value| -%>
+option <%= key %> <%= value %>;
 <% end -%>
 <% unless nil_or_empty?(@allow) && nil_or_empty?(@deny) && nil_or_empty?(@ignore) -%>
+
 # Request Control
 <% unless nil_or_empty?(@allow) -%>
 # Allow
@@ -31,23 +46,9 @@ deny <%= deny %>;
 ignore <%= ignore %>;
 <% end -%>
 <% end -%>
-
-<% end -%>
-<% unless nil_or_empty?(@parameters) -%>
-# Global Parameters
-<% @parameters.sort.each do |key, value| -%>
-<%= key %> <%= value %>;
-<% end -%>
-
-<% end -%>
-<% unless nil_or_empty?(@options) -%>
-# Global Options
-<% @options.sort.each do |key, value| -%>
-option <%= key %> <%= value %>;
-<% end -%>
-
 <% end -%>
 <% unless nil_or_empty?(@keys) -%>
+
 # TSIG Keys
 <% @keys.each do |key, data| -%>
 key "<%= key %>" {
@@ -55,9 +56,9 @@ key "<%= key %>" {
   secret "<%= data['secret'] %>";
 };
 <%end -%>
-
 <%end -%>
 <% unless nil_or_empty?(@zones) -%>
+
 # Dynamic DNS Zones
 <% @zones.each do |zone, data| -%>
 zone <%= zone %>. {
@@ -65,26 +66,25 @@ zone <%= zone %>. {
   key "<%= data["key"] %>";
 }
 <% end -%>
-
 <% end -%>
+
 # Includes
 include "<%= @includes_dir %>/classes.d/list.conf";
 include "<%= @includes_dir %>/groups.d/list.conf";
 include "<%= @includes_dir %>/subnets.d/list.conf";
 include "<%= @includes_dir %>/shared_networks.d/list.conf";
 include "<%= @includes_dir %>/hosts.d/list.conf";
-
 <% unless nil_or_empty?(@include_files) -%>
+
 # Custom Includes
 <% @include_files.each do |file| -%>
 include "<%= file %>";
 <% end -%>
-
 <% end -%>
-<% unless @extra_lines.nil? || @extra_lines.empty? -%>
+<% unless nil_or_empty?(@extra_lines) -%>
+
 # User specified extra lines
 <% property_array(@extra_lines).each do |line| -%>
 <%= line %>
 <% end -%>
-
 <% end -%>

@@ -18,20 +18,48 @@
 # limitations under the License.
 #
 
-property :conf_dir, String, default: '/etc/dhcp'
+include Dhcp::Cookbook::Helpers
 
-attr_accessor :subnets
+property :comment, String,
+          description: 'Unparsed comment to add to the configuration file'
 
-def subnet(name, &block)
-  @subnets ||= []
-  s = dhcp_subnet("#{@name}-#{name}", &block)
-  s.action :nothing
-  s.subnet name
-  @subnets << s
-  s
-end
+property :ip_version, Symbol,
+          equal_to: %i(ipv4 ipv6),
+          default: :ipv4,
+          description: 'The IP version, 4 or 6'
 
-action :add do
+property :conf_dir, String,
+          default: lazy { "#{dhcpd_config_includes_directory(ip_version)}/hosts.d" }
+
+property :cookbook, String,
+          default: 'dhcp'
+
+property :template, String,
+          default: 'class.conf.erb'
+
+property :owner, String,
+          default: 'root'
+
+property :group, String,
+          default: 'root'
+
+property :mode, String,
+          default: '0640'
+
+property :subnets, Hash
+
+# attr_accessor :subnets
+
+# def subnet(name, &block)
+#   @subnets ||= []
+#   s = dhcp_subnet("#{@name}-#{name}", &block)
+#   s.action :nothing
+#   s.subnet name
+#   @subnets << s
+#   s
+# end
+
+action :create do
   template "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
     cookbook 'dhcp'
     source 'shared_network.conf.erb'
@@ -42,13 +70,8 @@ action :add do
   end
 end
 
-# action :remove do
-#   with_run_context :root do
-#     file "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
-#       action :delete
-#       notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-#       notifies :send_notification, new_resource, :immediately
-#     end
-#     write_include 'shared_networks.d', new_resource.name
-#   end
-# end
+action :delete do
+  file "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
+    action :delete
+  end
+end

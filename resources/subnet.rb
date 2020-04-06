@@ -36,9 +36,9 @@ property :template, String,
           default: lazy {
             case ip_version
             when :ipv4
-              'dhcpd/subnet.conf.erb'
+              'subnet.conf.erb'
             when :ipv6
-              'dhcpd6/subnet6.conf.erb'
+              'subnet6.conf.erb'
             end
           }
 
@@ -125,7 +125,7 @@ action :create do
 end
 
 action :delete do
-  file "#{new_resource.conf_dir}/subnets.d/#{new_resource.name}.conf" do
+  file "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
     action :delete
   end
 end

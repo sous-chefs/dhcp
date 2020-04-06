@@ -16,38 +16,71 @@
 # limitations under the License.
 #
 
-property :hostname, String
-property :macaddress, String
-property :ipaddress, String
-property :options, Array, default: []
-property :parameters, Array, default: []
-property :conf_dir, String, default: '/etc/dhcp'
+include Dhcp::Cookbook::Helpers
 
-action :add do
-  template "#{new_resource.conf_dir}/hosts.d/#{new_resource.name}.conf" do
-    cookbook 'dhcp'
-    source 'host.conf.erb'
+property :comment, String,
+          description: 'Unparsed comment to add to the configuration file'
+
+property :ip_version, Symbol,
+          equal_to: %i(ipv4 ipv6),
+          default: :ipv4,
+          description: 'The IP version, 4 or 6'
+
+property :conf_dir, String,
+          default: lazy { "#{dhcpd_config_includes_directory(ip_version)}/hosts.d" }
+
+property :cookbook, String,
+          default: 'dhcp'
+
+property :template, String,
+          default: 'class.conf.erb'
+
+property :owner, String,
+          default: 'root'
+
+property :group, String,
+          default: 'root'
+
+property :mode, String,
+          default: '0640'
+
+property :hostname, String
+
+property :identifier, String
+
+property :address, String
+
+property :options, Array
+
+property :parameters, Hash
+
+action :create do
+  template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
+    cookbook new_resource.cookbook
+    source new_resource.template
+
+    owner new_resource.owner
+    group new_resource.group
+    mode new_resource.mode
+
     variables(
       name: new_resource.name,
+      comment: new_resource.comment,
+      ip_version: new_resource.ip_version,
       hostname: new_resource.hostname,
-      macaddress: new_resource.macaddress,
-      ipaddress: new_resource.ipaddress,
+      identifier: new_resource.identifier,
+      address: new_resource.address,
       options: new_resource.options,
       parameters: new_resource.parameters
     )
-    owner 'root'
-    group 'root'
-    mode '0644'
+    helpers(Dhcp::Template::Helpers)
+
+    action :create
   end
 end
 
-action :remove do
-  with_run_context :root do
-    file "#{new_resource.conf_dir}/hosts.d/#{new_resource.name}.conf" do
-      action :delete
-      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-    end
-
-    write_include 'hosts.d', new_resource.name
+action :delete do
+  file "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
+    action :delete
   end
 end

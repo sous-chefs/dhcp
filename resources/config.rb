@@ -33,6 +33,15 @@ property :cookbook, String,
 property :template, String,
           default: 'dhcpd.conf.erb'
 
+property :owner, String,
+          default: 'root'
+
+property :group, String,
+          default: 'root'
+
+property :mode, String,
+          default: '0640'
+
 property :config_failover_file, String,
           default: lazy { dhcpd_failover_config_file(ip_version) },
           description: 'The full path to the DHCP server failover configuration on disk'
@@ -95,6 +104,10 @@ action :create do
         cookbook 'dhcp'
         source 'list.conf.erb'
 
+        owner new_resource.owner
+        group new_resource.group
+        mode new_resource.mode
+
         variables['files'] ||= []
 
         action :nothing
@@ -111,9 +124,9 @@ action :create do
     cookbook new_resource.cookbook
     source new_resource.template
 
-    owner 'root'
-    group 'dhcpd'
-    mode '0640'
+    owner new_resource.owner
+    group new_resource.group
+    mode new_resource.mode
 
     variables(
       includes_dir: dhcpd_config_includes_directory(new_resource.ip_version),
