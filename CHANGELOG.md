@@ -3,6 +3,10 @@
 ## Unreleased
 
 - Migrated to github actions
+- Remodel cookbook as library
+  - Attributes removed
+  - Recipes removed
+- DHCPv6 support
 
 ## 6.1.0 (2019-10-19)
 
