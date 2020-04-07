@@ -67,14 +67,14 @@ property :prefix, Integer,
 property :options, [Hash, Array],
           description: 'Subnet options'
 
-property :parameters, Hash,
+property :parameters, [Hash, Array],
           description: 'Subnet configuration parameters'
 
 property :evals, Array
 
 property :key, Hash
 
-property :zones, Array
+property :zones, Hash
 
 property :allow, Array
 

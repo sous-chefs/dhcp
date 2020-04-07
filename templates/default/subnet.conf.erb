@@ -7,14 +7,14 @@
 subnet <%= @subnet %> netmask <%= @netmask%> {
 <% unless nil_or_empty?(@options) -%>
   # Options
-  <% @options.sort.each do |option, value| -%>
+  <% property_sorted_hash(@options).each do |option, value| -%>
   option <%= option %> <%= value %>;
   <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@parameters) -%>
 
   # Parameters
-  <% @parameters.each do |parameter, value| -%>
+  <% property_sorted_hash(@parameters).each do |parameter, value| -%>
   <%= parameter %> <%= value %>;
   <% end -%>
 <% end -%>
@@ -34,7 +34,7 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
 <% end -%>
 <% unless nil_or_empty?(@key) -%>
 
-  # Keys
+  # Key
   key <%= @key['name'] %> {
     algorithm <%= @key['algorithm'] %>;
     secret "<%= @key['secret'] %>";
@@ -43,10 +43,10 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
 <% unless nil_or_empty?(@zones) -%>
 
   # Zones
-  <% @zones.each do |zone| -%>
-  zone <%= zone['zone'] %> {
-    primary <%= zone['primary'] %>;
-    key <%= zone['key'] %>;
+  <% @zones.each do |zone, options| -%>
+  zone <%= zone %> {
+    primary <%= options['primary'] %>;
+    key <%= options['key'] %>;
   }
   <% end -%>
 <% end -%>
@@ -61,14 +61,14 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
     <% unless nil_or_empty?(pool['options']) -%>
 
     # Options
-    <% pool['options'].sort.each do |option| -%>
+    <% property_sorted_hash(pool['options']).each do |option| -%>
     option <%= option %>;
     <% end -%>
     <% end -%>
     <% unless nil_or_empty?(pool['parameters']) -%>
 
     # Parameters
-    <% pool['parameters'].each do |parameter, value| -%>
+    <% property_sorted_hash(pool['parameters']).each do |parameter, value| -%>
     <%= parameter %> <%= value %>;
     <% end -%>
     <% end -%>

@@ -6,7 +6,7 @@
 # <%= @name -%><% if @comment -%><%= - @comment -%><% end -%>
 group  {
 <% unless nil_or_empty?(@parameters) -%>  
-  <% @parameters.sort.each do |parameter, value| -%>
+  <% property_sorted_hash(@parameters).each do |parameter, value| -%>
   <%= parameter %> <%= value %>;
   <% end -%>
 <% end -%>
@@ -26,8 +26,8 @@ group  {
   <% end -%>
   <% end -%>
   <% if data.key?("options") -%>
-  <% data['options'].sort.each do |option| -%>
-    option <%= option %>;
+  <% property_sorted_hash(data['options']).each do |option, value| -%>
+    option <%= option %> <%= value %>;
   <% end -%>
   <% end -%>
     <%= data["identifier"] %>; 

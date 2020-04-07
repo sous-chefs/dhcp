@@ -45,7 +45,7 @@ dhcp_subnet 'overrides' do
     filename "undionly.kpxe";
   }' ]
   key 'name' => 'test_key', 'algorithm' => 'hmac-sha256', 'secret' => 'c7nBOcB2rbJh7lYCI65/PGrS6QdlLMCPe2xunZ4dij8='
-  zones [{ 'zone' => 'test', 'primary' => 'test_pri', 'key' => 'test_key' }]
+  zones 'test' => { 'primary' => 'test_pri', 'key' => 'test_key' }
   conf_dir '/etc/dhcp_override'
 end
 

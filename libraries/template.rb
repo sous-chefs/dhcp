@@ -12,6 +12,10 @@ module Dhcp
 
         [property]
       end
+
+      def property_sorted_hash(property)
+        property.sort.map { |p| p.is_a?(Array) ? p : p.split(' ') }.to_h
+      end
     end
   end
 end

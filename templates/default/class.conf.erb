@@ -12,7 +12,7 @@ class "<%= @name %>" {
   <% end -%>
   <% unless nil_or_empty?(@options) -%>
 
-  <% @options.each do |value| -%>
+  <% property_sorted_hash(@options).each do |name, value| -%>
   option "<%= @name %>" <%= value %>;
   <% end -%>
   <% end -%>
