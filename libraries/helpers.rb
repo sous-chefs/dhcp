@@ -79,6 +79,23 @@ module Dhcp
         end
       end
 
+      def dhcpd_config_resource_directory(ip_version, resource_type)
+        case resource_type
+        when :dhcp_class
+          "#{dhcpd_config_includes_directory(ip_version)}/classes.d"
+        when :dhcp_group
+          "#{dhcpd_config_includes_directory(ip_version)}/groups.d"
+        when :dhcp_host
+          "#{dhcpd_config_includes_directory(ip_version)}/hosts.d"
+        when :dhcp_shared_network
+          "#{dhcpd_config_includes_directory(ip_version)}/shared_networks.d"
+        when :dhcp_subnet
+          "#{dhcpd_config_includes_directory(ip_version)}/subnets.d"
+        else
+          raise "Invalid resource type #{resource_type}."
+        end
+      end
+
       def dhcpd_config_includes_directories
         %w(groups.d hosts.d subnets.d shared_networks.d classes.d)
       end

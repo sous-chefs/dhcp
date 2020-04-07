@@ -26,7 +26,7 @@ property :ip_version, Symbol,
           description: 'The IP version, 4 or 6'
 
 property :conf_dir, String,
-          default: lazy { "#{dhcpd_config_includes_directory(ip_version)}/classes.d" }
+          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) }
 
 property :cookbook, String,
           default: 'dhcp'
