@@ -38,40 +38,31 @@ action_class do
     end
   end
 
-  def do_service_action(action)
-    with_run_context(:root) { find_resource(:service, service_name).run_action(action) }
+  def do_service_action(resource_action)
+    with_run_context(:root) do
+      edit_resource(:service, service_name) do
+        delayed_action resource_action
+      end
+    end
   end
 end
 
 action :create do
   with_run_context :root do
-    if dhcpd_use_systemd?
-      systemd_unit "#{service_name}.service" do
-        content new_resource.dhcpd_systemd_unit_content(new_resource.ip_version)
-        triggers_reload true
-        verify false
+    edit_resource(:systemd_unit, "#{service_name}.service") do |new_resource|
+      content new_resource.dhcpd_systemd_unit_content(new_resource.ip_version)
+      triggers_reload true
+      verify false
 
-        action :create
-      end
-    end
-
-    service service_name do
-      delayed_action [ :enable, :start ]
-    end
+      action :create
+    end if dhcpd_use_systemd?
   end
 end
 
 action :delete do
+  do_service_action([:stop, :disable])
   with_run_context :root do
-    service service_name do
-      action [ :stop, :disable ]
-    end
-
-    if dhcpd_use_systemd?
-      systemd_unit "#{service_name}.service" do
-        action :delete
-      end
-    end
+    edit_resource(:systemd_unit, "#{service_name}.service").action(:delete) if dhcpd_use_systemd?
   end
 end
 

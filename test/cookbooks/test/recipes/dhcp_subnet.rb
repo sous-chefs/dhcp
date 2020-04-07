@@ -53,7 +53,7 @@ end
 dhcp_subnet 'dhcpv6_listen' do
   ip_version :ipv6
   comment 'Testing DHCPv6 Basic Subnet'
-  subnet '2001:db8:2::'
+  subnet '2001:db8:1::'
   prefix 64
 end
 
@@ -61,7 +61,7 @@ end
 dhcp_subnet 'dhcpv6_basic' do
   ip_version :ipv6
   comment 'Testing DHCPv6 Basic Subnet'
-  subnet '2001:db8:1:1::'
+  subnet '2001:db8:2:1::'
   prefix 64
   options(
     'domain-name' => '"test.domain.local"',
@@ -72,6 +72,6 @@ dhcp_subnet 'dhcpv6_basic' do
     'default-lease-time' => 28800
   )
   range [
-    '2001:db8:1:1::1:0/112',
+    '2001:db8:2:1::1:0/112',
   ]
 end

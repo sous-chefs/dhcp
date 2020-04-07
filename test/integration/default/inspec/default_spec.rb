@@ -1,18 +1,21 @@
 
 case os[:family]
-when 'redhat'
+when 'redhat', 'centos'
   package_name = if os[:release].to_i < 8
                    'dhcp'
                  else
                    'dhcp-server'
                  end
-  service_name = %w(dhcpd dhcpd6)
+  service_name = %w(dhcpd)
+  service_name.push('dhcpd6') if interface('eth0').ipv6_address?
 when 'fedora'
   package_name = 'dhcp-server'
-  service_name = %w(dhcpd dhcpd6)
+  service_name = %w(dhcpd)
+  service_name.push('dhcpd6') if interface('eth0').ipv6_address?
 when 'debian', 'ubuntu'
   package_name = 'isc-dhcp-server'
-  service_name = %w(isc-dhcp-server isc-dhcp-server6)
+  service_name = %w(isc-dhcp-server)
+  service_name.push('isc-dhcp-server6') if interface('eth0').ipv6_address?
 end
 
 describe package(package_name) do
@@ -26,8 +29,22 @@ service_name.each do |service|
   end
 end
 
-describe processes('dhcpd') do
-  its('states') { should eq %w(Ss Ss) }
+describe command('/usr/sbin/dhcpd -t -4 -cf /etc/dhcp/dhcpd.conf') do
+  its('exit_status') { should eq 0 }
+end
+
+describe command('/usr/sbin/dhcpd -t -6 -cf /etc/dhcp/dhcpd6.conf') do
+  its('exit_status') { should eq 0 }
+end
+
+if interface('eth0').ipv6_address?
+  describe processes('dhcpd') do
+    its('states') { should eq %w(Ss Ss) }
+  end
+else
+  describe processes('dhcpd') do
+    its('states') { should eq %w(Ss) }
+  end
 end
 
 describe port(67) do
@@ -40,7 +57,7 @@ describe port(547) do
   it { should be_listening }
   its('protocols') { should include 'udp' }
   its('processes') { should include 'dhcpd' }
-end
+end if interface('eth0').ipv6_address?
 
 describe file('/etc/dhcp/dhcpd.conf') do
   it { should exist }

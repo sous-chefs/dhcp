@@ -17,8 +17,13 @@
 
 dhcp_service 'dhcpd' do
   ip_version :ipv4
+  action [:create, :enable, :start]
 end
+
+require 'socket'
+ipv6_available = Socket.getifaddrs.select { |addr_info| addr_info.addr.ipv6? }.count > 0
 
 dhcp_service 'dhcpd6' do
   ip_version :ipv6
+  action ipv6_available ? [:create, :enable, :start] : [:create, :enable]
 end
