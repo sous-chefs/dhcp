@@ -6,27 +6,9 @@
 # <%= @name -%><% if @comment -%><%= - @comment -%><% end -%>
 subnet6 <%= @subnet %>/<%= @prefix %> {
 <% unless nil_or_empty?(@range) -%>
+  # Ranges
   <% property_array(@range).each do |range| -%>
   range6 <%= range %>;
-  <% end -%>
-<% end -%>
-<% unless nil_or_empty?(@allow) -%>
-
-  <% property_array(@allow).each do |allowed| -%>
-  allow <%= allowed %>;
-  <% end -%>
-<% end -%>
-<% unless nil_or_empty?(@deny) -%>
-
-  <% property_array(@deny).each do |denied| -%>
-  deny <%= denied %>;
-  <% end -%>
-<% end -%>
-<% unless nil_or_empty?(@options) -%>
-
-  # Options
-  <% property_sorted_hash(@options).each do |option, value| -%>
-  option <%= option %> <%= value %>;
   <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@parameters) -%>
@@ -36,6 +18,27 @@ subnet6 <%= @subnet %>/<%= @prefix %> {
   <%= parameter %> <%= value %>;
   <% end -%>
 <% end -%>
+<% unless nil_or_empty?(@options) -%>
+
+  # Options
+  <% property_sorted_hash(@options).each do |option, value| -%>
+  option <%= option %> <%= value %>;
+  <% end -%>
+<% end -%>
+<% unless nil_or_empty?(@allow) -%>
+
+  # Allow Access Control
+  <% property_array(@allow).each do |allowed| -%>
+  allow <%= allowed %>;
+  <% end -%>
+<% end -%>
+<% unless nil_or_empty?(@deny) -%>
+
+  # Deny Access Control
+  <% property_array(@deny).each do |denied| -%>
+  deny <%= denied %>;
+  <% end -%>
+<% end -%>
 <% unless nil_or_empty?(@extra_lines) -%>
 
   # Extra Lines
@@ -43,8 +46,8 @@ subnet6 <%= @subnet %>/<%= @prefix %> {
   <%= line %>
   <% end -%>
 <% end -%>
-
 <% unless nil_or_empty?(@evals) -%>
+
   # Evals
   <% @evals.sort.each do |eval| -%>
   <%= eval %>
@@ -54,18 +57,23 @@ subnet6 <%= @subnet %>/<%= @prefix %> {
 <% unless nil_or_empty?(@pool) -%>
 <% property_array(@pool).each do |pool| -%>
   pool6 {
-  <% unless @ranges.nil? || @ranges.empty? -%>
-    <% pool['ranges'].each do |range| -%>
+  <% unless nil_or_empty?(pool['range']) -%>
+    # Ranges
+    <% pool['range'].sort.each do |range| -%>
     range6 <%= range %>;
     <% end -%>
   <% end -%>
-  <% unless @allow.nil? || @allow.empty? -%>
-    <% pool['allow'].each do |allowed| -%>
+  <% unless nil_or_empty?(@allow) -%>
+
+    # Allow Access Control
+    <% pool['allow'].sort.each do |allowed| -%>
     allow <%= allowed %>;
     <% end -%>
   <% end -%>
-  <% unless @deny.nil? || @deny.empty? -%>
-    <% pool['deny'].each do |denied| -%>
+  <% unless nil_or_empty?(@deny) -%>
+
+    # Deny Access Control
+    <% pool['deny'].sort.each do |denied| -%>
     deny <%= denied %>;
     <% end -%>
   <% end -%>

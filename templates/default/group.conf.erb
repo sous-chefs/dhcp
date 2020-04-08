@@ -10,29 +10,37 @@ group  {
   <%= parameter %> <%= value %>;
   <% end -%>
 <% end -%>
+<% unless nil_or_empty?(@options) -%>
+
+  <% property_sorted_hash(@options).each do |option, value| -%>
+  <%= option %> <%= value %>;
+  <% end -%>
+<% end -%>
 <% unless nil_or_empty?(@evals) -%>  
 
-<% @evals.sort.each do |eval| -%>
+  <% @evals.sort.each do |eval| -%>
   <%= eval %>
-<% end -%>
+  <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@evals) -%>
 
 <% @evals.sort.each do |host, data| -%>
   host <%= host %> {
+    <%= data["identifier"] %>;
+  <% if data.key?("ip") -%>
+    <%= @ip_version.eql?(:ipv6) ? 'fixed-address6' : 'fixed-address' %> <%= data["ip"] %>;
+  <% end -%>
   <% if data.key?("parameters") -%>
-  <% data['parameters'].sort.each do |parameter, value| -%>
-    <%= parameter %>;
+
+  <% property_sorted_hash(data['parameters']).each do |parameter, value| -%>
+    <%= parameter %> <%= value %>;
   <% end -%>
   <% end -%>
   <% if data.key?("options") -%>
+
   <% property_sorted_hash(data['options']).each do |option, value| -%>
     option <%= option %> <%= value %>;
   <% end -%>
-  <% end -%>
-    <%= data["identifier"] %>; 
-  <% if data.key?("ip") -%>  
-    <%= @ip_version.eql?(:ipv6) ? 'fixed-address6' : 'fixed-address' %> <%= data["ip"] %>;
   <% end -%>
   }
 <% end -%>

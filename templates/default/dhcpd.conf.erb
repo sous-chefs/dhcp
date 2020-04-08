@@ -14,15 +14,15 @@ include "/etc/dhcp/dhcpd.failover.conf";
 <% unless nil_or_empty?(@parameters) -%>
 
 # Global Parameters
-<% @parameters.sort.each do |key, value| -%>
-<%= key %> <%= value %>;
+<% property_sorted_hash(@parameters).each do |parameter, value| -%>
+<%= parameter %> <%= value %>;
 <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@options) -%>
 
 # Global Options
-<% @options.sort.each do |key, value| -%>
-option <%= key %> <%= value %>;
+<% property_sorted_hash(@options).each do |option, value| -%>
+option <%= option %> <%= value %>;
 <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@allow) && nil_or_empty?(@deny) && nil_or_empty?(@ignore) -%>

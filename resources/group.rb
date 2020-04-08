@@ -43,7 +43,9 @@ property :group, String,
 property :mode, String,
           default: '0640'
 
-property :parameters, Hash
+property :parameters, [Hash, Array]
+
+property :options, [Hash, Array]
 
 property :evals, Array
 
@@ -67,6 +69,7 @@ action :create do
       comment: new_resource.comment,
       ip_version: new_resource.ip_version,
       parameters: new_resource.parameters,
+      options: new_resource.options,
       evals: new_resource.evals,
       hosts: new_resource.hosts
     )

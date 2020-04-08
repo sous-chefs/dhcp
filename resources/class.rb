@@ -45,9 +45,9 @@ property :mode, String,
 
 property :match, String, required: true
 
-property :vendor_option_space, String
+property :parameters, [Hash, Array]
 
-property :options, Array
+property :options, [Hash, Array]
 
 property :subclass, Array
 
@@ -68,8 +68,8 @@ action :create do
       name: new_resource.name,
       comment: new_resource.comment,
       match: new_resource.match,
+      parameters: new_resource.parameters,
       options: new_resource.options,
-      vendor_option_space: new_resource.vendor_option_space,
       subclasses: new_resource.subclass
     )
     helpers(Dhcp::Cookbook::TemplateHelpers)

@@ -18,9 +18,6 @@ host <%= @name %> {
   <%= parameter -%> <%= value -%>;
   <% end -%>
 <% end -%>
-<% if @hostname -%>
-  option host-name "<%= @hostname %>";
-<% end -%>
 <% unless nil_or_empty?(@options) -%>
 
   # Options

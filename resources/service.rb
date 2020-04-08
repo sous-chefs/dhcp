@@ -16,14 +16,14 @@
 #
 include Dhcp::Cookbook::Helpers
 
-property :service_name, String,
-          coerce: proc { |s| "#{s}.service" },
-          description: 'Override the default service names'
-
 property :ip_version, Symbol,
           equal_to: %i(ipv4 ipv6),
           default: :ipv4,
           description: 'The IP version, 4 or 6'
+
+property :service_name, String,
+          coerce: proc { |s| "#{s}.service" },
+          description: 'Override the default service names'
 
 property :systemd_unit_content, [String, Hash],
           default: lazy { dhcpd_systemd_unit_content(ip_version) },

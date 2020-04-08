@@ -6,14 +6,16 @@
 # <%= @name -%><% if @comment -%><%= - @comment -%><% end -%>
 class "<%= @name %>" {
   match <%= @match %>;
-  <% unless nil_or_empty?(@vendor_option_space) -%>
+  <% unless nil_or_empty?(@parameters) -%>
 
-  vendor-option-space <%= @vendor_option_space %>;
+  <% property_sorted_hash(@parameters).each do |parameter, value| -%>
+  "<%= @parameter %>" <%= value %>;
+  <% end -%>
   <% end -%>
   <% unless nil_or_empty?(@options) -%>
 
-  <% property_sorted_hash(@options).each do |name, value| -%>
-  option "<%= @name %>" <%= value %>;
+  <% property_sorted_hash(@options).each do |option, value| -%>
+  option "<%= @option %>" <%= value %>;
   <% end -%>
   <% end -%>
 }

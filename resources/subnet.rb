@@ -64,11 +64,11 @@ property :netmask, String,
 property :prefix, Integer,
           description: 'Subnet network prefix, required for IPv6'
 
-property :options, [Hash, Array],
-          description: 'Subnet options'
-
 property :parameters, [Hash, Array],
           description: 'Subnet configuration parameters'
+
+property :options, [Hash, Array],
+          description: 'Subnet options'
 
 property :evals, Array
 
@@ -118,8 +118,8 @@ action :create do
       subnet: new_resource.subnet,
       netmask: new_resource.netmask,
       prefix: new_resource.prefix,
-      options: new_resource.options,
       parameters: new_resource.parameters,
+      options: new_resource.options,
       evals: new_resource.evals,
       key: new_resource.key,
       zones: new_resource.zones,

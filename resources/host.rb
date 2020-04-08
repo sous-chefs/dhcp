@@ -43,15 +43,13 @@ property :group, String,
 property :mode, String,
           default: '0640'
 
-property :hostname, String
-
 property :identifier, String
 
 property :address, String
 
-property :options, Array
+property :parameters, [Hash, Array]
 
-property :parameters, Hash
+property :options, [Hash, Array]
 
 action_class do
   include Dhcp::Cookbook::ResourceHelpers
@@ -70,11 +68,10 @@ action :create do
       name: new_resource.name,
       comment: new_resource.comment,
       ip_version: new_resource.ip_version,
-      hostname: new_resource.hostname,
       identifier: new_resource.identifier,
       address: new_resource.address,
-      options: new_resource.options,
-      parameters: new_resource.parameters
+      parameters: new_resource.parameters,
+      options: new_resource.options
     )
     helpers(Dhcp::Cookbook::TemplateHelpers)
 

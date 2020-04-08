@@ -62,10 +62,10 @@ property :deny, Array
 
 property :ignore, Array
 
-property :parameters, Hash,
+property :parameters, [Hash, Array],
           description: 'Global parameters'
 
-property :options, Hash,
+property :options, [Hash, Array],
           description: 'Global options'
 
 property :keys, Hash,
