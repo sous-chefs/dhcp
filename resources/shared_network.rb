@@ -26,24 +26,31 @@ property :ip_version, Symbol,
           description: 'The IP version, 4 or 6'
 
 property :conf_dir, String,
-          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) }
+          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) },
+          description: 'Directory to create configuration file in'
 
 property :cookbook, String,
-          default: 'dhcp'
+          default: 'dhcp',
+          description: 'Template source cookbook'
 
 property :template, String,
-          default: 'shared_network.conf.erb'
+          default: 'shared_network.conf.erb',
+          description: 'Template source file'
 
 property :owner, String,
-          default: lazy { dhcpd_user }
+          default: lazy { dhcpd_user },
+          description: 'Generated file owner'
 
 property :group, String,
-          default: lazy { dhcpd_group }
+          default: lazy { dhcpd_group },
+          description: 'Generated file group'
 
 property :mode, String,
-          default: '0640'
+          default: '0640',
+          description: 'Generated file mode'
 
-property :subnets, Hash
+property :subnets, Hash,
+          description: 'Shared subnets configuration hash'
 
 action_class do
   include Dhcp::Cookbook::ResourceHelpers

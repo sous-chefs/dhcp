@@ -26,30 +26,40 @@ property :ip_version, Symbol,
           description: 'The IP version, 4 or 6'
 
 property :conf_dir, String,
-          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) }
+          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) },
+          description: 'Directory to create configuration file in'
 
 property :cookbook, String,
-          default: 'dhcp'
+          default: 'dhcp',
+          description: 'Template source cookbook'
 
 property :template, String,
-          default: 'host.conf.erb'
+          default: 'host.conf.erb',
+          description: 'Template source file'
 
 property :owner, String,
-          default: lazy { dhcpd_user }
+          default: lazy { dhcpd_user },
+          description: 'Generated file owner'
 
 property :group, String,
-          default: lazy { dhcpd_group }
+          default: lazy { dhcpd_group },
+          description: 'Generated file group'
 
 property :mode, String,
-          default: '0640'
+          default: '0640',
+          description: 'Generated file mode'
 
-property :identifier, String
+property :identifier, String,
+          description: 'Host identifier, usually MAC or DHCID'
 
-property :address, String
+property :address, String,
+          description: 'Host assigned address'
 
-property :parameters, [Hash, Array]
+property :parameters, [Hash, Array],
+          description: 'Host parameters'
 
-property :options, [Hash, Array]
+property :options, [Hash, Array],
+          description: 'Host options'
 
 action_class do
   include Dhcp::Cookbook::ResourceHelpers

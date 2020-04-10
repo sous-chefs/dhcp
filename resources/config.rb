@@ -56,11 +56,14 @@ property :lease_file, String,
           default: lazy { dhcpd_lease_file(ip_version) },
           description: 'The full path to the DHCP server leases file on disk'
 
-property :allow, Array
+property :allow, Array,
+          description: 'Allow access control'
 
-property :deny, Array
+property :deny, Array,
+          description: 'Deny access control'
 
-property :ignore, Array
+property :ignore, Array,
+          description: 'Ignore access control'
 
 property :parameters, [Hash, Array],
           description: 'Global parameters'
@@ -68,14 +71,17 @@ property :parameters, [Hash, Array],
 property :options, [Hash, Array],
           description: 'Global options'
 
+property :evals, Array,
+          description: 'Global conditional eval statements'
+
 property :keys, Hash,
           description: 'TSIG keys'
 
 property :zones, Hash,
-          description: 'Dynamic DNS zone configuration'
+          description: 'Dynamic DNS zones'
 
 property :hooks, Hash,
-          description: 'Server event configuration statements'
+          description: 'Server event action configuration'
 
 property :failover, Hash,
           description: 'DHCP failover configuration'
@@ -133,6 +139,7 @@ action :create do
       ignore: new_resource.ignore,
       parameters: new_resource.parameters,
       options: new_resource.options,
+      evals: new_resource.evals,
       keys: new_resource.keys,
       zones: new_resource.zones,
       hooks: new_resource.hooks,

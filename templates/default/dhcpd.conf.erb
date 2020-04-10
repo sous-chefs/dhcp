@@ -25,6 +25,13 @@ include "/etc/dhcp/dhcpd.failover.conf";
 option <%= option %> <%= value %>;
 <% end -%>
 <% end -%>
+<% unless nil_or_empty?(@evals) -%>  
+
+# Evals
+<% @evals.sort.each do |eval| -%>
+<%= eval %>
+<% end -%>
+<% end -%>
 <% unless nil_or_empty?(@allow) && nil_or_empty?(@deny) && nil_or_empty?(@ignore) -%>
 
 # Request Control

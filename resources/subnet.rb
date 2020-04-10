@@ -26,10 +26,12 @@ property :ip_version, Symbol,
           description: 'The IP version, 4 or 6'
 
 property :conf_dir, String,
-          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) }
+          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) },
+          description: 'Directory to create configuration file in'
 
 property :cookbook, String,
-          default: 'dhcp'
+          default: 'dhcp',
+          description: 'Template source cookbook'
 
 property :template, String,
           default: lazy {
@@ -39,16 +41,20 @@ property :template, String,
             when :ipv6
               'subnet6.conf.erb'
             end
-          }
+          },
+          description: 'Template source file'
 
 property :owner, String,
-          default: lazy { dhcpd_user }
+          default: lazy { dhcpd_user },
+          description: 'Generated file owner'
 
 property :group, String,
-          default: lazy { dhcpd_group }
+          default: lazy { dhcpd_group },
+          description: 'Generated file group'
 
 property :mode, String,
-          default: '0640'
+          default: '0640',
+          description: 'Generated file mode'
 
 property :shared_network, [true, false],
           default: false,
@@ -70,15 +76,20 @@ property :parameters, [Hash, Array],
 property :options, [Hash, Array],
           description: 'Subnet options'
 
-property :evals, Array
+property :evals, Array,
+          description: 'Subnet conditional eval statements'
 
-property :key, Hash
+property :key, Hash,
+          description: 'Subnet TSIG keys'
 
-property :zones, Hash
+property :zones, Hash,
+          description: 'Subnet dynamic DNS zones'
 
-property :allow, Array
+property :allow, Array,
+          description: 'Subnet allow access control'
 
-property :deny, Array
+property :deny, Array,
+          description: 'Subnet deny access control'
 
 property :extra_lines, Array,
           description: 'Subnet additional configuration lines'
