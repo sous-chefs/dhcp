@@ -40,7 +40,7 @@ describe 'dhcp_config' do
         .with_content(/authoritative/)
         .with_content(/default-lease-time 7200/)
         .with_content(/option domain-name-servers 8.8.8.8;/)
-        .with_content(%r{include "/etc/dhcp/dhcpd.conf.d/classes.d/list.conf";})
+        .with_content(%r{include "/etc/dhcp/dhcpd.d/classes.d/list.conf";})
     end
   end
 
@@ -71,7 +71,7 @@ describe 'dhcp_config' do
         .with_content(/authoritative/)
         .with_content(/default-lease-time 7200/)
         .with_content(/option dhcp6.name-servers 2001:4860:4860::8888, 2001:4860:4860::8844;/)
-        .with_content(%r{include "/etc/dhcp/dhcpd6.conf.d/classes.d/list.conf";})
+        .with_content(%r{include "/etc/dhcp/dhcpd6.d/classes.d/list.conf";})
     end
   end
 end

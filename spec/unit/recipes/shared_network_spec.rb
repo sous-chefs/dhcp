@@ -24,12 +24,12 @@ describe 'dhcp_shared_network' do
     end
 
     it 'Creates the shared network configuration file correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/shared_networks.d/single.conf')
-        .with_content(%r{include "/etc/dhcp/dhcpd.conf.d/shared_networks.d/single_sharedsubnet_192.168.1.0.conf";})
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/shared_networks.d/single.conf')
+        .with_content(%r{include "/etc/dhcp/dhcpd.d/shared_networks.d/single_sharedsubnet_192.168.1.0.conf";})
     end
 
     it 'Creates the nested subnet configuration file correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/shared_networks.d/single_sharedsubnet_192.168.1.0.conf')
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/shared_networks.d/single_sharedsubnet_192.168.1.0.conf')
         .with_content(/subnet 192.168.1.0 netmask 255.255.255.0 {/)
         .with_content(/range 192.168.1.20 192.168.1.30;/)
     end
@@ -69,16 +69,16 @@ describe 'dhcp_shared_network' do
     end
 
     it 'Creates the shared network configuration file correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/shared_networks.d/multiple.conf')
-        .with_content(%r{include "/etc/dhcp/dhcpd.conf.d/shared_networks.d/multiple_sharedsubnet_192.168.2.0.conf";})
-        .with_content(%r{include "/etc/dhcp/dhcpd.conf.d/shared_networks.d/multiple_sharedsubnet_192.168.3.0.conf";})
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/shared_networks.d/multiple.conf')
+        .with_content(%r{include "/etc/dhcp/dhcpd.d/shared_networks.d/multiple_sharedsubnet_192.168.2.0.conf";})
+        .with_content(%r{include "/etc/dhcp/dhcpd.d/shared_networks.d/multiple_sharedsubnet_192.168.3.0.conf";})
     end
 
     it 'Creates the nested subnet configuration files correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/shared_networks.d/multiple_sharedsubnet_192.168.2.0.conf')
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/shared_networks.d/multiple_sharedsubnet_192.168.2.0.conf')
         .with_content(/subnet 192.168.2.0 netmask 255.255.255.0 {/)
         .with_content(/range 192.168.2.20 192.168.2.30;/)
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/shared_networks.d/multiple_sharedsubnet_192.168.3.0.conf')
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/shared_networks.d/multiple_sharedsubnet_192.168.3.0.conf')
         .with_content(/subnet 192.168.3.0 netmask 255.255.255.0 {/)
         .with_content(/option broadcast-address 192.168.3.255;/)
         .with_content(/range 192.168.3.40 192.168.3.50;/)

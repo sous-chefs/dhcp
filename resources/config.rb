@@ -92,6 +92,13 @@ property :include_files, Array,
 property :extra_lines, [String, Array],
           description: 'Extra lines to append to the main configuration file'
 
+property :env_file, String,
+          default: lazy { dhcpd_env_file },
+          description: 'Configuration file lines for the DHCP environment'
+
+property :env_file_lines, [String, Array],
+          description: 'Configuration file lines for the DHCP environment file'
+
 action_class do
   include Dhcp::Cookbook::ResourceHelpers
 end
@@ -148,6 +155,22 @@ action :create do
 
     action :create
   end
+
+  template new_resource.env_file do
+    cookbook 'dhcp'
+    source 'dhcpd-env.erb'
+
+    owner new_resource.owner
+    group new_resource.group
+    mode new_resource.mode
+
+    variables(
+      lines: new_resource.env_file_lines
+    )
+    helpers(Dhcp::Cookbook::TemplateHelpers)
+
+    action :create
+  end if new_resource.env_file
 
   if new_resource.failover
     template new_resource.config_failover_file do

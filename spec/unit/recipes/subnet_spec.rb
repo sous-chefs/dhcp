@@ -14,7 +14,7 @@ describe 'dhcp_subnet' do
     end
 
     it 'Creates the subnet configuration file correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/subnets.d/192.168.9.0.conf')
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/subnets.d/192.168.9.0.conf')
         .with_content(/# 192.168.9.0 - Listen Subnet Declaration/)
         .with_content(/subnet 192.168.9.0 netmask 255.255.255.0 {\n}/)
     end

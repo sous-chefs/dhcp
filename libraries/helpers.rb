@@ -1,12 +1,6 @@
 module Dhcp
   module Cookbook
     module Helpers
-      def property_array(property)
-        return property if property.is_a?(Array)
-
-        [property]
-      end
-
       def dhcpd_user
         'root'
       end
@@ -19,7 +13,7 @@ module Dhcp
 
       def dhcpd_packages
         case node['platform_family']
-        when 'rhel'
+        when 'rhel', 'amazon'
           return %w(dhcp) if node['platform_version'].to_i < 8
 
           %w(dhcp-server)
@@ -31,20 +25,18 @@ module Dhcp
       end
 
       def dhcpd_service_name(ip_version)
-        {
-          'rhel' => {
+        case node['platform_family']
+        when 'amazon', 'rhel', 'fedora'
+          {
             ipv4: 'dhcpd',
             ipv6: 'dhcpd6',
-          },
-          'fedora' => {
-            ipv4: 'dhcpd',
-            ipv6: 'dhcpd6',
-          },
-          'debian' => {
+          }
+        when 'debian'
+          {
             ipv4: 'isc-dhcp-server',
             ipv6: 'isc-dhcp-server6',
-          },
-        }.fetch(node['platform_family']).fetch(ip_version)
+          }
+        end.fetch(ip_version)
       end
 
       def dhcpd_config_dir
@@ -68,12 +60,23 @@ module Dhcp
         nil
       end
 
+      def dhcpd_env_file
+        case node['platform_family']
+        when 'rhel', 'amazon', 'fedora'
+          '/etc/sysconfig/dhcpd'
+        when 'debian'
+          '/etc/default/isc-dhcp-server'
+        else
+          raise "dhcpd_env_file: Unsupported platform family #{node['platform_family']}."
+        end
+      end
+
       def dhcpd_config_includes_directory(ip_version)
         case ip_version
         when :ipv4
-          "#{dhcpd_config_dir}/dhcpd.conf.d"
+          "#{dhcpd_config_dir}/dhcpd.d"
         when :ipv6
-          "#{dhcpd_config_dir}/dhcpd6.conf.d"
+          "#{dhcpd_config_dir}/dhcpd6.d"
         else
           raise "IP version #{ip_version} is unknown."
         end

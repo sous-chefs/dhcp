@@ -12,7 +12,7 @@ describe 'dhcp_class' do
     end
 
     it 'Creates the class configuration file correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/classes.d/BlankClass.conf')
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/classes.d/BlankClass.conf')
         .with_content(/class "BlankClass" {/)
         .with_content(/  match hardware;/)
     end
@@ -30,7 +30,7 @@ describe 'dhcp_class' do
     end
 
     it 'Creates the class configuration file correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/classes.d/RegisteredHosts.conf')
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/classes.d/RegisteredHosts.conf')
         .with_content(/class "RegisteredHosts" {/)
         .with_content(/  match hardware;/)
         .with_content(/subclass "RegisteredHosts" 1:10:bf:48:42:55:01;/)

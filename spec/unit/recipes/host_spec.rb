@@ -14,7 +14,7 @@ describe 'dhcp_host' do
     end
 
     it 'Creates the class configuration file correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd.conf.d/hosts.d/Test-IPv4-Host.conf')
+      is_expected.to render_file('/etc/dhcp/dhcpd.d/hosts.d/Test-IPv4-Host.conf')
         .with_content(/host Test-IPv4-Host {/)
         .with_content(/hardware ethernet 00:53:00:00:00:01;/)
         .with_content(/option host-name test-ipv4-host;/)
@@ -32,7 +32,7 @@ describe 'dhcp_host' do
     end
 
     it 'Creates the class configuration file correctly' do
-      is_expected.to render_file('/etc/dhcp/dhcpd6.conf.d/hosts.d/Test-IPv6-Host.conf')
+      is_expected.to render_file('/etc/dhcp/dhcpd6.d/hosts.d/Test-IPv6-Host.conf')
         .with_content(/host Test-IPv6-Host {/)
         .with_content(/host-identifier option dhcp6.client-id 00:53:00:00:00:01:a4:65:b7:c8;/)
         .with_content(/option host-name test-ipv6-host;/)
