@@ -40,11 +40,16 @@ jobs:
     strategy:
       matrix:
         os:
-          - 'debian-8'
+          - 'centos-6'
           - 'centos-7'
-          - 'ubuntu-1604'
+          - 'centos-8'
+          - 'fedora-31'
+          - 'ubuntu-1804'
+          - 'debian-8'
+          - 'debian-10'
         suite:
           - 'default'
+          - 'disabled'
       fail-fast: false
 
     steps:

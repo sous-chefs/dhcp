@@ -95,4 +95,6 @@ action :delete do
   file "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
     action :delete
   end
+
+  remove_from_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
 end

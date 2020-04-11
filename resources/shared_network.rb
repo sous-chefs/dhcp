@@ -60,7 +60,7 @@ action :create do
   subnets_include = []
 
   new_resource.subnets.each do |subnet, properties|
-    sr = dhcp_subnet "#{new_resource.name}_sharedsubnet_#{subnet}" do
+    sr = edit_resource(:dhcp_subnet, "#{new_resource.name}_sharedsubnet_#{subnet}") do
       owner new_resource.owner
       group new_resource.group
       mode new_resource.mode
@@ -102,4 +102,6 @@ action :delete do
   file "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
     action :delete
   end
+
+  remove_from_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
 end

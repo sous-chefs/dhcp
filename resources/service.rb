@@ -74,6 +74,10 @@ action :stop do
   do_service_action(action)
 end
 
+action :restart do
+  do_service_action(action)
+end
+
 action :reload do
   do_service_action(action)
 end

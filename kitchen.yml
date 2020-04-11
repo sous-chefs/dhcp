@@ -28,3 +28,7 @@ suites:
   - name: default
     run_list:
       - recipe[test::default]
+  - name: delete
+    run_list:
+      - recipe[test::default]
+      - recipe[test::config_delete]

@@ -94,13 +94,10 @@ property :extra_lines, [String, Array],
 
 action_class do
   include Dhcp::Cookbook::ResourceHelpers
-  include Dhcp::Cookbook::TemplateHelpers
 end
 
 action :create do
-  if new_resource.failover && new_resource.ip_version.eql?(:ipv6)
-    raise 'DHCP failover is only supported for IPv4'
-  end
+  raise 'DHCP failover is only supported for IPv4' if new_resource.failover && new_resource.ip_version.eql?(:ipv6)
 
   directory new_resource.config_includes_directory do
     owner new_resource.owner
@@ -152,7 +149,7 @@ action :create do
     action :create
   end
 
-  unless nil_or_empty?(new_resource.failover)
+  if new_resource.failover
     template new_resource.config_failover_file do
       cookbook 'dhcp'
       source 'dhcpd.failover.conf.erb'
@@ -172,9 +169,11 @@ action :create do
 end
 
 action :delete do
-  %w(config_file config_failover_file).each do |file|
-    file new_resource.send(file) do
-      action :delete
-    end
+  file new_resource.config_file do
+    action :delete
   end
+
+  file new_resource.config_failover_file do
+    action :delete
+  end if new_resource.ip_version.eql?(:ipv4)
 end
