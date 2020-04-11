@@ -27,6 +27,10 @@ platforms:
     driver:
       image: dokken/fedora-31
       pid_one_command: /usr/lib/systemd/systemd
+  - name: amazonlinux-2
+    driver:
+      image: dokken/amazonlinux-2
+      pid_one_command: /usr/lib/systemd/systemd
   - name: debian-8
     driver:
       image: dokken/debian-8
@@ -48,6 +52,12 @@ platforms:
   - name: ubuntu-18.04
     driver:
       image: dokken/ubuntu-18.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+  - name: ubuntu-19.10
+    driver:
+      image: dokken/ubuntu-19.10
       pid_one_command: /bin/systemd
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
