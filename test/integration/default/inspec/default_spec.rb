@@ -37,7 +37,8 @@ describe command('/usr/sbin/dhcpd -t -6 -cf /etc/dhcp/dhcpd6.conf') do
   its('exit_status') { should eq 0 }
 end
 
-if interface('eth0').ipv6_address?
+# if interface('eth0').ipv6_address? - Using bodge due to <https://github.com/inspec/inspec/issues/4928>
+if command('ip addr show dev eth0 | grep inet6').exit_status.eql?(0)
   describe processes('dhcpd') do
     its('states') { should eq %w(Ss Ss) }
   end
