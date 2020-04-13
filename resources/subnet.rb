@@ -30,8 +30,6 @@ property :zones, Array, default: []
 property :conf_dir, String, default: '/etc/dhcp'
 property :next_server, String
 
-include Chef::DSL::Recipe
-
 attr_accessor :pools
 
 def pool(&block)

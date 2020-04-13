@@ -5,7 +5,7 @@ unless node['dhcp']['hosts'].empty?
   # special key to just use all hosts in dhcp_hosts databag
   # figure which hosts to load
   # TODO: this should be refactored into libs
-  # rubocop:disable BlockNesting
+  # rubocop:disable Metrics/BlockNesting
   host_list = node['dhcp']['hosts']
   if host_list.respond_to?(:downcase) && host_list.casecmp('all') == 0
     host_list = node['dhcp']['host_data'].keys
@@ -22,7 +22,7 @@ unless node['dhcp']['hosts'].empty?
       host_list << host['id']
     end
   end
-  # rubocop:enable BlockNesting
+  # rubocop:enable Metrics/BlockNesting
 
   host_list.each do |host|
     host_data = if node['dhcp']['use_bags'] == true
