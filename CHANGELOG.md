@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- resolved cookstyle error: recipes/_hosts.rb:8:21 convention: `Migration/DepartmentName`
+- resolved cookstyle error: recipes/_hosts.rb:25:20 convention: `Migration/DepartmentName`
+- resolved cookstyle error: resources/shared_network.rb:25:1 refactor: `ChefModernize/DslIncludeInResource`
+- resolved cookstyle error: resources/subnet.rb:33:1 refactor: `ChefModernize/DslIncludeInResource`
+
 - Migrated to github actions
 
 ## 6.1.0 (2019-10-19)
