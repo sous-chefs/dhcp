@@ -22,8 +22,6 @@ default_action :add
 
 property :conf_dir, String, default: '/etc/dhcp'
 
-include Chef::DSL::Recipe
-
 attr_accessor :subnets
 
 def subnet(name, &block)
