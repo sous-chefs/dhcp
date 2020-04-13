@@ -26,15 +26,63 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 - Chef 14+
 
-## Examples
+## Usage
 
-Please check for working examples in [TEST](./test/cookbooks/test/)
+It is recommended to create a project or organization specific [wrapper cookbook](https://www.chef.io/blog/2013/12/03/doing-wrapper-cookbooks-right/) and add the desired custom resources to the run list of a node.
+
+Example of a basic server listening on and issuing leases for the subnet `192.0.2.0/24`.
+
+```ruby
+dhcp_install 'isc-dhcp-server'
+
+dhcp_service 'dhcpd' do
+  ip_version :ipv4
+  action [:create, :enable, :start]
+end
+
+dhcp_config '/etc/dhcp/dhcpd.conf' do
+  allow %w(booting bootp unknown-clients)
+  parameters(
+    'default-lease-time' => 7200,
+    'max-lease-time' => 86400,
+    'update-static-leases' => true,
+    'one-lease-per-client' => true,
+    'authoritative' => '',
+    'ping-check' => true
+  )
+  options(
+    'domain-name' => '"test.domain.local"',
+    'domain-name-servers' => '8.8.8.8, 8.8.4.4'
+  )
+  action :create
+end
+
+dhcp_subnet '192.0.2.0' do
+  comment 'Basic Subnet Declaration'
+  subnet '192.0.2.0'
+  netmask '255.255.255.0'
+  options [
+    'routers 192.168.1.1',
+  ]
+  pool(
+    'peer' => '192.168.0.2',
+    'range' => '192.168.1.100 192.168.1.200'
+  )
+  parameters(
+    'ddns-domainname' => '"test.domain"'
+  )
+end
+```
 
 ## External Documentation
 
 - <https://kb.isc.org/docs/isc-dhcp-44-manual-pages-dhcpdconf>
 - <https://kb.isc.org/docs/isc-dhcp-44-manual-pages-dhcp-options>
 - <https://kb.isc.org/docs/isc-dhcp-44-manual-pages-dhcp-eval>
+
+## Examples
+
+Please check for more varied working examples in [TEST](./test/cookbooks/test/)
 
 ## Resources
 
