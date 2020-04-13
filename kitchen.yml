@@ -7,7 +7,7 @@ provisioner:
   deprecations_as_errors: true
   chef_license: accept
   product_name: chef
-  product_version: <%= ENV['CHEF_VERSION'] || '14' %>
+  product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
   install_strategy: always
   chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
 
