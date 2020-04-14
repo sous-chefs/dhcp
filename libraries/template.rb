@@ -13,8 +13,8 @@ module Dhcp
         [property]
       end
 
-      def property_sorted_hash(property)
-        property.sort.map { |p| p.is_a?(Array) ? p : p.split(' ') }.to_h
+      def property_sorted_array(property)
+        property.sort.map { |p| p.is_a?(Array) ? p : p.split(' ', 2) }
       end
     end
   end

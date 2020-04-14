@@ -5,26 +5,30 @@
 
 # <%= @name -%><% if @comment -%><%= - @comment -%><% end -%>
 group  {
-<% unless nil_or_empty?(@parameters) -%>  
-  <% property_sorted_hash(@parameters).each do |parameter, value| -%>
-  <%= parameter %> <%= value %>;
+<% unless nil_or_empty?(@parameters) -%> 
+
+  # Parameters
+  <% property_sorted_array(@parameters).each do |parameter, value| -%>
+  <%= parameter %><% if value -%> <%= value %><% end -%>;
   <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@options) -%>
 
-  <% property_sorted_hash(@options).each do |option, value| -%>
+  # Options
+  <% property_sorted_array(@options).each do |option, value| -%>
   <%= option %> <%= value %>;
   <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@evals) -%>  
 
+  # Evals
   <% @evals.sort.each do |eval| -%>
   <%= eval %>
   <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@evals) -%>
 
-<% @evals.sort.each do |host, data| -%>
+<% @hosts.sort.each do |host, data| -%>
   host <%= host %> {
     <%= data["identifier"] %>;
   <% if data.key?("ip") -%>
@@ -32,13 +36,15 @@ group  {
   <% end -%>
   <% if data.key?("parameters") -%>
 
-  <% property_sorted_hash(data['parameters']).each do |parameter, value| -%>
-    <%= parameter %> <%= value %>;
+  # Parameters
+  <% property_sorted_array(data['parameters']).each do |parameter, value| -%>
+    <%= parameter %><% if value -%> <%= value %><% end -%>;;
   <% end -%>
   <% end -%>
   <% if data.key?("options") -%>
 
-  <% property_sorted_hash(data['options']).each do |option, value| -%>
+  # Options
+  <% property_sorted_array(data['options']).each do |option, value| -%>
     option <%= option %> <%= value %>;
   <% end -%>
   <% end -%>

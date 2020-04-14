@@ -4,7 +4,7 @@
 #
 
 failover peer "<%= @failover['peer'] %>" {
-  <% property_sorted_hash(@failover['parameters']).each do |parameter, value| -%>
-  <%= parameter %> <%= value %>;
+  <% property_sorted_array(@failover['parameters']).each do |parameter, value| -%>
+  <%= parameter %><% if value -%> <%= value %><% end -%>;
   <% end -%>
 }

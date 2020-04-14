@@ -7,14 +7,14 @@
 subnet <%= @subnet %> netmask <%= @netmask%> {
   <% unless nil_or_empty?(@parameters) -%>
   # Parameters
-  <% property_sorted_hash(@parameters).each do |parameter, value| -%>
-  <%= parameter %> <%= value %>;
+  <% property_sorted_array(@parameters).each do |parameter, value| -%>
+  <%= parameter %><% if value -%> <%= value %><% end -%>;
   <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@options) -%>
 
   # Options
-  <% property_sorted_hash(@options).each do |option, value| -%>
+  <% property_sorted_array(@options).each do |option, value| -%>
   option <%= option %> <%= value %>;
   <% end -%>
 <% end -%>
@@ -61,14 +61,14 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
     <% unless nil_or_empty?(pool['options']) -%>
 
     # Options
-    <% property_sorted_hash(pool['options']).each do |option| -%>
+    <% property_sorted_array(pool['options']).each do |option| -%>
     option <%= option %>;
     <% end -%>
     <% end -%>
     <% unless nil_or_empty?(pool['parameters']) -%>
 
     # Parameters
-    <% property_sorted_hash(pool['parameters']).each do |parameter, value| -%>
+    <% property_sorted_array(pool['parameters']).each do |parameter, value| -%>
     <%= parameter %> <%= value %>;
     <% end -%>
     <% end -%>
