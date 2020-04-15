@@ -25,5 +25,6 @@ include_recipe '::dhcp_subnet'
 include_recipe '::dhcp_host'
 include_recipe '::dhcp_class'
 include_recipe '::dhcp_shared_network'
+include_recipe '::dhcp_group'
 
 include_recipe '::service'

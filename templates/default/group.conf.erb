@@ -4,7 +4,7 @@
 #
 
 # <%= @name -%><% if @comment -%><%= - @comment -%><% end -%>
-group  {
+group {
 <% unless nil_or_empty?(@parameters) -%> 
 
   # Parameters
@@ -16,7 +16,7 @@ group  {
 
   # Options
   <% property_collection_sorted(@options).each do |option, value| -%>
-  <%= option %> <%= value %>;
+  option <%= option %> <%= value %>;
   <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@evals) -%>  
@@ -26,29 +26,11 @@ group  {
   <%= eval %>
   <% end -%>
 <% end -%>
-<% unless nil_or_empty?(@evals) -%>
+<% unless nil_or_empty?(@hosts) -%>
 
-<% @hosts.sort.each do |host, data| -%>
-  host <%= host %> {
-    <%= data["identifier"] %>;
-  <% if data.key?("ip") -%>
-    <%= @ip_version.eql?(:ipv6) ? 'fixed-address6' : 'fixed-address' %> <%= data["ip"] %>;
-  <% end -%>
-  <% if data.key?("parameters") -%>
-
-  # Parameters
-  <% property_collection_sorted(data['parameters']).each do |parameter, value| -%>
-    <%= parameter %><% unless nil_or_empty?(value) -%> <%= value %><% end -%>;;
-  <% end -%>
-  <% end -%>
-  <% if data.key?("options") -%>
-
-  # Options
-  <% property_collection_sorted(data['options']).each do |option, value| -%>
-    option <%= option %> <%= value %>;
-  <% end -%>
-  <% end -%>
-  }
+  # Hosts
+<% @hosts.sort.each do |host| -%>
+  include "<%= host %>";
 <% end -%>
 <% end -%>
 }

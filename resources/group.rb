@@ -66,7 +66,27 @@ action_class do
 end
 
 action :create do
-  template "#{new_resource.conf_dir}/groups.d/#{new_resource.name}.conf" do
+  hosts_include = []
+
+  new_resource.hosts.each do |host, properties|
+    hr = edit_resource(:dhcp_host, "#{new_resource.name}_grouphost_#{host}") do
+      owner new_resource.owner
+      group new_resource.group
+      mode new_resource.mode
+
+      ip_version new_resource.ip_version
+      conf_dir new_resource.conf_dir
+      group_host true
+    end
+
+    properties.each do |property, value|
+      hr.send(property, value)
+    end
+
+    hosts_include.push("#{new_resource.conf_dir}/#{new_resource.name}_grouphost_#{host}.conf")
+  end
+
+  template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
     cookbook new_resource.cookbook
     source new_resource.template
 
@@ -81,7 +101,7 @@ action :create do
       parameters: new_resource.parameters,
       options: new_resource.options,
       evals: new_resource.evals,
-      hosts: new_resource.hosts
+      hosts: hosts_include
     )
     helpers(Dhcp::Cookbook::TemplateHelpers)
 

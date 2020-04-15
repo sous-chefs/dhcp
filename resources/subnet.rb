@@ -154,5 +154,5 @@ action :delete do
     action :delete
   end
 
-  remove_from_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
+  remove_from_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf") unless new_resource.shared_network
 end

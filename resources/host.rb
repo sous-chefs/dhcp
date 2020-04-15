@@ -49,6 +49,10 @@ property :mode, String,
           default: '0640',
           description: 'Generated file mode'
 
+property :group_host, [true, false],
+          default: false,
+          description: 'Flag to indicate host is used inside a group resource and should not be added to list.conf'
+
 property :identifier, String,
           description: 'Host identifier, usually MAC or DHCID'
 
@@ -88,7 +92,7 @@ action :create do
     action :create
   end
 
-  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
+  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf") unless new_resource.group_host
 end
 
 action :delete do
@@ -96,5 +100,5 @@ action :delete do
     action :delete
   end
 
-  remove_from_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
+  remove_from_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf") unless new_resource.group_host
 end
