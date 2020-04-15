@@ -5,7 +5,7 @@
 
 failover peer "<%= @failover['peer'] %>" {
   <%= @failover['role'] -%>;
-  <% property_sorted_array(@failover['parameters']).each do |parameter, value| -%>
-  <%= parameter %><% if value -%> <%= value %><% end -%>;
+  <% property_collection_sorted(@failover['parameters']).each do |parameter, value| -%>
+  <%= parameter %><% unless nil_or_empty?(value) -%> <%= value %><% end -%>;
   <% end -%>
 }
