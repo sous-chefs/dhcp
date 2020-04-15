@@ -28,7 +28,7 @@ option <%= option %> <%= value %>;
 <% unless nil_or_empty?(@evals) -%>  
 
 # Evals
-<% @evals.sort.each do |eval| -%>
+<% @evals.each do |eval| -%>
 <%= eval %>
 <% end -%>
 <% end -%>
