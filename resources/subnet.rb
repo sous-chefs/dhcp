@@ -61,7 +61,7 @@ property :shared_network, [true, false],
           description: 'Flag to indicate subnet is used inside a shared_network resource and should not be added to list.conf'
 
 property :subnet, String,
-          required: true,
+          name_property: true,
           description: 'Subnet network address'
 
 property :netmask, String,

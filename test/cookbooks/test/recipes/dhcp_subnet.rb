@@ -1,7 +1,6 @@
 # Define using defaults
 dhcp_subnet '192.168.9.0' do
   comment 'Listen Subnet Declaration'
-  subnet '192.168.9.0'
   netmask '255.255.255.0'
 end
 
