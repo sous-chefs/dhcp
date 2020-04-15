@@ -3,12 +3,11 @@
 # Do NOT modify this file by hand, changes will be overwritten.
 #
 
-# The following line populates the lease file with the Vendor Class 
-# Identifier that the client sends.
+# The following line populates the lease file with the Vendor Class Identifier that the client sends.
 set vendor-string = option vendor-class-identifier;
 <% unless nil_or_empty?(@failover) -%>
 
-# DHCP failover configuration include
+# DHCP Failover
 include "/etc/dhcp/dhcpd.failover.conf";
 <% end -%>
 <% unless nil_or_empty?(@parameters) -%>
