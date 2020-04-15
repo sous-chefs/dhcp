@@ -96,9 +96,10 @@ property :extra_lines, Array,
 
 property :pool, Hash,
           callbacks: {
-            'Pool requires range be specified' => proc { |p| p.key?('range') },
-            'Pool options should be an Array' => proc { |p| p['options'].is_a?(Array) || !p.key?('options') },
-            'Pool parameters should be a Hash' => proc { |p| p['parameters'].is_a?(Hash) || !p.key?('parameters') },
+            'is invalid, pool requires range be specified' => proc { |p| p.key?('range') },
+            'is invalid, pool options should be an Array' => proc { |p| p['options'].is_a?(Array) || !p.key?('options') },
+            'is invalid, pool parameters should be a Hash' => proc { |p| p['parameters'].is_a?(Hash) || !p.key?('parameters') },
+            'is invalid, failover is not supported with IPv6' => proc { |p| !p.key?('failover_peer') || !p.key?('prefix') },
           }
 
 property :range, [String, Array]
