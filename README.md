@@ -12,6 +12,8 @@ Installs and configuration ISC DHCP server for both DHCP and DHCPv6.
 - Includes Support for DDNS
 - Includes resources for managing hosts, groups and subnets.
 
+Version 7.0.0 constitutes a major change and rewrite, please see [UPGRADING.md](./UPGRADING.md).
+
 ## Maintainers
 
 This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of Chef cookbook maintainers working together to maintain important cookbooks. If you’d like to know more please visit [sous-chefs.org](https://sous-chefs.org/) or come chat with us on the Chef Community Slack in [#sous-chefs](https://chefcommunity.slack.com/messages/C2V7B88SF).

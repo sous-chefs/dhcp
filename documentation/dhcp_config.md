@@ -32,6 +32,7 @@ Introduced: v7.0.0
 | `ignore`               | Array         | `nil`                            |                                                                     |                     |
 | `parameters`           | Array, Hash   | `nil`                            | DHCPD global parameters                                             |                     |
 | `options`              | Array, Hash   | `nil`                            | DHCPD global options                                                |                     |
+| `evals`                | Array         | `nil`                            | DHCPD conditional statements (see dhcp-eval(5))                     |                     |
 | `keys`                 | Hash          | `nil`                            | TSIG keys configuration                                             |                     |
 | `zones`                | Hash          | `nil`                            | Dynamic DNS zone configuration                                      |                     |
 | `hooks`                | Hash          | `nil`                            | Server event action configuration                                   |                     |

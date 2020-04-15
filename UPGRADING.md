@@ -38,7 +38,7 @@ Version 7.0.0 is a major rewrite of the cookbook to current standards, remodelli
   - Custom resources have been rewritten in current style
   - Relevant resources have `options` and `parameters` properties to allow more flexible user defined configuration
   - Template files are overrideable with `cookbook` and `template` parameters to allow user template selection
-  - `owner`, `group` and `mode` properties to control the resulatant permissions and mode of the generate files
+  - `owner`, `group` and `mode` properties to control the resultant permissions and mode of the generated files
   - DHCPv6 support for all resources, use `ip_version` to select
 
 - Resource `dhcp_class` - [Documentation](./documentation/dhcp_class.md)

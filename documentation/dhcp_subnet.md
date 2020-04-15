@@ -24,70 +24,65 @@ Introduced: v7.0.0
 | `group`                | String        | Platform dependant               | Group of the generated configuration file                           |                     |
 | `mode`                 | String        | `'0640'`                         | Filemode of the generated configuration file                        |                     |
 | `shared_network`       | True, False   | `false`                          | DHCP failover configuration file path                               |                     |
-| `config_includes_directory` | String   | `/etc/dhcp/dhcpd(6).d`           | Directory to create included configuration files in                 |                     |
-| `lib_dir`              | String        | Platform dependant               | DHCPD lib directory path                                            |                     |
-| `lease_file`           | String        | Platform dependant               | DHCPD lease file path                                               |                     |
-| `allow`                | Array         | `nil`                            | Control DHCPD allowed requests                                      |                     |
-| `deny`                 | Array         | `nil`                            | Control DHCPD denied requests                                       |                     |
-| `ignore`               | Array         | `nil`                            | Control DHCPD ignored requests                                      |                     |
-| `parameters`           | Array, Hash   | `nil`                            | DHCPD global parameters                                             |                     |
-| `options`              | Array, Hash   | `nil`                            | DHCPD global options                                                |                     |
+| `subnet`               | String        | `nil`                            | Subnet address                                                      |                     |
+| `netmask`              | String        | `nil`                            | Subnet network for IPv4 subnets                                     |                     |
+| `prefix`               | String        | `nil`                            | Subnet prefix for IPv6 subnets                                      |                     |
+| `subnet`               | String        | `nil`                            | Subnet address                                                      |                     |
+| `subnet`               | String        | `nil`                            | Subnet address                                                      |                     |
+| `parameters`           | Array, Hash   | `nil`                            | DHCPD parameters for the subnet                                     |                     |
+| `options`              | Array, Hash   | `nil`                            | DHCPD options for the subnet                                        |                     |
+| `evals`                | Array         | `nil`                            | DHCPD conditional statements for the subnet (see dhcp-eval(5))      |                     |
 | `keys`                 | Hash          | `nil`                            | TSIG keys configuration                                             |                     |
 | `zones`                | Hash          | `nil`                            | Dynamic DNS zone configuration                                      |                     |
-| `hooks`                | Hash          | `nil`                            | Server event action configuration                                   |                     |
-| `failover`             | Hash          | `nil`                            | DHCP failover configuration                                         |                     |
-| `include_files`        | Array         | `nil`                            | Additional configuration files to include                           |                     |
+| `allow`                | Array         | `nil`                            |                                                                     |                     |
+| `deny`                 | Array         | `nil`                            |                                                                     |                     |
 | `extra_lines`          | String, Array | `nil`                            | Extra lines to append to the configuration file                     |                     |
+| `pool`                 | Hash          | `nil`                            | Pool configuration hash, accepts most properties (see dhcpd.conf(5))|                     |
 
 ## Examples
 
 ```ruby
-dhcp_config '/etc/dhcp/dhcpd.conf' do
-  allow %w(booting bootp unknown-clients)
-  parameters(
-    'default-lease-time' => 7200,
-    'ddns-update-style' => 'interim',
-    'max-lease-time' => 86400,
-    'update-static-leases' => true,
-    'one-lease-per-client' => true,
-    'authoritative' => '',
-    'ping-check' => true
-  )
-  options(
-    'domain-name' => '"test.domain.local"',
-    'domain-name-servers' => '8.8.8.8',
-    'host-name' => ' = binary-to-ascii (16, 8, "-", substring (hardware, 1, 6))'
-  )
-  hooks(
-    'commit' => ['use-host-decl-names on'],
-    'release' => ['use-host-decl-names on']
-  )
-  include_files [
-    '/etc/dhcp/extra1.conf',
-    '/etc/dhcp/extra2.conf',
-    '/etc/dhcp_override/list.conf',
+dhcp_subnet '192.168.9.0' do
+  comment 'Listen Subnet Declaration'
+  subnet '192.168.9.0'
+  netmask '255.255.255.0'
+end
+
+dhcp_subnet 'basic' do
+  comment 'Basic Subnet Declaration'
+  subnet '192.168.0.0'
+  netmask '255.255.255.0'
+  options [
+    'routers 192.168.0.1'
+    'time-offset 10',
   ]
-  action :create
+  pool 'range' => '192.168.0.100 192.168.0.200'
 end
 ```
 
 ```ruby
-dhcp_config '/etc/dhcp/dhcpd6.conf' do
+dhcp_subnet 'dhcpv6_listen' do
   ip_version :ipv6
-  deny %w(duplicates)
-  parameters(
-    'default-lease-time' => 7200,
-    'ddns-updates' => 'on',
-    'ddns-update-style' => 'interim',
-    'max-lease-time' => 86400,
-    'update-static-leases' => true,
-    'one-lease-per-client' => 'on',
-    'authoritative' => '',
-    'ping-check' => true
-  )
+  comment 'Testing DHCPv6 Basic Subnet'
+  subnet '2001:db8:1::'
+  prefix 64
+end
+
+dhcp_subnet 'dhcpv6_basic' do
+  ip_version :ipv6
+  comment 'Testing DHCPv6 Basic Subnet'
+  subnet '2001:db8:2:1::'
+  prefix 64
   options(
+    'domain-name' => '"test.domain.local"',
     'dhcp6.name-servers' => '2001:4860:4860::8888, 2001:4860:4860::8844'
   )
-  action :create
+  parameters(
+    'ddns-domainname' => '"test.domain.local"',
+    'default-lease-time' => 28800
+  )
+  range [
+    '2001:db8:2:1::1:0/112',
+  ]
 end
 ```
