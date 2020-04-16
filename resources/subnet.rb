@@ -94,13 +94,8 @@ property :deny, Array,
 property :extra_lines, Array,
           description: 'Subnet additional configuration lines'
 
-property :pool, Hash,
-          callbacks: {
-            'is invalid, pool requires range be specified' => proc { |p| p.key?('range') },
-            'is invalid, pool options should be an Array' => proc { |p| p['options'].is_a?(Array) || !p.key?('options') },
-            'is invalid, pool parameters should be a Hash' => proc { |p| p['parameters'].is_a?(Hash) || !p.key?('parameters') },
-            'is invalid, failover is not supported with IPv6' => proc { |p| !p.key?('failover_peer') || !p.key?('prefix') },
-          }
+property :pools, [Hash, Array],
+          description: 'Subnet pool(s) configuration'
 
 property :range, [String, Array]
 
@@ -138,7 +133,7 @@ action :create do
       allow: new_resource.allow,
       deny: new_resource.deny,
       extra_lines: new_resource.extra_lines,
-      pool: new_resource.pool,
+      pools: new_resource.pools,
       range: new_resource.range
     )
     helpers(Dhcp::Cookbook::TemplateHelpers)

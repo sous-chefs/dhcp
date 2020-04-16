@@ -37,7 +37,7 @@ Introduced: v7.0.0
 | `allow`                | Array         | `nil`                            |                                                                     |                     |
 | `deny`                 | Array         | `nil`                            |                                                                     |                     |
 | `extra_lines`          | String, Array | `nil`                            | Extra lines to append to the configuration file                     |                     |
-| `pool`                 | Hash          | `nil`                            | Pool configuration hash, accepts most properties (see dhcpd.conf(5))|                     |
+| `pools`                | Hash, Array   | `nil`                            | Pool configuration hash(es), accepts most properties (see dhcpd.conf(5))|                 |
 
 ## Examples
 

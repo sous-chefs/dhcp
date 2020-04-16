@@ -33,7 +33,7 @@ dhcp_subnet 'deny host from class' do
     'broadcast-address' => '192.168.4.255',
     'routers' => '192.168.4.1'
   )
-  pool(
+  pools(
     'range' => '192.168.4.20 192.168.4.30',
     'deny' => 'members of "RegisteredHosts"',
     'allow' => 'members of "UnregisteredHosts"'

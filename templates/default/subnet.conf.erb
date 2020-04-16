@@ -50,10 +50,10 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
   }
   <% end -%>
 <% end -%>
-<% unless nil_or_empty?(@pool) -%>
+<% unless nil_or_empty?(@pools) -%>
   
   # Pools
-<% property_array(@pool).each do |pool| -%>
+<% property_array(@pools).each do |pool| -%>
   pool {
     <% if pool['failover_peer'] -%>
     failover peer "<%= pool['failover_peer'] %>";
@@ -61,8 +61,8 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
     <% unless nil_or_empty?(pool['options']) -%>
 
     # Options
-    <% property_collection_sorted(pool['options']).each do |option| -%>
-    option <%= option %>;
+    <% property_collection_sorted(pool['options']).each do |option, value| -%>
+    option <%= option %> <%= value %>;
     <% end -%>
     <% end -%>
     <% unless nil_or_empty?(pool['parameters']) -%>

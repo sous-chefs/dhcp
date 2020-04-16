@@ -31,7 +31,7 @@ describe 'dhcp_subnet' do
           'time-offset' => 10,
           'broadcast-address' => '192.168.0.255'
         )
-        pool(
+        pools(
           'peer' => '192.168.0.2',
           'range' => '192.168.1.100 192.168.1.200',
           'deny' => 'members of "RegisteredHosts"',
@@ -74,7 +74,7 @@ describe 'dhcp_subnet' do
           'time-offset' => 10,
           'broadcast-address' => '192.168.0.255'
         )
-        pool(
+        pools(
           'peer' => '192.168.0.2',
           'range' => '192.168.1.100 192.168.1.200',
           'deny' => 'members of "RegisteredHosts"',
