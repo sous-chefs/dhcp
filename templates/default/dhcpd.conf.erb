@@ -35,18 +35,21 @@ option <%= option %> <%= value %>;
 
 # Request Control
 <% unless nil_or_empty?(@allow) -%>
+
 # Allow
 <% @allow.each do |allow| -%>
 allow <%= allow %>;
 <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@deny) -%>
+
 # Deny
 <% @deny.each do |deny| -%>
 deny <%= deny %>;
 <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@ignore) -%>
+
 # Ignore
 <% @ignore.each do |ignore| -%>
 ignore <%= ignore %>;
@@ -79,8 +82,8 @@ key "<%= key %>" {
 # Dynamic DNS Zones
 <% @zones.each do |zone, data| -%>
 zone <%= zone %>. {
-  primary <%= data["master"] %>;
-  key "<%= data["key"] %>";
+  primary <%= data["primary"] %>;<% if data.key?('key') -%>
+  key "<%= data["key"] =%>";<% end -%>
 }
 <% end -%>
 <% end -%>
