@@ -16,6 +16,9 @@ dhcp_class 'UnregisteredHosts' do
     '1:10:bf:48:42:55:03',
     '1:10:bf:48:42:55:04',
   ]
+  options(
+    'domain-name-servers' => '8.8.8.8'
+  )
 end
 
 dhcp_class 'OtherHosts' do

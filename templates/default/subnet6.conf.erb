@@ -3,7 +3,7 @@
 # Do NOT modify this file by hand, changes will be overwritten.
 #
 
-# <%= @name -%><% if @comment -%><%= - @comment -%><% end -%>
+# <%= @name -%><% if @comment -%> - <%= @comment -%><% end -%>
 subnet6 <%= @subnet %>/<%= @prefix %> {
 <% unless nil_or_empty?(@range) -%>
   # Ranges
