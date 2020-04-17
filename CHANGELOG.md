@@ -1,8 +1,18 @@
 # CHANGELOG
 
-## Unreleased
+## 7.0.0 (2020-04-13)
 
-- Migrated to github actions
+Version 7.0.0 is a **major** change! Please see [UPGRADING.md](./UPGRADING.md).
+
+- DHCPv6 server configuration support - [@bmhughes](https://github.com/bmhughes)
+- Migrated to github actions - [@Xorima](https://github.com/Xorima)
+- Remodel cookbook as resource library - [@bmhughes](https://github.com/bmhughes)
+- Remove - [@bmhughes](https://github.com/bmhughes)
+  - Attributes
+  - Recipes
+  - Data bag functionality
+- Add resources to manage install and services for dhcpd/dhcpd6 - [@bmhughes](https://github.com/bmhughes)
+- Rewrite resources to current standard removing pure ruby code - [@bmhughes](https://github.com/bmhughes)
 
 ## 6.1.0 (2019-10-19)
 

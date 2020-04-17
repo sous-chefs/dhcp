@@ -8,6 +8,12 @@ execute 'online eth1' do
   not_if 'ip a show dev eth1 | grep UP'
 end
 
-ifconfig '192.168.9.1' do
-  device 'eth1'
+execute 'address eth1' do
+  command 'ip addr add 192.168.9.1 dev eth1'
+  not_if 'ip a show dev eth1 | grep \'inet 192.168.9.1\''
+end
+
+execute 'remove ipv6 default route' do
+  command 'ip -6 route del ::/0'
+  only_if 'ip -6 route | grep default'
 end

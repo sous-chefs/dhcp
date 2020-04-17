@@ -1,9 +1,6 @@
 #
-# Author:: Jacob McCann (<jacob.mccann2@target.com>)
 # Cookbook:: dhcp
 # Resource:: shared_network
-#
-# Copyright:: 2015-2018, Sous Chefs
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,56 +15,93 @@
 # limitations under the License.
 #
 
-default_action :add
+include Dhcp::Cookbook::Helpers
 
-property :conf_dir, String, default: '/etc/dhcp'
+property :comment, String,
+          description: 'Unparsed comment to add to the configuration file'
 
-include Chef::DSL::Recipe
+property :ip_version, Symbol,
+          equal_to: %i(ipv4 ipv6),
+          default: :ipv4,
+          description: 'The IP version, 4 or 6'
 
-attr_accessor :subnets
+property :conf_dir, String,
+          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) },
+          description: 'Directory to create configuration file in'
 
-def subnet(name, &block)
-  @subnets ||= []
-  s = dhcp_subnet("#{@name}-#{name}", &block)
-  s.action :nothing
-  s.subnet name
-  @subnets << s
-  s
-end
+property :cookbook, String,
+          default: 'dhcp',
+          description: 'Template source cookbook'
+
+property :template, String,
+          default: 'shared_network.conf.erb',
+          description: 'Template source file'
+
+property :owner, String,
+          default: lazy { dhcpd_user },
+          description: 'Generated file owner'
+
+property :group, String,
+          default: lazy { dhcpd_group },
+          description: 'Generated file group'
+
+property :mode, String,
+          default: '0640',
+          description: 'Generated file mode'
+
+property :subnets, Hash,
+          description: 'Shared subnets configuration hash'
 
 action_class do
-  include Dhcp::Helpers
+  include Dhcp::Cookbook::ResourceHelpers
 end
 
-action :add do
-  with_run_context :root do
-    run_context.include_recipe 'dhcp::_service'
+action :create do
+  subnets_include = []
 
-    directory "#{new_resource.conf_dir}/shared_networks.d #{new_resource.name}" do
-      path "#{new_resource.conf_dir}/shared_networks.d"
+  new_resource.subnets.each do |subnet, properties|
+    sr = edit_resource(:dhcp_subnet, "#{new_resource.name}_sharedsubnet_#{subnet}") do
+      owner new_resource.owner
+      group new_resource.group
+      mode new_resource.mode
+
+      ip_version new_resource.ip_version
+      conf_dir new_resource.conf_dir
+      shared_network true
     end
 
-    template "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
-      cookbook 'dhcp'
-      source 'shared_network.conf.erb'
-      variables name: new_resource.name, subnets: new_resource.subnets
-      owner 'root'
-      group 'root'
-      mode '0644'
-      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
+    properties.each do |property, value|
+      sr.send(property, value)
     end
 
-    write_include 'shared_networks.d', new_resource.name
+    subnets_include.push("#{new_resource.conf_dir}/#{new_resource.name}_sharedsubnet_#{subnet}.conf")
   end
+
+  template "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
+    cookbook new_resource.cookbook
+    source new_resource.template
+
+    owner new_resource.owner
+    group new_resource.group
+    mode new_resource.mode
+
+    variables(
+      name: new_resource.name,
+      comment: new_resource.comment,
+      subnets: subnets_include
+    )
+    helpers(Dhcp::Cookbook::TemplateHelpers)
+
+    action :create
+  end
+
+  add_to_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
 end
 
-action :remove do
-  with_run_context :root do
-    file "#{new_resource.conf_dir}/shared_networks.d/#{new_resource.name}.conf" do
-      action :delete
-      notifies :restart, "service[#{node['dhcp']['service_name']}]", :delayed
-      notifies :send_notification, new_resource, :immediately
-    end
-    write_include 'shared_networks.d', new_resource.name
+action :delete do
+  file "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
+    action :delete
   end
+
+  remove_from_list_resource(new_resource.conf_dir, "#{new_resource.conf_dir}/#{new_resource.name}.conf")
 end
