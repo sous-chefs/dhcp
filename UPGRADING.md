@@ -4,13 +4,13 @@ This document will give you help on upgrading major versions of dhcp
 
 ## 7.0.0
 
-Version 7.0.0 is a major rewrite of the cookbook to current standards, remodelling as a resource library cookbook and the addition of DHCPv6 support.
+Version 7.0.0 is a major rewrite of the cookbook to current standards, remodel as a resource library cookbook and the addition of DHCPv6 server support.
 
 ### Removed
 
 - All attributes
 - All recipes
-  - Enumeration of resources from data bags with this cookbook is not longer supported, you will have to write your own wrapper cookbook if you
+  - Enumeration of resources from data bags with this cookbook is no longer supported, you will have to write your own wrapper cookbook if you
     depend on this functionality.
 - Resource `dhcp_pool`
   - Pool verification is now provided by the `dhcp_subnet` resource
@@ -47,6 +47,7 @@ Version 7.0.0 is a major rewrite of the cookbook to current standards, remodelli
 
 - Resource `dhcp_group` - [Documentation](./documentation/dhcp_group.md)
   - `:delete` action added
+  - Hosts are provided via included nested `dhcp_host` resources
 
 - Resource `dhcp_host` - [Documentation](./documentation/dhcp_host.md)
   - `:delete` action added

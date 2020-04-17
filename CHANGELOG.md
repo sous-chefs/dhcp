@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 7.0.0 (2020-04-13)
+## 7.0.0 (2020-04-17)
 
 Version 7.0.0 is a **major** change! Please see [UPGRADING.md](./UPGRADING.md).
 
