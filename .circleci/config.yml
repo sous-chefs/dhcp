@@ -8,16 +8,3 @@ workflows:
       - kitchen/danger:
           name: danger
           context: Danger-Minimal
-  kitchen-v6:
-    jobs:
-      - kitchen/dokken-single:
-          enable-ipv6: true
-          matrix:
-            parameters:
-              suite:
-                - default-centos-6
-                - default-centos-7
-                - default-centos-8
-                - default-fedora-31
-                - default-debian-10
-                - default-ubuntu-1804

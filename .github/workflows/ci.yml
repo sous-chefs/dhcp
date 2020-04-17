@@ -49,6 +49,9 @@ jobs:
         suite:
           - 'default'
           - 'delete'
+        exclude:
+          - os: 'centos-6'
+            suite: 'delete'
       fail-fast: false
 
     steps:
