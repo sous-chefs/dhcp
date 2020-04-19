@@ -6,11 +6,18 @@
 [![OpenCollective](https://opencollective.com/sous-chefs/sponsors/badge.svg)](#sponsors)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Installs and configuration ISC DHCP server for both DHCP and DHCPv6.
+Installs and configures ISC DHCP server in both DHCP and DHCPv6 mode.
 
-- Supports setting up Master/Master ISC DHCP failover (IPv4 only).
+- Supports setting up Master/Slave ISC DHCP failover (IPv4 only).
 - Includes Support for DDNS
-- Includes resources for managing hosts, groups and subnets.
+- Includes resources for managing:
+  - Package installation
+  - Service configuration and management
+  - Global configuration
+  - Hosts
+  - Groups
+  - Subnets
+  - Shared subnets
 
 Version 7.0.0 constitutes a major change and rewrite, please see [UPGRADING.md](./UPGRADING.md).
 
@@ -84,7 +91,7 @@ end
 
 ## Examples
 
-Please check for more varied working examples in [TEST](./test/cookbooks/test/)
+Please check for more varied working examples in the [test cookbook](./test/cookbooks/test/).
 
 ## Resources
 
