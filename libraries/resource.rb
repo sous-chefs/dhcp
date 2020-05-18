@@ -32,7 +32,6 @@ module Dhcp
 
       def manage_list_resource(directory, config_file, action)
         begin
-
           list = find_resource!(:template, "#{directory}/list.conf")
         rescue Chef::Exceptions::ResourceNotFound
           list = create_list_resource(directory)

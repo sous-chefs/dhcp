@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.1.0 (2020-05-18)
+
+- Add configuration test option to the `dhcp_service` resource
+
 ## 7.0.0 (2020-04-17)
 
 Version 7.0.0 is a **major** change! Please see [UPGRADING.md](./UPGRADING.md).
