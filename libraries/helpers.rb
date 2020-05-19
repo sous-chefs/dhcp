@@ -103,6 +103,10 @@ module Dhcp
         %w(groups.d hosts.d subnets.d shared_networks.d classes.d)
       end
 
+      def dhcpd_config_test_command(ip_version, config_file)
+        "dhcpd -#{ip_version.eql?(:ipv4) ? '4' : '6'} -d -t -T -cf #{config_file}"
+      end
+
       def dhcpd_lib_dir
         if platform_family?('debian')
           '/var/lib/dhcp'
@@ -181,7 +185,7 @@ module Dhcp
         end
       end
 
-      def dhcpd_systemd_unit_content(ip_version)
+      def dhcpd_systemd_unit_content(ip_version, config_file)
         raise 'Invalid ip_version' unless ip_version.is_a?(Symbol) && %i(ipv4 ipv6).include?(ip_version)
         dhcp6 = ip_version.eql?(:ipv6)
 
@@ -198,13 +202,13 @@ module Dhcp
               ],
               'ConditionPathExists' => [
                 '/etc/sysconfig/dhcpd',
-                "|/etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf",
+                "|#{config_file}",
               ],
             },
             'Service' => {
               'Type' => 'notify',
               'EnvironmentFile' => '-/etc/sysconfig/dhcpd',
-              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf /etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS",
+              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf #{config_file} -user dhcpd -group dhcpd --no-pid $DHCPDARGS",
               'StandardError' => 'null',
             },
             'Install' => {
@@ -223,13 +227,13 @@ module Dhcp
               ],
               'ConditionPathExists' => [
                 '/etc/default/isc-dhcp-server',
-                "|/etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf",
+                "|#{config_file}",
               ],
             },
             'Service' => {
               'EnvironmentFile' => '/etc/default/isc-dhcp-server',
               'RuntimeDirectory' => 'dhcp-server',
-              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf /etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf -pf /run/dhcp-server/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.pid $INTERFACES",
+              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf #{config_file} -pf /run/dhcp-server/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.pid $INTERFACES",
             },
             'Install' => {
               'WantedBy' => 'multi-user.target',
@@ -247,13 +251,13 @@ module Dhcp
               ],
               'ConditionPathExists' => [
                 '/etc/default/isc-dhcp-server',
-                "|/etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf",
+                "|#{config_file}",
               ],
             },
             'Service' => {
               'EnvironmentFile' => '/etc/default/isc-dhcp-server',
               'RuntimeDirectory' => 'dhcp-server',
-              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf /etc/dhcp/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.conf -user dhcpd -group dhcpd -pf /run/dhcp-server/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.pid $INTERFACES",
+              'ExecStart' => "/usr/sbin/dhcpd -f #{dhcp6 ? '-6' : '-4'} -cf #{config_file} -user dhcpd -group dhcpd -pf /run/dhcp-server/#{dhcp6 ? 'dhcpd6' : 'dhcpd'}.pid $INTERFACES",
             },
             'Install' => {
               'WantedBy' => 'multi-user.target',

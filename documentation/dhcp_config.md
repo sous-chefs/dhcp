@@ -15,9 +15,8 @@ Introduced: v7.0.0
 
 | Name                   | Type          | Default                          | Description                                                         | Allowed Values      |
 | ---------------------- | ------------- | -------------------------------- | ------------------------------------------------------------------- | ------------------- |
-| `comment`              | String        | `nil`                            | Comment to add to the configuration file                            |                     |
 | `ip_version`           | Symbol        | `:ipv4`                          | Select DHCP or DHCPv6 server to configure                           | `:ipv4`, `:ipv6`    |
-| `conf_dir`             | String        | `/etc/dhcp/dhcpd(6).d/classes.d` | Directory to create configuration file in                           |                     |
+| `config_file`          | String        | `/etc/dhcp/dhcpd(6).conf`        | 'The full path to the DHCP server configuration on disk             |                     |
 | `cookbook`             | String        | `/etc/dhcp/dhcpd(6).d/classes.d` | Cookbook to source configuration file template from                 |                     |
 | `template`             | String        | `/etc/dhcp/dhcpd(6).d/classes.d` | Template to use to generate the configuration file                  |                     |
 | `owner`                | String        | Platform dependant               | Owner of the generated configuration file                           |                     |
@@ -39,6 +38,8 @@ Introduced: v7.0.0
 | `failover`             | Hash          | `nil`                            | DHCP failover configuration                                         |                     |
 | `include_files`        | Array         | `nil`                            | Additional configuration files to include                           |                     |
 | `extra_lines`          | String, Array | `nil`                            | Extra lines to append to the configuration file                     |                     |
+| `env_file`             | String        | Platform dependant               | Service environment file, mostly unused by modern distributions     |                     |
+| `env_file_lines`       | String, Array | `nil`                            | Service environment file lines                                      |                     |
 
 ## Examples
 

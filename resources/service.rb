@@ -14,34 +14,45 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 include Dhcp::Cookbook::Helpers
 
 property :ip_version, [Symbol, String],
           equal_to: [:ipv4, :ipv6, 'ipv4', 'ipv6'],
-          coerce: proc { |ipv| ipv.is_a?(Symbol) ? ipv : ipv.to_sym },
+          coerce: proc { |p| p.is_a?(Symbol) ? p : p.to_sym },
           default: :ipv4,
           description: 'The IP version, 4 or 6'
 
 property :service_name, String,
-          coerce: proc { |s| "#{s}.service" },
+          coerce: proc { |p| "#{p}.service" },
+          default: lazy { dhcpd_service_name(ip_version) },
           description: 'Override the default service names'
 
 property :systemd_unit_content, [String, Hash],
           default: lazy { dhcpd_systemd_unit_content(ip_version) },
           description: 'Override the systemd unit file contents'
 
-action_class do
-  def service_name
-    if new_resource.service_name
-      new_resource.service_name
-    else
-      dhcpd_service_name(new_resource.ip_version)
-    end
-  end
+property :config_file, String,
+          default: lazy { dhcpd_config_file(ip_version) },
+          description: 'The full path to the DHCP server configuration on disk'
 
+property :config_test, [true, false],
+          default: true,
+          description: 'Perform configuration file test before performing service action'
+
+action_class do
   def do_service_action(resource_action)
     with_run_context(:root) do
-      edit_resource(:service, service_name) do
+      edit_resource(:execute, "Run pre service #{resource_action} #{dhcpd_service_name(new_resource.ip_version)} configuration test.") do
+        command dhcpd_config_test_command(new_resource.ip_version, new_resource.config_file)
+        only_if { ::File.exist?(new_resource.config_file) }
+
+        action :nothing
+        delayed_action :run
+      end if %i(start restart reload).include?(resource_action) && new_resource.config_test
+
+      edit_resource(:service, new_resource.service_name.delete_suffix('.service')) do
+        action :nothing
         delayed_action resource_action
       end
     end
@@ -50,8 +61,8 @@ end
 
 action :create do
   with_run_context :root do
-    edit_resource(:systemd_unit, "#{service_name}.service") do |new_resource|
-      content new_resource.dhcpd_systemd_unit_content(new_resource.ip_version)
+    edit_resource(:systemd_unit, new_resource.service_name) do |new_resource|
+      content new_resource.dhcpd_systemd_unit_content(new_resource.ip_version, new_resource.config_file)
       triggers_reload true
       verify false
 
@@ -63,7 +74,7 @@ end
 action :delete do
   do_service_action([:stop, :disable])
   with_run_context :root do
-    edit_resource(:systemd_unit, "#{service_name}.service").action(:delete) if dhcpd_use_systemd?
+    edit_resource(:systemd_unit, new_resource.service_name).action(:delete) if dhcpd_use_systemd?
   end
 end
 

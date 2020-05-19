@@ -23,6 +23,8 @@ Introduced: v7.0.0
 | `ip_version`           | Symbol        | `:ipv4`                       | Select DHCP or DHCPv6 server to configure                              | `:ipv4`, `:ipv6`    |
 | `service_name`         | String        | `nil`                         | Custom service name                                                    |                     |
 | `systemd_unit_content` | String, Hash  | Platform dependant            | systemd unit file content for service                                  |                     |
+| `config_file`          | String        | `/etc/dhcp/dhcpd(6).conf`     | 'The full path to the DHCP server configuration on disk                |                     |
+| `config_test`          | True, False   | `true`                        | Perform configuration test before starting, restarting or reload       |                     |
 
 ## Examples
 
