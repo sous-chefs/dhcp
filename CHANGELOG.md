@@ -1,8 +1,12 @@
 # CHANGELOG
 
+## 7.1.1 (2020-05-20)
+
+- Fix configuration test running every chef run regardless of service action - [@bmhughes](https://github.com/bmhughes)
+
 ## 7.1.0 (2020-05-18)
 
-- Add configuration test option to the `dhcp_service` resource
+- Add configuration test option to the `dhcp_service` resource - [@bmhughes](https://github.com/bmhughes)
 
 ## 7.0.0 (2020-04-17)
 
