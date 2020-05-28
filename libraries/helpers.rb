@@ -150,15 +150,15 @@ module Dhcp
       end
 
       def dhcpd_lease_file_options
-        case node['platform_family']
-        when 'amazon' 'fedora', 'rhel'
+        case node['platform']
+        when 'amazon', 'centos', 'fedora', 'redhat'
           {
             'owner' => 'dhcpd',
             'group' => 'dhcpd',
             'mode' => '0644',
             'action' => :create_if_missing,
           }
-        when 'debian'
+        when 'ubuntu'
           {
             'owner' => 'root',
             'group' => 'dhcpd',
