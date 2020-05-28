@@ -117,7 +117,7 @@ module Dhcp
 
       def dhcpd_lib_dir_options
         case node['platform']
-        when 'amazon', 'centos', 'fedora', 'rhel'
+        when 'amazon', 'centos', 'fedora', 'redhat'
           {
             'owner' => 'dhcpd',
             'group' => 'dhcpd',
@@ -151,14 +151,14 @@ module Dhcp
 
       def dhcpd_lease_file_options
         case node['platform_family']
-        when 'amazon', 'centos', 'fedora', 'rhel'
+        when 'amazon' 'fedora', 'rhel'
           {
             'owner' => 'dhcpd',
             'group' => 'dhcpd',
             'mode' => '0644',
             'action' => :create_if_missing,
           }
-        when 'ubuntu'
+        when 'debian'
           {
             'owner' => 'root',
             'group' => 'dhcpd',
@@ -190,7 +190,7 @@ module Dhcp
         dhcp6 = ip_version.eql?(:ipv6)
 
         case node['platform']
-        when 'amazon', 'centos', 'fedora', 'rhel'
+        when 'amazon', 'centos', 'fedora', 'redhat'
           {
             'Unit' => {
               'Description' => "DHCP#{dhcp6 ? 'v6' : 'v4'} Server Daemon",
