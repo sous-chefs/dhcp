@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Unreleased
+
+- resolved cookstyle error: libraries/helpers.rb:120:44 refactor: `ChefCorrectness/InvalidPlatformInCase`
+- resolved cookstyle error: libraries/helpers.rb:154:24 refactor: `ChefCorrectness/InvalidPlatformFamilyInCase`
+- resolved cookstyle error: libraries/helpers.rb:161:14 refactor: `ChefCorrectness/InvalidPlatformFamilyInCase`
+- resolved cookstyle error: libraries/helpers.rb:193:44 refactor: `ChefCorrectness/InvalidPlatformInCase`
+
 ## 7.1.1 (2020-05-20)
 
 - Fix configuration test running every chef run regardless of service action - [@bmhughes](https://github.com/bmhughes)
