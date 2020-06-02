@@ -29,7 +29,7 @@ property :service_name, String,
           description: 'Override the default service names'
 
 property :systemd_unit_content, [String, Hash],
-          default: lazy { dhcpd_systemd_unit_content(ip_version) },
+          default: lazy { dhcpd_systemd_unit_content(ip_version, config_file) },
           description: 'Override the systemd unit file contents'
 
 property :config_file, String,
@@ -63,7 +63,7 @@ end
 action :create do
   with_run_context :root do
     edit_resource(:systemd_unit, new_resource.service_name) do |new_resource|
-      content new_resource.dhcpd_systemd_unit_content(new_resource.ip_version, new_resource.config_file)
+      content new_resource.systemd_unit_content
       triggers_reload true
       verify false
 
