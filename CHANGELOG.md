@@ -7,6 +7,7 @@
 - resolved cookstyle error: libraries/helpers.rb:161:14 refactor: `ChefCorrectness/InvalidPlatformFamilyInCase`
 - resolved cookstyle error: libraries/helpers.rb:193:44 refactor: `ChefCorrectness/InvalidPlatformInCase`
 - Fix the service resource not using the unit file content property
+- Slightly simplified the libraries with a platform helper
 
 ## 7.1.1 (2020-05-20)
 

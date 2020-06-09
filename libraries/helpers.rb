@@ -6,7 +6,7 @@ module Dhcp
       end
 
       def dhcpd_group
-        return 'root' if node['platform'].eql?('debian')
+        return 'root' if platform?('debian')
 
         'dhcpd'
       end
