@@ -20,11 +20,11 @@ platforms:
   - name: centos-8
   - name: fedora-31
   - name: amazonlinux-2
-  - name: debian-8
+  - name: debian-9
   - name: debian-10
   - name: ubuntu-16.04
   - name: ubuntu-18.04
-  - name: ubuntu-19.10
+  - name: ubuntu-20.04
 
 suites:
   - name: default
