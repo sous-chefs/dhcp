@@ -46,7 +46,7 @@ action_class do
       edit_resource(:execute, "Run pre service #{resource_action} #{dhcpd_service_name(new_resource.ip_version)} configuration test.") do
         command dhcpd_config_test_command(new_resource.ip_version, new_resource.config_file)
         only_if { new_resource.config_test && %i(start restart reload).include?(resource_action) && ::File.exist?(new_resource.config_file) }
-
+        user dhcpd_user
         action :nothing
       end
 
