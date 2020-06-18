@@ -39,8 +39,9 @@ end
 
 # if interface('eth0').ipv6_address? - Using bodge due to <https://github.com/inspec/inspec/issues/4928>
 if command('ip addr show dev eth0 | grep inet6').exit_status.eql?(0)
+  states = os.release.eql?('20.04') ? %w(Ssl Ssl) : %w(Ss Ss)
   describe processes('dhcpd') do
-    its('states') { should eq %w(Ss Ss) }
+    its('states') { should eq states }
   end
 else
   describe processes('dhcpd') do

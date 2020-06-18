@@ -46,6 +46,7 @@ jobs:
           - 'centos-8'
           - 'fedora-31'
           - 'ubuntu-1804'
+          - 'ubuntu-2004'
         suite:
           - 'default'
           - 'delete'
