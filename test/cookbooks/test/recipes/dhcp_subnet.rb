@@ -16,7 +16,7 @@ dhcp_subnet 'basic' do
   pools 'range' => '192.168.0.100 192.168.0.200'
 end
 
-directory '/etc/dhcp_override'
+directory '/etc/dhcp/override'
 
 # Override everything
 dhcp_subnet 'overrides' do
@@ -45,7 +45,7 @@ dhcp_subnet 'overrides' do
   }' ]
   key 'name' => 'test_key', 'algorithm' => 'hmac-sha256', 'secret' => 'c7nBOcB2rbJh7lYCI65/PGrS6QdlLMCPe2xunZ4dij8='
   zones 'test' => { 'primary' => 'test_pri', 'key' => 'test_key' }
-  conf_dir '/etc/dhcp_override'
+  conf_dir '/etc/dhcp/override'
 end
 
 # DHCPv6 listen subnet
