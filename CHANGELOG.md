@@ -9,6 +9,7 @@
 - Fix the service resource not using the unit file content property
 - Slightly simplified the libraries with a platform helper
 - Fix verification of the isc-dhcp-server configuration on Ubuntu
+- Ensure that a service restart does not occur upon a configuration test failure
 
 ## 7.1.1 (2020-05-20)
 

@@ -43,11 +43,15 @@ property :config_test, [true, false],
 action_class do
   def do_service_action(resource_action)
     with_run_context(:root) do
-      edit_resource(:execute, "Run pre service #{resource_action} #{dhcpd_service_name(new_resource.ip_version)} configuration test.") do
-        command dhcpd_config_test_command(new_resource.ip_version, new_resource.config_file)
-        only_if { new_resource.config_test && %i(start restart reload).include?(resource_action) && ::File.exist?(new_resource.config_file) }
-        user dhcpd_user
-        action :nothing
+      begin
+        edit_resource(:execute, "Run pre service #{resource_action} #{dhcpd_service_name(new_resource.ip_version)} configuration test.") do
+          command dhcpd_config_test_command(new_resource.ip_version, new_resource.config_file)
+          only_if { new_resource.config_test && %i(start restart reload).include?(resource_action) && ::File.exist?(new_resource.config_file) }
+          user dhcpd_user
+          action :nothing
+        end
+      rescue Mixlib::ShellOut::ShellCommandFailed
+        delete_resource!(:service, new_resource.service_name.delete_suffix('.service'))
       end
 
       edit_resource(:service, new_resource.service_name.delete_suffix('.service')) do
