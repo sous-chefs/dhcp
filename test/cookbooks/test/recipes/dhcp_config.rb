@@ -38,7 +38,7 @@ dhcp_config '/etc/dhcp/dhcpd.conf' do
   include_files [
     '/etc/dhcp/extra1.conf',
     '/etc/dhcp/extra2.conf',
-    '/etc/dhcp_override/list.conf',
+    '/etc/dhcp/override/list.conf',
   ]
   action :create
 end

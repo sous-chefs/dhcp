@@ -46,11 +46,16 @@ jobs:
           - 'centos-8'
           - 'fedora-31'
           - 'ubuntu-1804'
+          - 'ubuntu-2004'
         suite:
           - 'default'
           - 'delete'
         exclude:
           - os: 'centos-6'
+            suite: 'delete'
+          - os: 'ubuntu-1804'
+            suite: 'delete'
+          - os: 'ubuntu-2004'
             suite: 'delete'
       fail-fast: false
 

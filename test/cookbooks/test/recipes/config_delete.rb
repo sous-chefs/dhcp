@@ -28,7 +28,7 @@ dhcp_host 'Test-IPv6-Host' do
 end
 
 dhcp_subnet 'overrides' do
-  conf_dir '/etc/dhcp_override'
+  conf_dir '/etc/dhcp/override'
   action :delete
   notifies :restart, 'dhcp_service[dhcpd]', :delayed
 end
