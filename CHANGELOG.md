@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## 7.2.0 (2020-07-10)
 
 - resolved cookstyle error: libraries/helpers.rb:120:44 refactor: `ChefCorrectness/InvalidPlatformInCase`
 - resolved cookstyle error: libraries/helpers.rb:154:24 refactor: `ChefCorrectness/InvalidPlatformFamilyInCase`
