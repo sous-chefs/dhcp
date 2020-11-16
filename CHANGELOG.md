@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+- Enhance the pre-service action configuration test to remove compile/converge bug - [@bmhughes](https://github.com/bmhughes)
+
 ## 7.2.0 (2020-07-10)
 
 - resolved cookstyle error: libraries/helpers.rb:120:44 refactor: `ChefCorrectness/InvalidPlatformInCase`
