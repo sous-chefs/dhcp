@@ -2,9 +2,7 @@ module Dhcp
   module Cookbook
     module TemplateHelpers
       def nil_or_empty?(property)
-        return true if property.nil? || (property.respond_to?(:empty?) && property.empty?)
-
-        false
+        property.nil? || (property.respond_to?(:empty?) && property.empty?)
       end
 
       def property_array(property)
