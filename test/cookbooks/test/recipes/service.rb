@@ -17,12 +17,14 @@
 
 dhcp_service 'dhcpd' do
   ip_version :ipv4
+
   action %i(create enable)
   delayed_action :start
 end
 
 dhcp_service 'dhcpd6' do
   ip_version :ipv6
+
   action %i(create enable)
   delayed_action :start
 end
