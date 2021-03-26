@@ -9,7 +9,7 @@ provisioner:
   product_name: chef
   product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
   install_strategy: always
-  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
 
 verifier:
   name: inspec
