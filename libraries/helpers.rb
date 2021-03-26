@@ -99,10 +99,6 @@ module Dhcp
         end
       end
 
-      def dhcpd_config_includes_directories
-        %w(groups.d hosts.d subnets.d shared_networks.d classes.d)
-      end
-
       def dhcpd_config_test_command(ip_version, config_file)
         "dhcpd -#{ip_version.eql?(:ipv4) ? '4' : '6'} -d -t -T -cf #{config_file}"
       end
