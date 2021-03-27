@@ -28,8 +28,8 @@ module Dhcp
       # Declare resources to create a list resource and it's containing directory
       def create_list_resource(directory)
         with_run_context(:root) do
-          edit_resource(:directory, directory)
-          edit_resource(:template, "#{directory}/list.conf") do
+          declare_resource(:directory, directory)
+          declare_resource(:template, "#{directory}/list.conf") do
             cookbook 'dhcp'
             source 'list.conf.erb'
 
