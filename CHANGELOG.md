@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## 7.3.0 - *2021-03-30*
 
 - Fix generating multiple actions from the service resource - [@bmhughes](https://github.com/bmhughes)
 
