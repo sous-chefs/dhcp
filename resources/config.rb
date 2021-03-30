@@ -102,6 +102,8 @@ property :env_file_lines, [String, Array],
 
 action_class do
   include Dhcp::Cookbook::ResourceHelpers
+
+  DHCPD_CONFIG_INCLUDES_DIRECTORIES = %w(classes.d groups.d hosts.d shared_networks.d subnets.d).freeze
 end
 
 action :create do
@@ -114,7 +116,7 @@ action :create do
     action :create
   end
 
-  dhcpd_config_includes_directories.each do |dir|
+  DHCPD_CONFIG_INCLUDES_DIRECTORIES.each do |dir|
     directory "#{new_resource.config_includes_directory}/#{dir}" do
       owner new_resource.owner
       group new_resource.group
@@ -122,7 +124,7 @@ action :create do
       action :create
     end
 
-    create_list_resource("#{new_resource.config_includes_directory}/#{dir}")
+    init_list_resource("#{new_resource.config_includes_directory}/#{dir}")
   end
 
   # Pre-condition DHCPd lib directory and lease file for distros that don't take care of this

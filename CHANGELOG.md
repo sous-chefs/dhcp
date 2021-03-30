@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix generating multiple actions from the service resource - [@bmhughes](https://github.com/bmhughes)
+
 ## 7.2.1 - *2020-11-19*
 
 - Enhance the pre-service action configuration test to remove compile/converge bug - [@bmhughes](https://github.com/bmhughes)
