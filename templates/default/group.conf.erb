@@ -5,7 +5,7 @@
 
 # <%= @name -%><% if @comment -%> - <%= @comment -%><% end -%>
 group {
-<% unless nil_or_empty?(@parameters) -%> 
+<% unless nil_or_empty?(@parameters) -%>
 
   # Parameters
   <% property_collection_sorted(@parameters).each do |parameter, value| -%>
@@ -19,7 +19,7 @@ group {
   option <%= option %> <%= value %>;
   <% end -%>
 <% end -%>
-<% unless nil_or_empty?(@evals) -%>  
+<% unless nil_or_empty?(@evals) -%>
 
   # Evals
   <% @evals.each do |eval| -%>
