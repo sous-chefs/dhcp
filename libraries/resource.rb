@@ -57,7 +57,7 @@ module Dhcp
 
         case action
         when :add
-          files.push(config_file)
+          files.push(config_file) unless files.include?(config_file)
         when :remove
           files.delete(config_file) if files.include?(config_file)
         end
