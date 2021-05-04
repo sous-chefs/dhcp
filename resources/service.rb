@@ -106,26 +106,6 @@ action :delete do
   end
 end
 
-action :start do
-  do_service_action(action)
-end
-
-action :stop do
-  do_service_action(action)
-end
-
-action :restart do
-  do_service_action(action)
-end
-
-action :reload do
-  do_service_action(action)
-end
-
-action :enable do
-  do_service_action(action)
-end
-
-action :disable do
-  do_service_action(action)
+%i(start stop restart reload enable disable).each do |action_type|
+  send(:action, action_type) { do_service_action(action) }
 end
