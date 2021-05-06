@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- resolved cookstyle error: resources/service.rb:54:1 convention: `Layout/EmptyLinesAroundBlockBody`
+- resolved cookstyle error: resources/service.rb:54:1 convention: `Layout/TrailingWhitespace`
+- resolved cookstyle error: resources/service.rb:54:13 convention: `Style/RedundantBegin`
+- resolved cookstyle error: resources/service.rb:55:11 convention: `Layout/IndentationWidth`
+- resolved cookstyle error: resources/service.rb:65:13 convention: `Layout/RescueEnsureAlignment`
+- resolved cookstyle error: resources/service.rb:73:1 convention: `Layout/EmptyLinesAroundBlockBody`
+- resolved cookstyle error: resources/service.rb:73:1 convention: `Layout/TrailingWhitespace`
 ## 7.3.0 - *2021-03-30*
 
 - Fix generating multiple actions from the service resource - [@bmhughes](https://github.com/bmhughes)
