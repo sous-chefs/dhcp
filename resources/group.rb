@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 include Dhcp::Cookbook::Helpers
 
 property :comment, String,
@@ -70,7 +72,7 @@ action :create do
   hosts_include = []
 
   new_resource.hosts.each do |host, properties|
-    hr = edit_resource(:dhcp_host, "#{new_resource.name}_grouphost_#{host}") do
+    declare_resource(:dhcp_host, "#{new_resource.name}_grouphost_#{host}") do
       owner new_resource.owner
       group new_resource.group
       mode new_resource.mode
@@ -78,10 +80,8 @@ action :create do
       ip_version new_resource.ip_version
       conf_dir new_resource.conf_dir
       group_host true
-    end
 
-    properties.each do |property, value|
-      hr.send(property, value)
+      properties.each { |property, value| send(property, value) }
     end
 
     hosts_include.push("#{new_resource.conf_dir}/#{new_resource.name}_grouphost_#{host}.conf")

@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 include Dhcp::Cookbook::Helpers
 
 property :ip_version, [Symbol, String],
@@ -61,7 +63,7 @@ action_class do
                 Chef::Log.info("Configuration test disabled, creating #{new_resource.service_name} #{new_resource.declared_type} resource with action #{resource_action}")
               end
 
-              declare_resource(:service, new_resource.service_name.delete_suffix('.service')).delayed_action(resource_action)
+              declare_resource(:service, new_resource.service_name.delete_suffix('.service')) { delayed_action(resource_action) }
             rescue Mixlib::ShellOut::ShellCommandFailed
               if new_resource.config_test_fail_action.eql?(:log)
                 Chef::Log.error("Configuration test failed, #{new_resource.service_name} #{resource_action} action aborted!\n\n"\
@@ -79,7 +81,7 @@ action_class do
           delayed_action :run
         end
       else
-        declare_resource(:service, new_resource.service_name.delete_suffix('.service')).delayed_action(resource_action)
+        declare_resource(:service, new_resource.service_name.delete_suffix('.service')) { delayed_action(resource_action) }
       end
     end
   end
@@ -87,7 +89,7 @@ end
 
 action :create do
   with_run_context :root do
-    edit_resource(:systemd_unit, new_resource.service_name) do |new_resource|
+    declare_resource(:systemd_unit, new_resource.service_name) do
       content new_resource.systemd_unit_content
       triggers_reload true
       verify false
@@ -100,30 +102,10 @@ end
 action :delete do
   do_service_action([:stop, :disable])
   with_run_context :root do
-    edit_resource(:systemd_unit, new_resource.service_name).action(:delete) if dhcpd_use_systemd?
+    declare_resource(:systemd_unit, new_resource.service_name) { action(:delete) } if dhcpd_use_systemd?
   end
 end
 
-action :start do
-  do_service_action(action)
-end
-
-action :stop do
-  do_service_action(action)
-end
-
-action :restart do
-  do_service_action(action)
-end
-
-action :reload do
-  do_service_action(action)
-end
-
-action :enable do
-  do_service_action(action)
-end
-
-action :disable do
-  do_service_action(action)
+%i(start stop restart reload enable disable).each do |action_type|
+  send(:action, action_type) { do_service_action(action) }
 end

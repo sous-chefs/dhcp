@@ -24,7 +24,7 @@ include "/etc/dhcp/dhcpd.failover.conf";
 option <%= option %> <%= value %>;
 <% end -%>
 <% end -%>
-<% unless nil_or_empty?(@evals) -%>  
+<% unless nil_or_empty?(@evals) -%>
 
 # Evals
 <% @evals.each do |eval| -%>

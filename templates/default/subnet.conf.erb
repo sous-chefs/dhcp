@@ -51,7 +51,7 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
   <% end -%>
 <% end -%>
 <% unless nil_or_empty?(@pools) -%>
-  
+
   # Pools
 <% property_array(@pools).each do |pool| -%>
   pool {
@@ -73,7 +73,7 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
     <% end -%>
     <% end -%>
     <% unless nil_or_empty?(pool['range']) %>
-    
+
     # Ranges
     <% property_array(pool['range']).sort.each do |range| -%>
     range <%= range %>;
@@ -86,7 +86,7 @@ subnet <%= @subnet %> netmask <%= @netmask%> {
     deny <%= denied %>;
     <% end -%>
     <% end -%>
-    <% unless nil_or_empty?(pool['allow']) -%> 
+    <% unless nil_or_empty?(pool['allow']) -%>
 
     # Allow Access Control
     <% property_array(pool['allow']).sort.each do |allowed| -%>

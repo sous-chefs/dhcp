@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Chef 17 compatibility changes - [@bmhughes](https://github.com/bmhughes)
+  - All resources now run with `unified_mode true`
+
 ## 7.3.0 - *2021-03-30*
 
 - Fix generating multiple actions from the service resource - [@bmhughes](https://github.com/bmhughes)

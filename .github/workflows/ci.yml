@@ -52,8 +52,7 @@ jobs:
           - 'default'
           - 'delete'
         exclude:
-          - os: 'centos-6'
-            suite: 'delete'
+          # These work locally but fail on GH actions for reasons unknown to man
           - os: 'ubuntu-1804'
             suite: 'delete'
           - os: 'ubuntu-2004'

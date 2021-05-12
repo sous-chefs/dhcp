@@ -35,8 +35,14 @@ describe command('/usr/sbin/dhcpd -t -4 -cf /etc/dhcp/dhcpd.conf') do
   its('exit_status') { should eq 0 }
 end
 
+states = if os.name.eql?('ubuntu') && os.release.eql?('20.04')
+           %w(Ssl)
+         else
+           %w(Ss)
+         end
+
 describe processes('dhcpd') do
-  its('states') { should eq %w(Ss) }
+  its('states') { should eq states }
 end
 
 describe port(67) do

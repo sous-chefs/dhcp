@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 include Dhcp::Cookbook::Helpers
 
 property :ip_version, [Symbol, String],

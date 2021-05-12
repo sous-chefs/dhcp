@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 include Dhcp::Cookbook::Helpers
 
 property :comment, String,
@@ -61,7 +63,7 @@ action :create do
   subnets_include = []
 
   new_resource.subnets.each do |subnet, properties|
-    sr = edit_resource(:dhcp_subnet, "#{new_resource.name}_sharedsubnet_#{subnet}") do
+    declare_resource(:dhcp_subnet, "#{new_resource.name}_sharedsubnet_#{subnet}") do
       owner new_resource.owner
       group new_resource.group
       mode new_resource.mode
@@ -69,10 +71,8 @@ action :create do
       ip_version new_resource.ip_version
       conf_dir new_resource.conf_dir
       shared_network true
-    end
 
-    properties.each do |property, value|
-      sr.send(property, value)
+      properties.each { |property, value| send(property, value) }
     end
 
     subnets_include.push("#{new_resource.conf_dir}/#{new_resource.name}_sharedsubnet_#{subnet}.conf")

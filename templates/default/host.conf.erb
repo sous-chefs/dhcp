@@ -5,10 +5,10 @@
 
 # <%= @name -%><% if @comment -%> - <%= @comment -%><% end -%>
 host <%= @name %> {
-<% if @identifier -%>  
-  <%= @identifier %>; 
+<% if @identifier -%>
+  <%= @identifier %>;
 <% end -%>
-<% if @address -%>  
+<% if @address -%>
   <%= @ip_version.eql?(:ipv6) ? 'fixed-address6' : 'fixed-address' %> <%= @address %>;
 <% end -%>
 <% unless nil_or_empty?(@parameters) -%>
