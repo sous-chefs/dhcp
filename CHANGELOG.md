@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## Unreleased
+
 ## 8.0.0 - *2021-05-12*
 
 - Chef 17 compatibility changes - [@bmhughes](https://github.com/bmhughes)
