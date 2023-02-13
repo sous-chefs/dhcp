@@ -40,32 +40,32 @@ jobs:
     strategy:
       matrix:
         os:
-          - 'debian-10'
-          - 'centos-6'
-          - 'centos-7'
-          - 'centos-8'
-          - 'centos-stream-8'
-          - 'fedora-latest'
-          - 'ubuntu-1804'
-          - 'ubuntu-2004'
+          - "debian-10"
+          - "centos-6"
+          - "centos-7"
+          - "centos-8"
+          - "centos-stream-8"
+          - "fedora-latest"
+          - "ubuntu-1804"
+          - "ubuntu-2004"
         suite:
-          - 'default'
-          - 'delete'
+          - "default"
+          - "delete"
         exclude:
           # These work locally but fail on GH actions for reasons unknown to man
-          - os: 'ubuntu-1804'
-            suite: 'delete'
-          - os: 'ubuntu-2004'
-            suite: 'delete'
+          - os: "ubuntu-1804"
+            suite: "delete"
+          - os: "ubuntu-2004"
+            suite: "delete"
       fail-fast: false
 
     steps:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Install Chef
-        uses: actionshub/chef-install@main
+        uses: actionshub/chef-install@2.0.4
       - name: Dokken
-        uses: actionshub/test-kitchen@main
+        uses: actionshub/test-kitchen@2.1.0
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.dokken.yml
