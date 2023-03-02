@@ -6,7 +6,7 @@ description       'Installs and configures DHCP'
 chef_version      '>= 15.3'
 source_url        'https://github.com/sous-chefs/dhcp'
 issues_url        'https://github.com/sous-chefs/dhcp/issues'
-version           '8.1.3'
+version           '8.1.4'
 
 supports 'amazon'
 supports 'centos'
