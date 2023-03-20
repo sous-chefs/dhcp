@@ -33,7 +33,7 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 ## Requirements
 
-- Chef 14+
+- Chef 15.3+
 
 ## Usage
 
@@ -103,6 +103,11 @@ Please check for more varied working examples in the [test cookbook](./test/cook
 - [dhcp_service](documentation/dhcp_service.md)
 - [dhcp_shared_network](documentation/dhcp_shared_network.md)
 - [dhcp_subnet](documentation/dhcp_subnet.md)
+
+## Known Issues
+
+There are some known issues on Ubuntu when apparmor is running which may prevent the service from running properly.
+Please see the [test cookbook](test/cookbooks/test) for a possible work around that you can apply on your nodes.
 
 ## Contributors
 

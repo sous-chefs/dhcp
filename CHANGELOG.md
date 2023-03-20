@@ -5,6 +5,7 @@
 - Update platforms to modern versions
 - Add support for AlmaLinux, Rocky Linux and Fedora
 - Update and fixes tests
+- Fix AppArmor issues on Ubuntu
 
 ## 8.1.4 - *2023-03-02*
 

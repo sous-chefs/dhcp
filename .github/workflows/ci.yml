@@ -49,7 +49,7 @@ jobs:
         run: |
             set -x
             sudo apt-get -y update
-            sudo apt-get -y upgrade
+            sudo apt-get -y install apparmor
       - name: Dokken
         uses: actionshub/test-kitchen@2.1.0
         env:
@@ -80,7 +80,7 @@ jobs:
         run: |
             set -x
             sudo apt-get -y update
-            sudo apt-get -y upgrade
+            sudo apt-get -y install apparmor
       - name: Dokken
         uses: actionshub/test-kitchen@2.1.0
         env:

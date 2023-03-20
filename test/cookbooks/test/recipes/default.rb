@@ -18,6 +18,10 @@
 include_recipe '::net_setup'
 
 include_recipe '::package'
+
+# Work around issue with apparmor on Ubuntu
+apparmor_policy 'usr.sbin.dhcpd' if platform?('ubuntu')
+
 include_recipe '::include_files'
 
 include_recipe '::dhcp_config'
