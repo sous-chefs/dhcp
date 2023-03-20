@@ -50,7 +50,8 @@ jobs:
             set -x
             sudo apt-get -y update
             sudo apt-get -y install apparmor-profiles
-            sudo apparmor_parser -R /usr/share/apparmor/extra-profiles/usr.sbin.dhcpd /usr/share/apparmor/extra-profiles/sbin.dhcpcd
+            sudo apparmor_parser -R /usr/share/apparmor/extra-profiles/usr.sbin.dhcpd
+            sudo apparmor_parser -R /usr/share/apparmor/extra-profiles/sbin.dhcpcd
       - name: Dokken
         uses: actionshub/test-kitchen@2.1.0
         env:
@@ -82,7 +83,8 @@ jobs:
             set -x
             sudo apt-get -y update
             sudo apt-get -y install apparmor-profiles
-            sudo apparmor_parser -R /usr/share/apparmor/extra-profiles/usr.sbin.dhcpd /usr/share/apparmor/extra-profiles/sbin.dhcpcd
+            sudo apparmor_parser -R /usr/share/apparmor/extra-profiles/usr.sbin.dhcpd
+            sudo apparmor_parser -R /usr/share/apparmor/extra-profiles/sbin.dhcpcd
       - name: Dokken
         uses: actionshub/test-kitchen@2.1.0
         env:
