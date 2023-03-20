@@ -7,14 +7,23 @@ when 'redhat', 'centos'
                  end
   service_name = %w(dhcpd)
   service_name.push('dhcpd6') if interface('eth0').ipv6_address?
+  process_state = %w(Ss)
 when 'fedora'
   package_name = 'dhcp-server'
   service_name = %w(dhcpd)
   service_name.push('dhcpd6') if interface('eth0').ipv6_address?
+  process_state = %w(Ss)
 when 'debian', 'ubuntu'
   package_name = 'isc-dhcp-server'
   service_name = %w(isc-dhcp-server)
   service_name.push('isc-dhcp-server6') if interface('eth0').ipv6_address?
+
+  case os.name
+  when 'debian'
+    process_state = os.release.to_i >= 11 ? %w(Ssl) : %w(Ss)
+  when 'ubuntu'
+    process_state = os.release.to_f >= 20.04 ? %w(Ssl) : %w(Ss)
+  end
 end
 
 describe package(package_name) do
@@ -35,14 +44,8 @@ describe command('/usr/sbin/dhcpd -t -4 -cf /etc/dhcp/dhcpd.conf') do
   its('exit_status') { should eq 0 }
 end
 
-states = if os.name.eql?('ubuntu') && os.release.eql?('20.04')
-           %w(Ssl)
-         else
-           %w(Ss)
-         end
-
 describe processes('dhcpd') do
-  its('states') { should eq states }
+  its('states') { should eq process_state }
 end
 
 describe port(67) do

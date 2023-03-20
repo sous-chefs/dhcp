@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Update platforms to modern versions
+- Add support for AlmaLinux, Rocky Linux and Fedora
+- Update and fixes tests
+
 ## 8.1.4 - *2023-03-02*
 
 - Standardise files with files in sous-chefs/repo-management
@@ -20,7 +24,11 @@
 
 ## 8.1.0 - *2021-08-29*
 
+- Standardise files with files in sous-chefs/repo-management
+
 ## 8.0.1 - *2021-06-01*
+
+- Standardise files with files in sous-chefs/repo-management
 
 ## 8.0.0 - *2021-05-12*
 

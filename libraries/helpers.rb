@@ -112,25 +112,28 @@ module Dhcp
       end
 
       def dhcpd_lib_dir_options
-        case node['platform']
-        when 'amazon', 'centos', 'fedora', 'redhat'
+        case node['platform_family']
+        when 'rhel', 'fedora', 'amazon'
           {
             'owner' => 'dhcpd',
             'group' => 'dhcpd',
             'mode' => '0755',
           }
-        when 'ubuntu'
-          {
-            'owner' => 'root',
-            'group' => 'dhcpd',
-            'mode' => '0775',
-          }
         when 'debian'
-          {
-            'owner' => 'root',
-            'group' => 'root',
-            'mode' => '0755',
-          }
+          case node['platform']
+          when 'ubuntu'
+            {
+              'owner' => 'root',
+              'group' => 'dhcpd',
+              'mode' => '0775',
+            }
+          when 'debian'
+            {
+              'owner' => 'root',
+              'group' => 'root',
+              'mode' => '0755',
+            }
+          end
         end
       end
 
@@ -146,28 +149,31 @@ module Dhcp
       end
 
       def dhcpd_lease_file_options
-        case node['platform']
-        when 'amazon', 'centos', 'fedora', 'redhat'
+        case node['platform_family']
+        when 'rhel', 'fedora', 'amazon'
           {
             'owner' => 'dhcpd',
             'group' => 'dhcpd',
             'mode' => '0644',
             'action' => :create_if_missing,
           }
-        when 'ubuntu'
-          {
-            'owner' => 'root',
-            'group' => 'dhcpd',
-            'mode' => '0664',
-            'action' => :create_if_missing,
-          }
         when 'debian'
-          {
-            'owner' => 'root',
-            'group' => 'root',
-            'mode' => '0644',
-            'action' => :create_if_missing,
-          }
+          case node['platform']
+          when 'ubuntu'
+            {
+              'owner' => 'root',
+              'group' => 'dhcpd',
+              'mode' => '0664',
+              'action' => :create_if_missing,
+            }
+          when 'debian'
+            {
+              'owner' => 'root',
+              'group' => 'root',
+              'mode' => '0644',
+              'action' => :create_if_missing,
+            }
+          end
         end
       end
 
@@ -186,7 +192,7 @@ module Dhcp
         dhcp6 = ip_version.eql?(:ipv6)
 
         case node['platform']
-        when 'amazon', 'centos', 'fedora', 'redhat'
+        when 'almalinux', 'amazon', 'centos', 'fedora', 'redhat', 'rocky'
           {
             'Unit' => {
               'Description' => "DHCP#{dhcp6 ? 'v6' : 'v4'} Server Daemon",
