@@ -1,6 +1,6 @@
 
 case os.family
-when 'redhat', 'centos'
+when 'redhat'
   package_name = if os.release.to_i < 8
                    'dhcp'
                  else
@@ -8,14 +8,23 @@ when 'redhat', 'centos'
                  end
   service_name = %w(dhcpd)
   service_name.push('dhcpd6') if interface('eth0').ipv6_address?
+  process_state = %w(Ss Ss)
 when 'fedora'
   package_name = 'dhcp-server'
   service_name = %w(dhcpd)
   service_name.push('dhcpd6') if interface('eth0').ipv6_address?
-when 'debian', 'ubuntu'
+  process_state = %w(Ss Ss)
+when 'debian'
   package_name = 'isc-dhcp-server'
   service_name = %w(isc-dhcp-server)
   service_name.push('isc-dhcp-server6') if interface('eth0').ipv6_address?
+
+  case os.name
+  when 'debian'
+    process_state = os.release.to_i >= 11 ? %w(Ssl Ssl) : %w(Ss Ss)
+  when 'ubuntu'
+    process_state = os.release.to_f >= 20.04 ? %w(Ssl Ssl) : %w(Ss Ss)
+  end
 end
 
 describe package(package_name) do
@@ -37,16 +46,8 @@ describe command('/usr/sbin/dhcpd -t -6 -cf /etc/dhcp/dhcpd6.conf') do
   its('exit_status') { should eq 0 }
 end
 
-# if interface('eth0').ipv6_address? - Using bodge due to <https://github.com/inspec/inspec/issues/4928>
-if command('ip addr show dev eth0 | grep inet6').exit_status.eql?(0)
-  states = os.release.eql?('20.04') ? %w(Ssl Ssl) : %w(Ss Ss)
-  describe processes('dhcpd') do
-    its('states') { should eq states }
-  end
-else
-  describe processes('dhcpd') do
-    its('states') { should eq %w(Ss) }
-  end
+describe processes('dhcpd') do
+  its('states') { should eq process_state }
 end
 
 describe port(67) do

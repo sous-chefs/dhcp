@@ -1,0 +1,75 @@
+# vim:syntax=apparmor
+# Last Modified: Mon Jan 25 11:06:45 2016
+# Author: Jamie Strandboge <jamie@canonical.com>
+
+#include <tunables/global>
+
+/usr/sbin/dhcpd {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_keys>
+
+  capability chown,
+  capability net_bind_service,
+  capability net_raw,
+  capability setgid,
+  capability setuid,
+  capability dac_override,
+
+  network inet raw,
+  network packet packet,
+  network packet raw,
+
+  @{PROC}/[0-9]*/net/dev r,
+  @{PROC}/[0-9]*/net/{dev,if_inet6} r,
+
+  /etc/hosts.allow r,
+  /etc/hosts.deny r,
+
+  /etc/dhcp/ r,
+  /etc/dhcp/** r,
+  /etc/dhcpd{,6}.conf r,
+  /etc/dhcpd{,6}_ldap.conf r,
+
+  /usr/sbin/dhcpd mr,
+
+  /var/lib/dhcp/dhcpd{,6}.leases* lrw,
+  /var/log/ r,
+  /var/log/** rw,
+  /{,var/}run/{,dhcp-server/}dhcpd{,6}.pid rw,
+
+  # isc-dhcp-server-ldap
+  /etc/ldap/ldap.conf r,
+
+  # LTSP. See:
+  # http://www.ltsp.org/~sbalneav/LTSPManual.html
+  # https://wiki.edubuntu.org/
+  /etc/ltsp/ r,
+  /etc/ltsp/** r,
+  /etc/dhcpd{,6}-k12ltsp.conf r,
+  /etc/dhcpd{,6}.leases* lrw,
+  /ltsp/ r,
+  /ltsp/** r,
+
+  # Eucalyptus
+  /{,var/}run/eucalyptus/net/ r,
+  /{,var/}run/eucalyptus/net/** r,
+  /{,var/}run/eucalyptus/net/*.pid lrw,
+  /{,var/}run/eucalyptus/net/*.leases* lrw,
+  /{,var/}run/eucalyptus/net/*.trace lrw,
+
+  # wicd
+  /var/lib/wicd/* r,
+
+  # access to bind9 keys for dynamic update
+  # It's expected that users will generate one key per zone and have it
+  # stored in both /etc/bind9 (for bind to access) and /etc/dhcp/ddns-keys
+  # (for dhcpd to access).
+  /etc/dhcp/ddns-keys/** r,
+
+  # allow packages to re-use dhcpd and provide their own specific directories
+  #include <dhcpd.d>
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.dhcpd>
+}

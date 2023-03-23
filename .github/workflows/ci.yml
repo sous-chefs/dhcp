@@ -22,23 +22,22 @@ jobs:
     strategy:
       matrix:
         os:
-          - "debian-10"
-          - "centos-6"
+          - "almalinux-8"
+          - "almalinux-9"
           - "centos-7"
-          - "centos-8"
           - "centos-stream-8"
+          - "centos-stream-9"
+          - "debian-10"
+          - "debian-11"
           - "fedora-latest"
+          - "rockylinux-8"
+          - "rockylinux-9"
           - "ubuntu-1804"
           - "ubuntu-2004"
+          - "ubuntu-2204"
         suite:
           - "default"
           - "delete"
-        exclude:
-          # These work locally but fail on GH actions for reasons unknown to man
-          - os: "ubuntu-1804"
-            suite: "delete"
-          - os: "ubuntu-2004"
-            suite: "delete"
       fail-fast: false
 
     steps:
@@ -46,6 +45,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Install Chef
         uses: actionshub/chef-install@2.0.4
+      - name: Fix apparmor for dhcpd
+        run: |
+            set -x
+            sudo apt-get -y update
+            sudo apt-get -y install apparmor
       - name: Dokken
         uses: actionshub/test-kitchen@2.1.0
         env:
