@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [8.1.19](https://github.com/sous-chefs/dhcp/compare/v8.1.18...v8.1.19) (2025-10-16)
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#204](https://github.com/sous-chefs/dhcp/issues/204)) ([3d41e4c](https://github.com/sous-chefs/dhcp/commit/3d41e4c98207b28a27b7c7576d707db942f20e46))
+
 ## [8.1.18](https://github.com/sous-chefs/dhcp/compare/8.1.17...v8.1.18) (2025-10-15)
 
 
