@@ -13,33 +13,33 @@ Introduced: v7.0.0
 
 ## Properties
 
-| Name                   | Type          | Default                          | Description                                                         | Allowed Values      |
-| ---------------------- | ------------- | -------------------------------- | ------------------------------------------------------------------- | ------------------- |
-| `ip_version`           | Symbol        | `:ipv4`                          | Select DHCP or DHCPv6 server to configure                           | `:ipv4`, `:ipv6`    |
-| `config_file`          | String        | `/etc/dhcp/dhcpd(6).conf`        | 'The full path to the DHCP server configuration on disk             |                     |
-| `cookbook`             | String        | `/etc/dhcp/dhcpd(6).d/classes.d` | Cookbook to source configuration file template from                 |                     |
-| `template`             | String        | `/etc/dhcp/dhcpd(6).d/classes.d` | Template to use to generate the configuration file                  |                     |
-| `owner`                | String        | Platform dependant               | Owner of the generated configuration file                           |                     |
-| `group`                | String        | Platform dependant               | Group of the generated configuration file                           |                     |
-| `mode`                 | String        | `'0640'`                         | Filemode of the generated configuration file                        |                     |
-| `config_failover_file` | String        | `/etc/dhcp/dhcpd.failover.conf`  | DHCP failover configuration file path                               |                     |
-| `config_includes_directory` | String   | `/etc/dhcp/dhcpd(6).d`           | Directory to create included configuration files in                 |                     |
-| `lib_dir`              | String        | Platform dependant               | DHCPD lib directory path                                            |                     |
-| `lease_file`           | String        | Platform dependant               | DHCPD lease file path                                               |                     |
-| `allow`                | Array         | `nil`                            |                                                                     |                     |
-| `deny`                 | Array         | `nil`                            |                                                                     |                     |
-| `ignore`               | Array         | `nil`                            |                                                                     |                     |
-| `parameters`           | Array, Hash   | `nil`                            | DHCPD global parameters                                             |                     |
-| `options`              | Array, Hash   | `nil`                            | DHCPD global options                                                |                     |
-| `evals`                | Array         | `nil`                            | DHCPD conditional statements (see dhcp-eval(5))                     |                     |
-| `keys`                 | Hash          | `nil`                            | TSIG keys configuration                                             |                     |
-| `zones`                | Hash          | `nil`                            | Dynamic DNS zone configuration                                      |                     |
-| `hooks`                | Hash          | `nil`                            | Server event action configuration                                   |                     |
-| `failover`             | Hash          | `nil`                            | DHCP failover configuration                                         |                     |
-| `include_files`        | Array         | `nil`                            | Additional configuration files to include                           |                     |
-| `extra_lines`          | String, Array | `nil`                            | Extra lines to append to the configuration file                     |                     |
-| `env_file`             | String        | Platform dependant               | Service environment file, mostly unused by modern distributions     |                     |
-| `env_file_lines`       | String, Array | `nil`                            | Service environment file lines                                      |                     |
+| Name                        | Type          | Default                          | Description                                                         | Allowed Values      |
+| --------------------------- | ------------- | -------------------------------- | ------------------------------------------------------------------- | ------------------- |
+| `ip_version`                | Symbol        | `:ipv4`                          | Select DHCP or DHCPv6 server to configure                           | `:ipv4`, `:ipv6`    |
+| `config_file`               | String        | `/etc/dhcp/dhcpd(6).conf`        | 'The full path to the DHCP server configuration on disk             |                     |
+| `cookbook`                  | String        | `/etc/dhcp/dhcpd(6).d/classes.d` | Cookbook to source configuration file template from                 |                     |
+| `template`                  | String        | `/etc/dhcp/dhcpd(6).d/classes.d` | Template to use to generate the configuration file                  |                     |
+| `owner`                     | String        | Platform dependant               | Owner of the generated configuration file                           |                     |
+| `group`                     | String        | Platform dependant               | Group of the generated configuration file                           |                     |
+| `mode`                      | String        | `'0640'`                         | Filemode of the generated configuration file                        |                     |
+| `config_failover_file`      | String        | `/etc/dhcp/dhcpd.failover.conf`  | DHCP failover configuration file path                               |                     |
+| `config_includes_directory` | String        | `/etc/dhcp/dhcpd(6).d`           | Directory to create included configuration files in                 |                     |
+| `lib_dir`                   | String        | Platform dependant               | DHCPD lib directory path                                            |                     |
+| `lease_file`                | String        | Platform dependant               | DHCPD lease file path                                               |                     |
+| `allow`                     | Array         | `nil`                            |                                                                     |                     |
+| `deny`                      | Array         | `nil`                            |                                                                     |                     |
+| `ignore`                    | Array         | `nil`                            |                                                                     |                     |
+| `parameters`                | Array, Hash   | `nil`                            | DHCPD global parameters                                             |                     |
+| `options`                   | Array, Hash   | `nil`                            | DHCPD global options                                                |                     |
+| `evals`                     | Array         | `nil`                            | DHCPD conditional statements (see dhcp-eval(5))                     |                     |
+| `keys`                      | Hash          | `nil`                            | TSIG keys configuration                                             |                     |
+| `zones`                     | Hash          | `nil`                            | Dynamic DNS zone configuration                                      |                     |
+| `hooks`                     | Hash          | `nil`                            | Server event action configuration                                   |                     |
+| `failover`                  | Hash          | `nil`                            | DHCP failover configuration                                         |                     |
+| `include_files`             | Array         | `nil`                            | Additional configuration files to include                           |                     |
+| `extra_lines`               | String, Array | `nil`                            | Extra lines to append to the configuration file                     |                     |
+| `env_file`                  | String        | Platform dependant               | Service environment file, mostly unused by modern distributions     |                     |
+| `env_file_lines`            | String, Array | `nil`                            | Service environment file lines                                      |                     |
 
 ## Examples
 
