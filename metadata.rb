@@ -16,3 +16,5 @@ supports 'oracle'
 supports 'redhat'
 supports 'scientific'
 supports 'ubuntu'
+
+gem 'berkshelf', '~> 8.1'

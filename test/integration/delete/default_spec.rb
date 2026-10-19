@@ -30,7 +30,7 @@ describe package(package_name) do
   it { should be_installed }
 end
 
-describe service(service_name[0]) do
+describe service(service_name.first) do
   it { should be_enabled }
   it { should be_running }
 end
