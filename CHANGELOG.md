@@ -52,7 +52,7 @@ Standardise files with files in sous-chefs/repo-management
 ## 8.0.0 - *2021-05-12*
 
 * Chef 17 compatibility changes - [@bmhughes](https://github.com/bmhughes)
-  - All resources now run with `unified_mode true`
+  * All resources now run with `unified_mode true`
 
 ## 7.3.0 - *2021-03-30*
 
@@ -89,9 +89,9 @@ Version 7.0.0 is a **major** change! Please see [UPGRADING.md](./UPGRADING.md).
 * Migrated to github actions - [@Xorima](https://github.com/Xorima)
 * Remodel cookbook as resource library - [@bmhughes](https://github.com/bmhughes)
 * Remove - [@bmhughes](https://github.com/bmhughes)
-  - Attributes
-  - Recipes
-  - Data bag functionality
+  * Attributes
+  * Recipes
+  * Data bag functionality
 * Add resources to manage install and services for dhcpd/dhcpd6 - [@bmhughes](https://github.com/bmhughes)
 * Rewrite resources to current standard removing pure ruby code - [@bmhughes](https://github.com/bmhughes)
 
@@ -173,8 +173,8 @@ Version 7.0.0 is a **major** change! Please see [UPGRADING.md](./UPGRADING.md).
 
 * BREAKING feature: Allow defining multiple pools in a subnet
 
-  - This moves `range` and `peer` attribtue from `dhcp_subnet` block to embedded `pool` block inside `dhcp_subnet`. See updated examples.
-  - Currently this DOES NOT break defining subnets via data_bags or node attributes
+  * This moves `range` and `peer` attribtue from `dhcp_subnet` block to embedded `pool` block inside `dhcp_subnet`. See updated examples.
+  * Currently this DOES NOT break defining subnets via data_bags or node attributes
 
 ## 4.1.2
 
