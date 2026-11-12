@@ -19,6 +19,26 @@ Before merging any release, verify the full Actions run inventory at the exact
 head as well as PR check conclusions; startup failures have no ordinary check
 run and must not be counted as success or ignored.
 
+After the permission repair, run `43212000258` demonstrated the v3 action's
+event contract: `Only pull_request_target events are supported. Event was:
+pull_request`. An earlier same-SHA run passed because its triggering actor
+`damacus` hit the trusted-actor fast path. The failed edited-event actor was
+`blacksmith-sh[bot]`; the action checks `context.actor`, not the PR author.
+
+The file-protection caller therefore uses `pull_request_target`, for opened,
+reopened and synchronize events only. Title/body edits do not change files and
+are omitted; conventional-title validation still processes edits. Audited the
+two-step reusable workflow at `3cdff8f6f62b3db50db18f41b2de281297e355d3`
+and all five source files plus the distributed entrypoint of its only action
+at `440fe0989b54093ce834a504af595ee55967da4d`. They use Octokit to read changed
+file names/status, compare caller-supplied constant patterns, and optionally
+close the PR through the API. They do not check out PR contents, execute PR
+code or send PR text to a shell or evaluator. Keep this caller API-only.
+
+The target event uses the default-branch workflow, so the new event cannot be
+accepted as tested merely because this repair PR is green. Observe a real
+default-branch target run after bootstrap and before any release merge.
+
 ## Scope and product
 
 The owner selected full custom-resource completion and a replacement major
