@@ -13,6 +13,7 @@ Introduced: v7.0.0
 - `:start`
 - `:stop`
 - `:reload`
+- `:restart`
 - `:enable`
 - `:disable`
 
@@ -35,6 +36,17 @@ dhcp_service 'dhcpd' do
   action [:create, :enable, :start]
 end
 ```
+
+## Validation and cleanup
+
+Service actions are delayed until the end of convergence, after configuration and
+include files are available. Start, restart and reload validate the selected
+configuration first. An absent configuration prevents those actions.
+`config_test false` skips the syntax test; `config_test_fail_action :log` logs a
+failure and skips the action, while `:raise` fails convergence.
+
+Names may include the `.service` suffix. `:delete` stops and disables the native
+service before deleting its systemd unit. It does not delete leases or packages.
 
 ```ruby
 dhcp_service 'dhcpd6' do

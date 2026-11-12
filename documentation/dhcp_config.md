@@ -6,6 +6,14 @@ Create and manage the main DHCPD configuration. (<https://kb.isc.org/docs/isc-dh
 
 Introduced: v7.0.0
 
+## Deletion and retained data
+
+`:delete` removes this IP version's main and failover configuration. Lease files
+are retained as server data. The distro environment file and fragment include
+directories are shared across configurations and remain present. Delete fragment
+resources separately; provide nested host/subnet keys when deleting groups and
+shared networks. Unrelated files are never removed recursively.
+
 ## Actions
 
 - `:create`

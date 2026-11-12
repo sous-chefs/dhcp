@@ -21,6 +21,10 @@ Installs and configures ISC DHCP server in both DHCP and DHCPv6 mode.
 
 Version 7.0.0 constitutes a major change and rewrite, please see [UPGRADING.md](./UPGRADING.md).
 
+For the resource completion release, see [migration.md](migration.md). ISC DHCP
+is upstream end of life; this cookbook manages distribution-provided packages
+and preserves the ISC configuration API. It does not install Kea.
+
 ## Maintainers
 
 This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of Chef cookbook maintainers working together to maintain important cookbooks. If you’d like to know more please visit [sous-chefs.org](https://sous-chefs.org/) or come chat with us on the Chef Community Slack in [#sous-chefs](https://chefcommunity.slack.com/messages/C2V7B88SF).
@@ -33,7 +37,8 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 ## Requirements
 
-- Chef 15.3+
+- Chef 16.0+
+- Linux; the CI acceptance matrix verifies systemd releases
 
 ## Usage
 
@@ -42,7 +47,7 @@ It is recommended to create a project or organization specific [wrapper cookbook
 Example of a basic server listening on and issuing leases for the subnet `192.0.2.0/24`.
 
 ```ruby
-dhcp_install 'isc-dhcp-server'
+dhcp_package 'server'
 
 dhcp_service 'dhcpd' do
   ip_version :ipv4
@@ -73,7 +78,7 @@ dhcp_subnet '192.0.2.0' do
   options [
     'routers 192.168.1.1',
   ]
-  pool(
+  pools(
     'peer' => '192.168.0.2',
     'range' => '192.168.1.100 192.168.1.200'
   )

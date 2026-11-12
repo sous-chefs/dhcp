@@ -1,18 +1,22 @@
+# frozen_string_literal: true
+
 name              'dhcp'
 maintainer        'Sous Chefs'
 maintainer_email  'help@sous-chefs.org'
 license           'Apache-2.0'
 description       'Installs and configures DHCP'
-chef_version      '>= 15.3'
+chef_version      '>= 16.0'
 source_url        'https://github.com/sous-chefs/dhcp'
 issues_url        'https://github.com/sous-chefs/dhcp/issues'
 version           '8.1.19'
 
+supports 'almalinux'
 supports 'amazon'
 supports 'centos'
 supports 'debian'
 supports 'fedora'
 supports 'oracle'
 supports 'redhat'
+supports 'rocky'
 supports 'scientific'
 supports 'ubuntu'

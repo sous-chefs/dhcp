@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'dhcp_class' do
   step_into :dhcp_class
-  platform 'centos'
+  platform 'almalinux', '9'
 
   context 'create a dhcpd class with no subclass and verify config is created properly' do
     recipe do

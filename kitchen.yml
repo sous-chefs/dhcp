@@ -4,37 +4,39 @@ driver:
 
 provisioner:
   name: chef_zero
+  policyfile: Policyfile.rb
+  named_run_list: <%= ENV.fetch('DHCP_RUN_LIST', 'default') %>
   deprecations_as_errors: true
-  chef_license: accept
-  product_name: chef
-  product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
-  install_strategy: always
-  log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  enforce_idempotency: true
+  multiple_converge: 2
+  chef_license: accept-no-persist
 
 verifier:
   name: inspec
+  inspec_tests:
+    - test/integration/<%= ENV.fetch('DHCP_VERIFY_PROFILE', 'default') %>
 
 platforms:
   - name: almalinux-8
   - name: almalinux-9
-  - name: amazonlinux-2
-  - name: centos-7
-  - name: centos-stream-8
+  - name: amazonlinux-2023
   - name: centos-stream-9
-  - name: debian-10
-  - name: debian-11
+  - name: debian-12
   - name: fedora-latest
+  - name: oraclelinux-8
+  - name: oraclelinux-9
   - name: rockylinux-8
   - name: rockylinux-9
-  - name: ubuntu-18.04
-  - name: ubuntu-20.04
   - name: ubuntu-22.04
+  - name: ubuntu-24.04
 
 suites:
   - name: default
-    run_list:
-      - recipe[test::default]
   - name: delete
-    run_list:
-      - recipe[test::default]
-      - recipe[test::config_delete]
+    provisioner:
+      named_run_list: delete
+      enforce_idempotency: false
+      multiple_converge: 1
+    verifier:
+      inspec_tests:
+        - test/integration/delete

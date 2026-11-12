@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 dhcp_shared_network 'single' do
   subnets(
     '192.168.1.0' => {

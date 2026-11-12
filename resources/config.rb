@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: dhcp
 # Resource:: config
@@ -15,15 +17,12 @@
 # limitations under the License.
 #
 
+provides :dhcp_config
 unified_mode true
 
 include Dhcp::Cookbook::Helpers
 
-property :ip_version, [Symbol, String],
-          equal_to: [:ipv4, :ipv6, 'ipv4', 'ipv6'],
-          coerce: proc { |ipv| ipv.is_a?(Symbol) ? ipv : ipv.to_sym },
-          default: :ipv4,
-          description: 'The IP version, 4 or 6'
+use '_partial/_ip_version'
 
 property :config_file, String,
           default: lazy { dhcpd_config_file(ip_version) },

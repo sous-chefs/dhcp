@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: dhcp
 # Resource:: package
@@ -15,6 +17,7 @@
 # limitations under the License.
 #
 
+provides :dhcp_package
 unified_mode true
 
 include Dhcp::Cookbook::Helpers

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'dhcp_subnet' do
   step_into :dhcp_subnet
-  platform 'centos'
+  platform 'almalinux', '9'
 
   context 'create a dhcpd subnet for listening only and verify config is created properly' do
     recipe do

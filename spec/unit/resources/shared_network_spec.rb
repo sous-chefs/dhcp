@@ -1,8 +1,24 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'dhcp_shared_network' do
   step_into :dhcp_shared_network, :dhcp_subnet
-  platform 'centos'
+  platform 'almalinux', '9'
+
+  context 'removing a network with managed subnets' do
+    recipe do
+      dhcp_shared_network 'office' do
+        subnets '192.0.2.0' => {}
+        action :delete
+      end
+    end
+
+    it 'removes the nested subnet and parent fragment' do
+      is_expected.to delete_file('/etc/dhcp/dhcpd.d/shared_networks.d/office_sharedsubnet_192.0.2.0.conf')
+      is_expected.to delete_file('/etc/dhcp/dhcpd.d/shared_networks.d/office.conf')
+    end
+  end
 
   context 'create a dhcpd single shared network and verify config is created properly' do
     recipe do

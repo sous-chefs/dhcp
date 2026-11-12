@@ -18,8 +18,8 @@ Introduced: v7.0.0
 | `comment`              | String        | `nil`                            | Comment to add to the configuration file                            |                     |
 | `ip_version`           | Symbol        | `:ipv4`                          | Select DHCP or DHCPv6 server to configure                           | `:ipv4`, `:ipv6`    |
 | `conf_dir`             | String        | `/etc/dhcp/dhcpd(6).d/groups.d`  | Directory to create configuration file in                           |                     |
-| `cookbook`             | String        | `/etc/dhcp/dhcpd(6).d/groups.d`  | Cookbook to source configuration file template from                 |                     |
-| `template`             | String        | `/etc/dhcp/dhcpd(6).d/groups.d`  | Template to use to generate the configuration file                  |                     |
+| `cookbook`             | String        | `dhcp`                           | Cookbook to source configuration file template from                 |                     |
+| `template`             | String        | `group.conf.erb`                 | Template to use to generate the configuration file                  |                     |
 | `owner`                | String        | Platform dependant               | Owner of the generated configuration file                           |                     |
 | `group`                | String        | Platform dependant               | Group of the generated configuration file                           |                     |
 | `mode`                 | String        | `'0640'`                         | Filemode of the generated configuration file                        |                     |
@@ -37,3 +37,9 @@ dhcp_group 'IPPgones' do
   )
 end
 ```
+
+## Removal
+
+Pass the same `hosts` keys with `action :delete` to remove the parent and its
+nested generated fragments. Other files and shared include directories remain
+untouched. No recursive directory deletion is performed.
