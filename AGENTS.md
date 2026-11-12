@@ -1,5 +1,24 @@
 # DHCP resource completion
 
+## Workflow startup audit
+
+Do not rely solely on PR `statusCheckRollup` when deciding whether CI is green.
+On migration head `21725cf`, it showed 32 successful checks, but omitted two
+workflow `startup_failure` runs with zero check runs. The caller permission
+errors were visible on the public run pages:
+
+* Conventional commits run `43209007473`: nested job `main` requested
+  `pull-requests: read`, but the caller only allowed `pull-requests: none`.
+* File protection run `43209007291`: nested `prevent-metadata-change` and
+  `prevent-workflow-change` requested `pull-requests: write`, but the caller
+  only allowed `pull-requests: none`.
+
+The migration was admin-merged before this omission was discovered. The narrow
+follow-up grants only the permissions required by each pinned reusable caller.
+Before merging any release, verify the full Actions run inventory at the exact
+head as well as PR check conclusions; startup failures have no ordinary check
+run and must not be counted as success or ignored.
+
 ## Scope and product
 
 The owner selected full custom-resource completion and a replacement major
