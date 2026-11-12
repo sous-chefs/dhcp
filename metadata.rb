@@ -8,7 +8,7 @@ description       'Installs and configures DHCP'
 chef_version      '>= 16.0'
 source_url        'https://github.com/sous-chefs/dhcp'
 issues_url        'https://github.com/sous-chefs/dhcp/issues'
-version           '8.1.19'
+version           '9.0.0'
 
 supports 'almalinux'
 supports 'amazon'

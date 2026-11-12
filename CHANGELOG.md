@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [9.0.0](https://github.com/sous-chefs/dhcp/compare/v8.1.19...v9.0.0) (2026-11-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* complete DHCP resource migration ([#222](https://github.com/sous-chefs/dhcp/issues/222))
+
+### Features
+
+* complete DHCP resource migration ([#222](https://github.com/sous-chefs/dhcp/issues/222)) ([b30d642](https://github.com/sous-chefs/dhcp/commit/b30d642eb9e9f0a0e938ed849aefe114e9cf3809))
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#204](https://github.com/sous-chefs/dhcp/issues/204)) ([3d41e4c](https://github.com/sous-chefs/dhcp/commit/3d41e4c98207b28a27b7c7576d707db942f20e46))
+
 ## [8.1.19](https://github.com/sous-chefs/dhcp/compare/v8.1.18...v8.1.19) (2025-10-16)
 
 
