@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 dhcp_host 'Test-IPv4-Host' do
   options 'host-name' => 'test-ipv4-host'
   identifier 'hardware ethernet 00:53:00:00:00:01'

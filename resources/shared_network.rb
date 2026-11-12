@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: dhcp
 # Resource:: shared_network
@@ -15,42 +17,17 @@
 # limitations under the License.
 #
 
+provides :dhcp_shared_network
 unified_mode true
 
 include Dhcp::Cookbook::Helpers
 
-property :comment, String,
-          description: 'Unparsed comment to add to the configuration file'
-
-property :ip_version, [Symbol, String],
-          equal_to: [:ipv4, :ipv6, 'ipv4', 'ipv6'],
-          coerce: proc { |ipv| ipv.is_a?(Symbol) ? ipv : ipv.to_sym },
-          default: :ipv4,
-          description: 'The IP version, 4 or 6'
-
-property :conf_dir, String,
-          default: lazy { dhcpd_config_resource_directory(ip_version, declared_type) },
-          description: 'Directory to create configuration file in'
-
-property :cookbook, String,
-          default: 'dhcp',
-          description: 'Template source cookbook'
+use '_partial/_ip_version'
+use '_partial/_fragment'
 
 property :template, String,
           default: 'shared_network.conf.erb',
           description: 'Template source file'
-
-property :owner, String,
-          default: lazy { dhcpd_user },
-          description: 'Generated file owner'
-
-property :group, String,
-          default: lazy { dhcpd_group },
-          description: 'Generated file group'
-
-property :mode, String,
-          default: '0640',
-          description: 'Generated file mode'
 
 property :subnets, Hash,
           description: 'Shared subnets configuration hash'
@@ -100,6 +77,15 @@ action :create do
 end
 
 action :delete do
+  (new_resource.subnets || {}).each_key do |subnet|
+    dhcp_subnet "#{new_resource.name}_sharedsubnet_#{subnet}" do
+      ip_version new_resource.ip_version
+      conf_dir new_resource.conf_dir
+      shared_network true
+      action :delete
+    end
+  end
+
   file "#{new_resource.conf_dir}/#{new_resource.name}.conf" do
     action :delete
   end

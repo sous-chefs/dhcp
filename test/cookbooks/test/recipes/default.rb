@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: dhcp_test
 # Recipe:: default
@@ -16,6 +18,10 @@
 #
 
 include_recipe '::net_setup'
+
+# ISC DHCP is available in the optional vendor SPAL repository on AL2023.
+# Repository enablement remains a caller responsibility outside this fixture.
+package 'spal-release' if platform?('amazon') && node['platform_version'].to_i >= 2023
 
 include_recipe '::package'
 

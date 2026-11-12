@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'dhcp_host' do
   step_into :dhcp_host
-  platform 'centos'
+  platform 'almalinux', '9'
 
   context 'create a dhcpd host and verify config is created properly' do
     recipe do

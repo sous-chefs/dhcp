@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 dhcp_group 'ip-phones' do
   options(
     'tftp-server-name' => '"192.0.2.10"'

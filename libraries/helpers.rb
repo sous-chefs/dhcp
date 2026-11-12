@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dhcp
   module Cookbook
     module Helpers
@@ -100,7 +102,7 @@ module Dhcp
       end
 
       def dhcpd_config_test_command(ip_version, config_file)
-        "dhcpd -#{ip_version.eql?(:ipv4) ? '4' : '6'} -d -t -T -cf #{config_file}"
+        ['dhcpd', ip_version.eql?(:ipv4) ? '-4' : '-6', '-d', '-t', '-T', '-cf', config_file]
       end
 
       def dhcpd_lib_dir
@@ -192,7 +194,7 @@ module Dhcp
         dhcp6 = ip_version.eql?(:ipv6)
 
         case node['platform']
-        when 'almalinux', 'amazon', 'centos', 'fedora', 'redhat', 'rocky'
+        when 'almalinux', 'amazon', 'centos', 'fedora', 'oracle', 'redhat', 'rocky'
           {
             'Unit' => {
               'Description' => "DHCP#{dhcp6 ? 'v6' : 'v4'} Server Daemon",

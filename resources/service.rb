@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: dhcp
 # Resource:: service
@@ -15,18 +17,15 @@
 # limitations under the License.
 #
 
+provides :dhcp_service
 unified_mode true
 
 include Dhcp::Cookbook::Helpers
 
-property :ip_version, [Symbol, String],
-          equal_to: [:ipv4, :ipv6, 'ipv4', 'ipv6'],
-          coerce: proc { |p| p.is_a?(Symbol) ? p : p.to_sym },
-          default: :ipv4,
-          description: 'The IP version, 4 or 6'
+use '_partial/_ip_version'
 
 property :service_name, String,
-          coerce: proc { |p| "#{p}.service" },
+          coerce: proc { |p| "#{p.delete_suffix('.service')}.service" },
           default: lazy { dhcpd_service_name(ip_version) },
           description: 'Override the default service names'
 
@@ -48,64 +47,68 @@ property :config_test_fail_action, Symbol,
           description: 'Action to perform upon configuration test failure.'
 
 action_class do
+  def service_present_or_enabled?
+    return true if ::File.exist?("/etc/systemd/system/#{new_resource.service_name}")
+
+    %w(is-active is-enabled).any? do |predicate|
+      shell_out('systemctl', predicate, '--quiet', new_resource.service_name).exitstatus.zero?
+    end
+  end
+
+  def configuration_valid?
+    return false unless ::File.exist?(new_resource.config_file)
+    return true unless new_resource.config_test
+
+    command = Mixlib::ShellOut.new(dhcpd_config_test_command(new_resource.ip_version, new_resource.config_file), user: dhcpd_user)
+    command.run_command.error!
+    true
+  rescue Mixlib::ShellOut::ShellCommandFailed
+    message = "Configuration test failed, #{new_resource.service_name} action aborted!\n\n#{command.stderr}"
+    raise message unless new_resource.config_test_fail_action == :log
+
+    Chef::Log.error(message)
+    false
+  end
+
   def do_service_action(resource_action)
+    provider = self
+    resource_type = dhcpd_use_systemd? ? :systemd_unit : :service
+    resource_name = dhcpd_use_systemd? ? new_resource.service_name : new_resource.service_name.delete_suffix('.service')
     with_run_context(:root) do
-      if %i(start restart reload).include?(resource_action)
-        declare_resource(:ruby_block, "Run pre #{new_resource.service_name} #{resource_action} configuration test") do
-          block do
-            begin
-              if new_resource.config_test
-                cmd = Mixlib::ShellOut.new(dhcpd_config_test_command(new_resource.ip_version, new_resource.config_file))
-                cmd.user = dhcpd_user
-                cmd.run_command.error!
-                Chef::Log.info("Configuration test passed, creating #{new_resource.service_name} #{new_resource.declared_type} resource with action #{resource_action}")
-              else
-                Chef::Log.info("Configuration test disabled, creating #{new_resource.service_name} #{new_resource.declared_type} resource with action #{resource_action}")
-              end
-
-              declare_resource(:service, new_resource.service_name.delete_suffix('.service')) { delayed_action(resource_action) }
-            rescue Mixlib::ShellOut::ShellCommandFailed
-              if new_resource.config_test_fail_action.eql?(:log)
-                Chef::Log.error("Configuration test failed, #{new_resource.service_name} #{resource_action} action aborted!\n\n" \
-                                "Error\n-----\n#{cmd.stderr}")
-              else
-                raise "Configuration test failed, #{new_resource.service_name} #{resource_action} action aborted!\n\n" \
-                      "Error\n-----\nAction: #{resource_action}\n#{cmd.stderr}"
-              end
-            end
-          end
-
-          only_if { ::File.exist?(new_resource.config_file) }
-
-          action :nothing
-          delayed_action :run
-        end
-      else
-        declare_resource(:service, new_resource.service_name.delete_suffix('.service')) { delayed_action(resource_action) }
+      declare_resource(resource_type, resource_name) do
+        only_if { provider.configuration_valid? } if %i(start restart reload).include?(resource_action)
+        action :nothing
+        delayed_action(resource_action)
       end
     end
   end
 end
 
 action :create do
-  with_run_context :root do
-    declare_resource(:systemd_unit, new_resource.service_name) do
+  with_run_context(:root) do
+    systemd_unit new_resource.service_name do
       content new_resource.systemd_unit_content
       triggers_reload true
       verify false
-
       action :create
-    end if dhcpd_use_systemd?
-  end
+    end
+  end if dhcpd_use_systemd?
 end
 
 action :delete do
-  do_service_action([:stop, :disable])
-  with_run_context :root do
-    declare_resource(:systemd_unit, new_resource.service_name) { action(:delete) } if dhcpd_use_systemd?
+  if dhcpd_use_systemd?
+    provider = self
+    systemd_unit new_resource.service_name do
+      action [:stop, :disable, :delete]
+      only_if { provider.service_present_or_enabled? }
+    end
+  else
+    service new_resource.service_name.delete_suffix('.service') do
+      action [:stop, :disable]
+    end
   end
 end
 
 %i(start stop restart reload enable disable).each do |action_type|
-  send(:action, action_type) { do_service_action(action) }
+  action(action_type) { do_service_action(action_type) }
 end

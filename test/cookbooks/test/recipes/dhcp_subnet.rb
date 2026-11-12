@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Define using defaults
 dhcp_subnet '192.168.9.0' do
   comment 'Listen Subnet Declaration'

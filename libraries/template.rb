@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dhcp
   module Cookbook
     module TemplateHelpers

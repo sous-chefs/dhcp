@@ -1,8 +1,24 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'dhcp_group' do
   step_into :dhcp_group, :dhcp_host
-  platform 'centos'
+  platform 'almalinux', '9'
+
+  context 'removing a group with managed hosts' do
+    recipe do
+      dhcp_group 'phones' do
+        hosts 'phone' => {}
+        action :delete
+      end
+    end
+
+    it 'removes the nested host and parent fragment' do
+      is_expected.to delete_file('/etc/dhcp/dhcpd.d/groups.d/phones_grouphost_phone.conf')
+      is_expected.to delete_file('/etc/dhcp/dhcpd.d/groups.d/phones.conf')
+    end
+  end
 
   context 'create a dhcpd group and verify config is created properly' do
     recipe do

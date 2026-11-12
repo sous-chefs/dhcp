@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 dhcp_class 'BlankClass' do
   match 'hardware'
 end

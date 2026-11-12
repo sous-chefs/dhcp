@@ -14,51 +14,64 @@ jobs:
   lint-unit:
     uses: sous-chefs/.github/.github/workflows/lint-unit.yml@9.0.1
     permissions:
-      actions: write
+      contents: read
       checks: write
       pull-requests: write
       statuses: write
-      issues: write
 
   integration:
     needs: lint-unit
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         os:
-          - "almalinux-8"
-          - "almalinux-9"
-          - "centos-7"
-          - "centos-stream-8"
-          - "centos-stream-9"
-          - "debian-10"
-          - "debian-11"
-          - "fedora-latest"
-          - "rockylinux-8"
-          - "rockylinux-9"
-          - "ubuntu-1804"
-          - "ubuntu-2004"
-          - "ubuntu-2204"
-        suite:
-          - "default"
-          - "delete"
-      fail-fast: false
-
+          - almalinux-8
+          - almalinux-9
+          - amazonlinux-2023
+          - centos-stream-9
+          - debian-12
+          - fedora-latest
+          - oraclelinux-8
+          - oraclelinux-9
+          - rockylinux-8
+          - rockylinux-9
+          - ubuntu-2204
+          - ubuntu-2404
+        suite: [default, delete]
+    env:
+      KITCHEN_LOCAL_YAML: kitchen.dokken.yml
     steps:
-      - name: Check out code
-        uses: actions/checkout@v7
-      - name: Install Chef
-        uses: actionshub/chef-install@6.0.0
-      - name: Fix apparmor for dhcpd
+      - uses: actions/checkout@v7
+      - name: Install Cinc Workstation
+        uses: sous-chefs/.github/.github/actions/install-workstation@9.0.1
+      - name: Resolve local test policy
+        run: chef install Policyfile.rb
+      - name: Test DHCP resources
+        run: kitchen test ${{ matrix.suite }}-${{ matrix.os }} --destroy=always
+
+  removal:
+    needs: lint-unit
+    runs-on: ubuntu-latest
+    env:
+      KITCHEN_LOCAL_YAML: kitchen.dokken.yml
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Cinc Workstation
+        uses: sous-chefs/.github/.github/actions/install-workstation@9.0.1
+      - name: Resolve local test policy
+        run: chef install Policyfile.rb
+      - name: Create twice and verify
         run: |
-            set -x
-            sudo apt-get -y update
-            sudo apt-get -y install apparmor
-      - name: Dokken
-        uses: actionshub/test-kitchen@3.0.0
+          kitchen converge default-debian-12
+          kitchen verify default-debian-12
+      - name: Remove twice and verify retained lease data
         env:
-          CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.dokken.yml
-        with:
-          suite: ${{ matrix.suite }}
-          os: ${{ matrix.os }}
+          DHCP_RUN_LIST: remove
+          DHCP_VERIFY_PROFILE: remove
+        run: |
+          kitchen converge default-debian-12
+          kitchen verify default-debian-12 --test-base-path=test/integration/remove
+      - name: Destroy isolated test instance
+        if: always()
+        run: kitchen destroy default-debian-12
