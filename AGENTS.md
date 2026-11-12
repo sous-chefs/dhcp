@@ -14,6 +14,20 @@ to Kea or claim new upstream ISC security maintenance. Debian's package remains
 documented at <https://packages.debian.org/bookworm/isc-dhcp-server>, and Fedora's
 at <https://packages.fedoraproject.org/pkgs/dhcp/dhcp-server/>.
 
+Amazon Linux 2023's `dhcp-server` is in the optional vendor SPAL repository,
+not its default core repository. AWS lists x86_64/aarch64 packages at
+<https://docs.aws.amazon.com/linux/al2023/release-notes/al-2023-spal-packages.html>.
+The test fixture installs `spal-release` before DHCP, following
+<https://docs.aws.amazon.com/linux/al2023/ug/configure-spal-repository.html>.
+Production callers must enable their chosen package repository explicitly;
+the public resource does not silently enable SPAL. SPAL requires AL2023 release
+2023.9.20251117 or newer, receives upstream EPEL9 fixes and has a different
+support contract from AWS core packages.
+
+Ubuntu 24.04 uses the existing Ubuntu 22.04 test AppArmor policy, which already
+grants access to the fixture's generated include files. Verify that profile
+with actual Ubuntu 24.04 convergence before claiming platform acceptance.
+
 ## Package and platform contract
 
 Debian/Ubuntu use `isc-dhcp-server` and `isc-dhcp-server-ldap`. Supported RHEL

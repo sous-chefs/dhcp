@@ -7,6 +7,12 @@ not the previously generated 8.1.20 patch release.
 
 ## Supported platforms
 
+On Amazon Linux 2023, enable the optional vendor SPAL repository before
+`dhcp_package`, for example with `package 'spal-release'`. AWS supplies
+`dhcp-server` through SPAL on release 2023.9.20251117 and later. The resource
+does not enable repositories automatically. See
+[AWS's SPAL setup and support contract](https://docs.aws.amazon.com/linux/al2023/ug/configure-spal-repository.html).
+
 The acceptance matrix uses maintained releases in the Debian, Ubuntu, Fedora,
 Amazon Linux and RHEL families. It includes Debian 12, Ubuntu 22.04/24.04, Amazon
 Linux 2023, Fedora, CentOS Stream 9, and AlmaLinux/Oracle Linux/Rocky Linux 8/9.
